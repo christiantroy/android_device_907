@@ -1,0 +1,6 @@
+#!/system/bin/sh
+#
+
+/system/bin/virtuous_oc
+
+echo "done Starting Virtuous OC Daemon"

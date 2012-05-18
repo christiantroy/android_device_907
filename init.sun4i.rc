@@ -1,0 +1,52 @@
+import init.sun4i.usb.rc
+
+on early-init
+	export EXTERNAL_STORAGE /mnt/sdcard
+	mkdir /mnt/sdcard 0000 system system
+	# for backwards compatibility
+	symlink /mnt/sdcard /sdcard
+	
+	mkdir /mnt/extsd 0000 system system
+	mkdir /mnt/usbhost1 0000 system system
+
+on fs
+    mount ext4 /dev/block/nandd /system wait ro
+    mount ext4 /dev/block/nande /data wait noatime nosuid nodev
+    mount ext4 /dev/block/nandh /cache wait noatime nosuid nodev
+
+on boot	
+	insmod /system/vendor/modules/ft5x_ts.ko
+	insmod /system/vendor/modules/goodix_touch_3F.ko
+	insmod /system/vendor/modules/sun4i-ts.ko
+	insmod /system/vendor/modules/sun4i-keyboard.ko
+
+	insmod /system/vendor/modules/ump.ko
+	insmod /system/vendor/modules/mali.ko
+
+	insmod /system/vendor/modules/bma250.ko
+
+	insmod /system/vendor/modules/videobuf-core.ko
+	insmod /system/vendor/modules/videobuf-dma-contig.ko   
+	insmod /system/vendor/modules/gc0308.ko
+	insmod /system/vendor/modules/gt2005.ko
+	insmod /system/vendor/modules/sun4i_csi0.ko
+
+	insmod /system/vendor/modules/usbnet.ko
+	insmod /system/vendor/modules/asix.ko
+	insmod /system/vendor/modules/qf9700.ko
+	insmod /system/vendor/modules/mcs7830.ko
+	insmod /system/vendor/modules/rtl8150.ko
+	
+	chown system system /sys/class/rfkill/rfkill0/state
+	chmod 0660 /sys/class/rfkill/rfkill0/state
+	write /sys/class/rfkill/rfkill0/state 0
+	setprop rw.bluetooth.status "0"
+
+# wifi related service
+service wpa_supplicant /system/bin/wpa_supplicant -Dwext -iwlan0 \
+	-c/data/misc/wifi/wpa_supplicant.conf -e/data/misc/wifi/entropy.bin
+	class main
+    socket wpa_wlan0 dgram 660 wifi wifi
+    group system wifi inet
+    disabled
+    oneshot

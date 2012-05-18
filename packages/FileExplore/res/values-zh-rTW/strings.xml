@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">"文件管理器"</string>
+    <string name="media_dialog">"媒體預覽"</string>
+    <string name="dir_info">"文件夾信息"</string>
+    <string name="manager_act">"電話管理"</string>
+
+    <string name="Play">"運行"</string>
+    <string name="Close">"關閉"</string>
+    <string name="Backup_all">"備份全部"</string>
+    <string name="Email_Developer">"電子郵件"</string>
+    <string name="Website">"網址"</string>
+    <string name="Number_of_folders">"文件夾的數量:"</string>
+    <string name="Number_of_files">"文件的數量:"</string>
+    <string name="Last_Modified">"最後壹次修改:"</string>
+    <string name="Total_size">"全部大小:"</string>
+    <string name="Used_space">"使用的空間:"</string>
+    <string name="Back">"返回"</string>
+    <string name="Zip_folder">"壓縮文件夾"</string>
+    <string name="path_will_go_here">"路徑將在這裏"</string>
+    <string name="Create">"創建"</string>
+    <string name="Cancel">"取消"</string>
+    <string name="path_is">"路徑為"</string>
+    <string name="Attach">"連接"</string>
+    <string name="Delete">"刪除"</string>
+    <string name="Copy">"復制"</string>
+    <string name="Move">"剪切"</string>
+    <string name="Display">"顯示"</string>
+    <string name="Text_color">"文本顏色"</string>
+    <string name="Change_the_preferred_text_color">"更改首選的文本顏色"</string>
+    <string name="Show_hidden_files_folders">"顯示隱藏文件/文件夾"</string>
+    <string name="Display_f_f">"顯示以.開始的文件和文件夾"</string>
+    <string name="Show_Image_Preview">"圖片預覽"</string>
+    <string name="Display_thumbnail">"顯示圖片文件的縮略圖"</string>
+    <string name="Show_Storage_Banner">"存儲顯示欄"</string>
+    <string name="Display_sdcard_information">"顯示SD卡存儲的信息"</string>
+    <string name="Sorting">"排序"</string>
+    <string name="Sorting_type">"排序類型"</string>
+    <string name="Choose_sort_type">"選擇怎樣排序文件和文件夾"</string>
+    
+    <string name="usb_in">"USB插入"</string>
+    <string name="usb_out">"USB彈出"</string>
+    <string name="sdcard_in">"SD卡插入"</string>
+    <string name="sdcard_out">"SD卡彈出"</string>
+    <string name="Multi_select_off">"多選關閉"</string>
+    <string name="flash_in">"外部SD卡插入"</string>
+    <string name="flash_out">"外部SD卡彈出"</string>
+    
+    <string name="open_file">"選擇文件類型"</string>
+    <string name="text">"文本"</string>
+    <string name="audio">"音頻"</string>
+    <string name="video">"視頻"</string>
+    <string name="image">"圖片"</string>
+    
+    <string name="New_Directory">"新目錄"</string>
+    <string name="Search">"搜索"</string>
+    <string name="Settings">"設置"</string>
+    <string name="Quit">"退出"</string>
+    
+    <string name="Folder_operations">"文件夾操作"</string>
+    <string name="Delete_Folder">"刪除"</string>
+    <string name="Rename_Folder">"重命名"</string>
+    <string name="Copy_Folder">"復制"</string>
+    <string name="Move_Folder">"剪切"</string>
+    <string name="Zip_Folder">"壓縮"</string>
+    <string name="Paste_into_folder">"粘貼進去"</string>
+    <string name="Extract_here">"解壓到這裏"</string>
+    
+    <string name="File_Operations">"文件操作"</string>
+    <string name="Delete_File">"刪除"</string>
+    <string name="Rename_File">"重命名"</string>
+    <string name="Copy_File">"復制"</string>
+    <string name="Move_File">"剪切"</string>
+    <string name="Email_File">"郵件發送"</string>
+    
+    <string name="Warning">"警告"</string>
+    <string name="Deleting">"刪除 "</string>
+    <string name="cannot_be_undone">" 不能恢復,妳確定要這麽做?"</string>
+    <string name="Holding">"等候"</string>
+    <string name="no_permission">"妳沒有權限解壓"</string>
+    
+    <string name="Create_Directory">"創建新的文件夾"</string>
+    <string name="Folder">"文件夾 "</string>
+    <string name="created">" 創建"</string>
+    <string name="not_created">"新文件夾不能創建"</string>
+    <string name="Rename">"重命名"</string>
+    <string name="be_renamed">" 被命名為 "</string>
+    <string name="not_renamed">" 不能被重命名 "</string>
+    <string name="Search_file">"搜索文件"</string>
+    
+    <string name="Press_back">"再點壹次back退出"</string>
+    
+    <string name="White">"白色"</string>
+    <string name="Magenta">"品紅"</string>
+    <string name="Yellow">"黃色"</string>
+    <string name="Red">"紅色"</string>
+    <string name="Cyan">"青色"</string>
+    <string name="Blue">"藍色"</string>
+    <string name="Green">"綠色"</string>
+    <string name="Change_text_color">"改變文本顏色"</string>
+    <string name="Sort_by">"整理通過..."</string>
+    <string name="None">"無"</string>
+    <string name="Alphabetical">"按字母"</string>
+    <string name="Type">"按類型"</string>
+    
+</resources>

@@ -1,0 +1,47 @@
+#!/system/bin/sh
+# DarkyROM 2011
+# Much faster zipalign.
+
+# Changelog:
+# 1.2 (17/1/11) Added /data/zipalign.db file for faster apk check (ninpo,Bo$s)
+# 1.1 (12/1/09) Switched to zipalign -c 4 to check the apk instead of MD5 (oknowton)
+# 1.0 (11/30/09) Original
+
+LOG_FILE=/data/zipalign.log
+ZIPALIGNDB=/data/zipalign.db
+
+if [ -e $LOG_FILE ]; then
+	rm $LOG_FILE;
+fi;
+
+if [ ! -f $ZIPALIGNDB ]; then
+	touch $ZIPALIGNDB;
+fi;
+
+echo "Starting FV Automatic ZipAlign $( date +"%m-%d-%Y %H:%M:%S" )" | tee -a $LOG_FILE
+
+for DIR in /system/app /data/app ; do
+  cd $DIR
+  for APK in *.apk ; do
+    if [ $APK -ot $ZIPALIGNDB ] && [ $(grep "$DIR/$APK" $ZIPALIGNDB|wc -l) -gt 0 ] ; then
+      echo "Already checked: $DIR/$APK" | tee -a $LOG_FILE
+    else
+      zipalign -c 4 $APK
+      if [ $? -eq 0 ] ; then
+        echo "Already aligned: $DIR/$APK" | tee -a $LOG_FILE
+        grep "$DIR/$APK" $ZIPALIGNDB > /dev/null || echo $DIR/$APK >> $ZIPALIGNDB
+      else
+        echo "Now aligning: $DIR/$APK" | tee -a $LOG_FILE
+        zipalign -f 4 $APK /cache/$APK
+        busybox mount -o rw,remount /system
+        cp -f -p /cache/$APK $APK
+        busybox rm -f /cache/$APK
+        grep "$DIR/$APK" $ZIPALIGNDB > /dev/null || echo $DIR/$APK >> $ZIPALIGNDB
+      fi
+    fi
+  done
+done
+
+busybox mount -o ro,remount /system
+touch $ZIPALIGNDB
+echo "Automatic ZipAlign finished at $( date +"%m-%d-%Y %H:%M:%S" )" | tee -a $LOG_FILE

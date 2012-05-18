@@ -1,0 +1,11 @@
+#!/system/bin/sh
+
+mount -o remount,ro,noauto_da_alloc,noatime,nodiratime,barrier=0 /system /system
+mount -o remount,noatime,noauto_da_alloc,nosuid,nodev,nodiratime,barrier=0 /data /data
+mount -o remount,noatime,noauto_da_alloc,nosuid,nodev,nodiratime,barrier=0 /cache /cache
+
+echo "2048" > /sys/devices/virtual/bdi/179:0/read_ahead_kb
+echo "2048" > /sys/devices/virtual/bdi/7:0/read_ahead_kb
+echo "2048" > /sys/devices/virtual/bdi/93:0/read_ahead_kb
+
+echo "done Internal Storage Speed Fix"
