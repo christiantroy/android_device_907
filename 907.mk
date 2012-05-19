@@ -109,6 +109,8 @@ PRODUCT_PACKAGES += \
 	libcedarxsftdemux \
 	libcedarv \
 	libswdrm \
+	libstagefright_soft_cedar_h264dec \
+	invoke_mock_media_player \
 	Camera \
 	libjni_mosaic \
 	u3gmonitor

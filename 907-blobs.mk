@@ -78,3 +78,7 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
 	$(call find-copy-subdir-files,*,device/softwinner/907/prebuilt/lib/modules,system/lib/modules)
+
+# misc
+PRODUCT_COPY_FILES += \
+	device/softwinner/907/prebuilt/bootanimation.zip:system/media/bootanimation.zip

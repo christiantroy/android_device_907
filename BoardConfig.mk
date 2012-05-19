@@ -34,7 +34,6 @@ ARCH_ARM_HAVE_TLS_REGISTER := true
 
 BOARD_HAVE_BLUETOOTH := true
 TARGET_USES_CUSTOM_VIBRATOR_PATH := "/sys/class/timed_output/sun4i-vibrator/enable"
-BOARD_HAS_SDCARD_INTERNAL := true
 
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 33554432
@@ -49,15 +48,18 @@ USE_OPENGL_RENDERER := true
 BOARD_USE_SKIA_LCDTEXT := true
 
 #Recovery Stuff
-TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
-#BOARD_CUSTOM_RECOVERY_KEYMAPPING := device/softwinner/907/recovery_keys.c
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/softwinner/907/recovery_keys.c
+BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun/file"
+BOARD_UMS_2ND_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun1/file"
+TARGET_RECOVERY_INITRC := device/softwinner/907/recovery_init.rc
 
 #Misc stuff
-TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun/file"
+TARGET_RECOVERY_PRE_COMMAND := "echo -n boot-recovery | busybox dd of=/dev/block/nandf count=1 conv=sync; sync"
+#TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun/file"
+#TARGET_USE_CUSTOM_SECOND_LUN_NUM := "1"
 BOARD_USE_LEGACY_TOUCHSCREEN := true
 TARGET_HARDWARE_INCLUDE := $(TOP)/device/softwinner/907/libraries/include
 TARGET_PROVIDES_INIT_RC := true
-TARGET_BOOTANIMATION_NAME := "horizontal-1024x768"
 
 # Wifi stuff
 #BOARD_WPA_SUPPLICANT_DRIVER := WEXT
