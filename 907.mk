@@ -37,7 +37,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	wifi.supplicant_scan_interval = 150 \
 	persist.sys.strictmode.visual=0 \
 	persist.sys.strictmode.disable=1 \
-	persist.sys.usb.config=mtp,adb \
+	persist.sys.usb.config=mass_storage,adb \
 	dalvik.vm.verify-bytecode=false \
 	dalvik.vm.dexopt-flags=v=n,o=v \
 	dalvik.vm.execution-mode=int:jit \
@@ -98,6 +98,8 @@ PRODUCT_PACKAGES += \
 
 # Hardware libs
 PRODUCT_PACKAGES += \
+	gralloc.sun4i \
+	display.sun4i \
 	hwcomposer.exDroid \
 	lights.sun4i \
 	gps.sun4i \
@@ -109,8 +111,6 @@ PRODUCT_PACKAGES += \
 	libcedarxsftdemux \
 	libcedarv \
 	libswdrm \
-	libstagefright_soft_cedar_h264dec \
-	invoke_mock_media_player \
 	Camera \
 	libjni_mosaic \
 	u3gmonitor

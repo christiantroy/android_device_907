@@ -23,8 +23,6 @@ PRODUCT_COPY_FILES += \
 	device/softwinner/907/prebuilt/bin/reboot-recovery.sh:system/bin/reboot-recovery.sh \
 	device/softwinner/907/prebuilt/bin/usb_modeswitch:system/bin/usb_modeswitch \
 	device/softwinner/907/prebuilt/bin/virtuous_oc:system/bin/virtuous_oc \
-	device/softwinner/907/prebuilt/bin/wpa_cli:system/bin/wpa_cli \
-	device/softwinner/907/prebuilt/bin/wpa_supplicant:system/bin/wpa_supplicant \
 	device/softwinner/907/prebuilt/bin/zipalign:system/bin/zipalign
 
 # /system/etc
@@ -58,12 +56,12 @@ PRODUCT_COPY_FILES += \
 	device/softwinner/907/prebuilt/lib/egl/libGLESv1_CM_mali.so:system/lib/egl/libGLESv1_CM_mali.so \
 	device/softwinner/907/prebuilt/lib/egl/libGLESv2_mali.so:system/lib/egl/libGLESv2_mali.so \
 	device/softwinner/907/prebuilt/lib/hw/camera.exDroid.so:system/lib/hw/camera.exDroid.so \
-	device/softwinner/907/prebuilt/lib/hw/display.sun4i.so:system/lib/hw/display.sun4i.so \
-	device/softwinner/907/prebuilt/lib/hw/gralloc.sun4i.so:system/lib/hw/gralloc.sun4i.so \
 	device/softwinner/907/prebuilt/lib/hw/sensors.exDroid.so:system/lib/hw/sensors.exDroid.so \
 	device/softwinner/907/prebuilt/lib/liballwinner-ril.so:system/lib/liballwinner-ril.so \
 	device/softwinner/907/prebuilt/lib/libMali.so:system/lib/libMali.so \
-	device/softwinner/907/prebuilt/lib/libUMP.so:system/lib/libUMP.so
+	device/softwinner/907/prebuilt/lib/libUMP.so:system/lib/libUMP.so \
+	device/softwinner/907/prebuilt/lib/libMali.so:obj/lib/libMali.so \
+	device/softwinner/907/prebuilt/lib/libUMP.so:obj/lib/libUMP.so
 
 # /system/usr
 PRODUCT_COPY_FILES += \

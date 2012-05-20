@@ -55,19 +55,18 @@ TARGET_RECOVERY_INITRC := device/softwinner/907/recovery_init.rc
 
 #Misc stuff
 TARGET_RECOVERY_PRE_COMMAND := "echo -n boot-recovery | busybox dd of=/dev/block/nandf count=1 conv=sync; sync"
-#TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun/file"
-#TARGET_USE_CUSTOM_SECOND_LUN_NUM := "1"
 BOARD_USE_LEGACY_TOUCHSCREEN := true
 TARGET_HARDWARE_INCLUDE := $(TOP)/device/softwinner/907/libraries/include
 TARGET_PROVIDES_INIT_RC := true
 
 # Wifi stuff
-#BOARD_WPA_SUPPLICANT_DRIVER := WEXT
-#WPA_SUPPLICANT_VERSION      := VER_0_8_X
-WIFI_DRIVER_MODULE_PATH     := "/system/vendor/modules/8192cu.ko"
-WIFI_DRIVER_MODULE_NAME     := "8192cu"
-#WIFI_DRIVER_FW_PATH_STA     := 8192cu
-#WIFI_DRIVER_FW_PATH_AP      := 8192cu
+BOARD_WPA_SUPPLICANT_DRIVER := WEXT
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+TARGET_CUSTOM_WIFI := ../../device/softwinner/907/wifi.c
+WIFI_DRIVER_MODULE_PATH := "/system/vendor/modules/8192cu.ko"
+WIFI_DRIVER_MODULE_NAME := 8192cu
+WIFI_DRIVER_FW_PATH_STA := 8192cu
+WIFI_DRIVER_FW_PATH_AP := 8192cu
 
 # Beware: set only prebuilt OR source+config
 TARGET_PREBUILT_KERNEL := device/softwinner/907/kernel
