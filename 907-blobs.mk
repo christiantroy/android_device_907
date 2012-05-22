@@ -32,9 +32,11 @@ PRODUCT_COPY_FILES += \
 	device/softwinner/907/prebuilt/etc/ppp/call-pppd:system/etc/ppp/call-pppd \
 	device/softwinner/907/prebuilt/etc/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
 	device/softwinner/907/prebuilt/etc/firmware/ath3k-1.fw:system/etc/firmware/ath3k-1.fw \
+	device/softwinner/907/prebuilt/etc/firmware/ath3k-1.fw:system/vendor/firmware/ath3k-1.fw \
 	device/softwinner/907/prebuilt/etc/init.d/01modules:system/etc/init.d/01modules \
 	device/softwinner/907/prebuilt/etc/init.d/02kernel:system/etc/init.d/02kernel \
 	device/softwinner/907/prebuilt/etc/init.d/04mount:system/etc/init.d/04mount \
+	device/softwinner/907/prebuilt/etc/init.d/10ppp:system/etc/init.d/10ppp \
 	device/softwinner/907/prebuilt/etc/init.d/70zipalign:system/etc/init.d/70zipalign \
 	device/softwinner/907/prebuilt/etc/init.d/89virtuous_oc:system/etc/init.d/89virtuous_oc \
 	device/softwinner/907/prebuilt/etc/3g_dongle.cfg:system/etc/3g_dongle.cfg \
@@ -60,6 +62,7 @@ PRODUCT_COPY_FILES += \
 	device/softwinner/907/prebuilt/lib/liballwinner-ril.so:system/lib/liballwinner-ril.so \
 	device/softwinner/907/prebuilt/lib/libMali.so:system/lib/libMali.so \
 	device/softwinner/907/prebuilt/lib/libUMP.so:system/lib/libUMP.so \
+	external/cedarx/CedarAndroidLib/LIB_ICS_F23/libstagefright_soft_cedar_h264dec.so:system/lib/libstagefright_soft_cedar_h264dec.so \
 	device/softwinner/907/prebuilt/lib/libMali.so:obj/lib/libMali.so \
 	device/softwinner/907/prebuilt/lib/libUMP.so:obj/lib/libUMP.so
 

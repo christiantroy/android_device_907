@@ -60,13 +60,35 @@ TARGET_HARDWARE_INCLUDE := $(TOP)/device/softwinner/907/libraries/include
 TARGET_PROVIDES_INIT_RC := true
 
 # Wifi stuff
-BOARD_WPA_SUPPLICANT_DRIVER := WEXT
+#BOARD_WPA_SUPPLICANT_DRIVER := WEXT
+#WPA_SUPPLICANT_VERSION := VER_0_8_X
+#TARGET_CUSTOM_WIFI := ../../device/softwinner/907/wifi.c
+#WIFI_DRIVER_MODULE_PATH := "/system/vendor/modules/8192cu.ko"
+#WIFI_DRIVER_MODULE_NAME := 8192cu
+#WIFI_DRIVER_FW_PATH_STA := 8192cu
+#WIFI_DRIVER_FW_PATH_AP := 8192cu
+BOARD_WIFI_VENDOR := realtek
+ifeq ($(BOARD_WIFI_VENDOR), realtek)
 WPA_SUPPLICANT_VERSION := VER_0_8_X
-TARGET_CUSTOM_WIFI := ../../device/softwinner/907/wifi.c
-WIFI_DRIVER_MODULE_PATH := "/system/vendor/modules/8192cu.ko"
-WIFI_DRIVER_MODULE_NAME := 8192cu
-WIFI_DRIVER_FW_PATH_STA := 8192cu
-WIFI_DRIVER_FW_PATH_AP := 8192cu
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_rtl
+BOARD_HOSTAPD_DRIVER        := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB   := lib_driver_cmd_rtl
+
+BOARD_WLAN_DEVICE := rtl8192cu
+
+WIFI_DRIVER_MODULE_NAME   := 8192cu
+WIFI_DRIVER_MODULE_PATH   := "/system/lib/modules/8191cu.ko"
+
+WIFI_DRIVER_MODULE_ARG    := ""
+WIFI_FIRMWARE_LOADER      := ""
+WIFI_DRIVER_FW_PATH_STA   := ""
+WIFI_DRIVER_FW_PATH_AP    := ""
+WIFI_DRIVER_FW_PATH_P2P   := ""
+WIFI_DRIVER_FW_PATH_PARAM := ""
+
+TARGET_CUSTOM_WIFI := ../../hardware/realtek/wlan/libhardware_legacy/wifi/wifi_realtek.c
+endif
 
 # Beware: set only prebuilt OR source+config
 TARGET_PREBUILT_KERNEL := device/softwinner/907/kernel
