@@ -78,7 +78,7 @@ BOARD_HOSTAPD_PRIVATE_LIB   := lib_driver_cmd_rtl
 BOARD_WLAN_DEVICE := rtl8192cu
 
 WIFI_DRIVER_MODULE_NAME   := 8192cu
-WIFI_DRIVER_MODULE_PATH   := "/system/lib/modules/8191cu.ko"
+WIFI_DRIVER_MODULE_PATH   := "/system/lib/modules/8192cu.ko"
 
 WIFI_DRIVER_MODULE_ARG    := ""
 WIFI_FIRMWARE_LOADER      := ""

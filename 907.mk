@@ -63,7 +63,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	persist.sys.purgeable_assets=1 \
 	ro.HOME_APP_ADJ=1 \
 	view.touch_slop=2 \
-	view.minimum_fling_velocity=25
+	view.minimum_fling_velocity=25 \
+	updateme.disableinstalledapps=1 \
+	updateme.disablescripts=1
 
 DEVICE_PACKAGE_OVERLAYS := device/softwinner/907/overlay
 

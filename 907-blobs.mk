@@ -33,18 +33,15 @@ PRODUCT_COPY_FILES += \
 	device/softwinner/907/prebuilt/etc/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
 	device/softwinner/907/prebuilt/etc/firmware/ath3k-1.fw:system/etc/firmware/ath3k-1.fw \
 	device/softwinner/907/prebuilt/etc/firmware/ath3k-1.fw:system/vendor/firmware/ath3k-1.fw \
-	device/softwinner/907/prebuilt/etc/init.d/01modules:system/etc/init.d/01modules \
-	device/softwinner/907/prebuilt/etc/init.d/02kernel:system/etc/init.d/02kernel \
-	device/softwinner/907/prebuilt/etc/init.d/04mount:system/etc/init.d/04mount \
-	device/softwinner/907/prebuilt/etc/init.d/10ppp:system/etc/init.d/10ppp \
-	device/softwinner/907/prebuilt/etc/init.d/70zipalign:system/etc/init.d/70zipalign \
-	device/softwinner/907/prebuilt/etc/init.d/89virtuous_oc:system/etc/init.d/89virtuous_oc \
 	device/softwinner/907/prebuilt/etc/3g_dongle.cfg:system/etc/3g_dongle.cfg \
 	device/softwinner/907/prebuilt/etc/camera.cfg:system/etc/camera.cfg \
 	device/softwinner/907/prebuilt/etc/gps.conf:system/etc/gps.conf \
 	device/softwinner/907/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
 	device/softwinner/907/prebuilt/etc/usb_modeswitch.sh:system/etc/usb_modeswitch.sh \
 	device/softwinner/907/prebuilt/etc/vold.fstab:system/etc/vold.fstab
+
+PRODUCT_COPY_FILES += \
+	$(call find-copy-subdir-files,*,device/softwinner/907/prebuilt/etc/init.d,system/etc/init.d)
 
 PRODUCT_COPY_FILES += \
 	$(call find-copy-subdir-files,*,device/softwinner/907/prebuilt/etc/usb_modeswitch.d,system/etc/usb_modeswitch.d)

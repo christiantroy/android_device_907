@@ -1,5 +1,0 @@
-#!/system/bin/sh
-
-chmod 666 /dev/ppp
-
-echo "done PPP device permission fix"
