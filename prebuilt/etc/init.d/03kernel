@@ -1,0 +1,14 @@
+#!/system/bin/sh
+#
+
+echo "3" > /proc/sys/vm/drop_caches
+echo "20" > /proc/sys/vm/swappiness
+echo "15" > /proc/sys/vm/dirty_ratio
+echo "70" > /proc/sys/vm/vfs_cache_pressure
+echo "3000" > /proc/sys/vm/dirty_expire_centisecs
+echo "500" > /proc/sys/vm/dirty_writeback_centisecs
+echo "3" > /proc/sys/vm/dirty_background_ratio
+
+echo "veno" > /proc/sys/net/ipv4/tcp_congestion_control
+
+echo "done Virtual Memory Parameter Tweaks"
