@@ -18,6 +18,7 @@ $(call inherit-product, device/softwinner/907/907.mk)
 $(call inherit-product, device/softwinner/907/libraries/Android.mk)
 $(call inherit-product, device/softwinner/907/packages/Android.mk)
 $(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
+$(call inherit-product, vendor/cm/config/gsm.mk)
 $(call inherit-product-if-exists, vendor/softwinner/907/907-vendor.mk)
 
 # Set those variables here to overwrite the inherited values.
