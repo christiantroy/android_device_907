@@ -61,4 +61,7 @@
          Note: Disable SMS also disable voicemail waiting sms,
                cell broadcasting sms, and MMS. -->
     <bool name="config_sms_capable">true</bool>
+
+    <!-- True will enable the electron beam screen-off animation. -->
+    <bool name="config_screenOffAnimation">false</bool>
 </resources>
