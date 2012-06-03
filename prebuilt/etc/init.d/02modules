@@ -5,6 +5,9 @@ insmod /system/lib/modules/tun.ko
 insmod /system/lib/modules/btusb.ko
 insmod /system/lib/modules/ath3k.ko
 insmod /system/lib/modules/xpad.ko
+insmod /system/lib/modules/hid-gaff.ko
+insmod /system/lib/modules/hid-pl.ko
+insmod /system/lib/modules/hid-sony.ko
 insmod /system/lib/modules/pl2303.ko
 insmod /system/lib/modules/cp210x.ko
 insmod /system/lib/modules/tcp_veno.ko

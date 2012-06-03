@@ -32,6 +32,7 @@ PRODUCT_COPY_FILES += \
 	device/softwinner/907/prebuilt/etc/ppp/call-pppd:system/etc/ppp/call-pppd \
 	device/softwinner/907/prebuilt/etc/firmware/ath3k-1.fw:system/etc/firmware/ath3k-1.fw \
 	device/softwinner/907/prebuilt/etc/firmware/ath3k-1.fw:system/vendor/firmware/ath3k-1.fw \
+	device/softwinner/907/prebuilt/etc/3g_dongle.cfg:system/etc/3g_dongle.cfg \
 	device/softwinner/907/prebuilt/etc/camera.cfg:system/etc/camera.cfg \
 	device/softwinner/907/prebuilt/etc/gps.conf:system/etc/gps.conf \
 	device/softwinner/907/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
