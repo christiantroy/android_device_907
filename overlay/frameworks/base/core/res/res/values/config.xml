@@ -20,6 +20,10 @@
 <!-- These resources are around just to allow their values to be customized
      for different hardware and product builds. -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- If this is true, the screen will come on when you unplug usb/power/whatever. -->
+    <bool name="config_unplugTurnsOnScreen">true</bool>
+
     <!-- If true, the screen can be rotated via the accelerometer in all 4
          rotations as the default behavior. -->
     <bool name="config_allowAllRotations">true</bool>
@@ -38,6 +42,10 @@
 
     <!-- The default iface on which to monitor data use -->
     <string name="config_datause_iface">wlan0</string>
+
+    <!-- Flag indicating whether we should enable the automatic brightness in Settings.
+         config_hardware_automatic_brightness_available is not set, so we will use software implementation -->
+	<bool name="config_automatic_brightness_available">false</bool>
 
     <!-- Flag indicating whether the current device is "voice capable".
          If true, this means that the device supports circuit-switched
@@ -64,4 +72,16 @@
 
     <!-- True will enable the electron beam screen-off animation. -->
     <bool name="config_screenOffAnimation">false</bool>
+
+<!-- Hardware 'face' keys present on the device, stored as a bit field.
+	         This integer should equal the sum of the corresponding value for each
+	         of the following keys present:
+	             1 - Home
+	             2 - Back
+	             4 - Menu
+	             8 - Search
+	            16 - App switch
+	         For example, a device with Home, Back and Menu keys would set this
+	         config to 7. -->
+	    <integer name="config_deviceHardwareKeys">2</integer>
 </resources>

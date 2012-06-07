@@ -1,20 +1,13 @@
 #!/system/bin/sh
-case $1 in
-    ppp1)
-	/android/bin/iptables --flush;
-	/android/bin/iptables --table nat --flush;
-	/android/bin/iptables --delete-chain;
-	/android/bin/iptables --table nat --append POSTROUTING --out-interface ppp0 -j MASQUERADE;
-	/android/bin/iptables --append FORWARD --in-interface ppp1 -j ACCEPT;
-	echo 0 > /proc/sys/net/ipv4/ip_forward;
-	echo 1 > /proc/sys/net/ipv4/ip_forward;
-	echo $PPPD_PID > /etc/ppp/ppp1.pid;
-	;;
-    ppp0)
-        /system/bin/setprop "net.interfaces.defaultroute" "gprs";
-        echo $PPPD_PID > /etc/ppp/ppp0.pid;
-        ;;
-esac
+/system/bin/iptables -F
+/system/bin/iptables -t nat -F
+/system/bin/iptables --delete-chain 
+/system/bin/iptables --table nat --delete-chain
+/system/bin/iptables -t nat -A POSTROUTING -o ppp0 -j MASQUERADE
+/system/bin/iptables -A FORWARD -i ppp0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+/system/bin/iptables -A FORWARD -i wlan0 -o ppp0 -j ACCEPT
+echo 1 > /proc/sys/net/ipv4/ip_forward
+/system/bin/setprop "net.interfaces.defaultroute" "gprs";
 
 # Use interface name if linkname is not available
 NAME=${LINKNAME:-"$1"}

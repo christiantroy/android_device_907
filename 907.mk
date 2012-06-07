@@ -19,7 +19,6 @@ PRODUCT_COPY_FILES := \
 	device/softwinner/907/init.rc:root/init.rc \
 	device/softwinner/907/init.sun4i.rc:root/init.sun4i.rc \
 	device/softwinner/907/init.sun4i.usb.rc:root/init.sun4i.usb.rc \
-	device/softwinner/907/initlogo.rle:root/initlogo.rle \
 	device/softwinner/907/ueventd.sun4i.rc:root/ueventd.sun4i.rc
 
 PRODUCT_CHARACTERISTICS := tablet
