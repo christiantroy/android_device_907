@@ -64,7 +64,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	view.touch_slop=2 \
 	view.minimum_fling_velocity=25 \
 	updateme.disableinstalledapps=1 \
-	updateme.disablescripts=1
+	updateme.disablescripts=1 \
+	ro.vold.switchablepair=/mnt/sdcard,/mnt/extsd \
+	persist.sys.vold.switchexternal=0
 
 DEVICE_PACKAGE_OVERLAYS := device/softwinner/907/overlay
 
