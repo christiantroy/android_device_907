@@ -58,7 +58,7 @@
          PackageManager.FEATURE_TELEPHONY system feature, which is
          available on *any* device with a telephony radio, even if the
          device is data-only. -->
-    <bool name="config_voice_capable">true</bool>
+    <bool name="config_voice_capable">false</bool>
 
     <!-- Flag indicating whether the current device allows sms service.
          If true, this means that the device supports both sending and
@@ -68,10 +68,10 @@
 
          Note: Disable SMS also disable voicemail waiting sms,
                cell broadcasting sms, and MMS. -->
-    <bool name="config_sms_capable">true</bool>
+    <bool name="config_sms_capable">false</bool>
 
     <!-- True will enable the electron beam screen-off animation. -->
-    <bool name="config_screenOffAnimation">false</bool>
+    <bool name="config_screenOffAnimation">true</bool>
 
 <!-- Hardware 'face' keys present on the device, stored as a bit field.
 	         This integer should equal the sum of the corresponding value for each
@@ -83,5 +83,5 @@
 	            16 - App switch
 	         For example, a device with Home, Back and Menu keys would set this
 	         config to 7. -->
-	    <integer name="config_deviceHardwareKeys">2</integer>
+	    <integer name="config_deviceHardwareKeys">7</integer>
 </resources>
