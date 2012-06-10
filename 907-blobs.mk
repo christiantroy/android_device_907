@@ -70,12 +70,8 @@ PRODUCT_COPY_FILES += \
 	device/softwinner/907/prebuilt/usr/keylayout/sun4i-keyboard.kl:system/usr/keylayout/sun4i-keyboard.kl
 
 # prebuilt kernel modules
-PRODUCT_COPY_FILES += \
-	$(call find-copy-subdir-files,*,device/softwinner/907/prebuilt/vendor/modules,system/vendor/modules)
+#PRODUCT_COPY_FILES += \
+#	$(call find-copy-subdir-files,*,device/softwinner/907/prebuilt/vendor/modules,system/vendor/modules)
 
 PRODUCT_COPY_FILES += \
 	$(call find-copy-subdir-files,*,device/softwinner/907/prebuilt/lib/modules,system/lib/modules)
-
-# misc
-PRODUCT_COPY_FILES += \
-	device/softwinner/907/prebuilt/bootanimation.zip:system/media/bootanimation.zip

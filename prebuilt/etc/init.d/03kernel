@@ -11,6 +11,4 @@ echo "3" > /proc/sys/vm/dirty_background_ratio
 
 echo "2048,4096,51200,56320,61440,70400" > /sys/module/lowmemorykiller/parameters/minfree
 
-echo "veno" > /proc/sys/net/ipv4/tcp_congestion_control
-
 echo "done Virtual Memory Parameter Tweaks"

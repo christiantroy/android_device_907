@@ -7,6 +7,7 @@
 /dev/mali				  0777   system		graphics
 /dev/ump				  0777   system 	graphics
 /dev/video0				  0777   system		system
+/dev/video1				  0777   system		system
 /dev/snd/pcmC0D0c 		  0777   system     system
 /dev/snd/pcmC0D0p		  0777   system     system
 /dev/block/nandf		  0666	 system		system
@@ -15,12 +16,18 @@
 /dev/ttyUSB2			  0777   system     system
 /dev/ttyUSB3			  0777   system     system
 /dev/gps                  0777   system     system
-#Rocky@20110919 +
+
+#mma7660
 /sys/devices/virtual/input/input* name 0660 root input
 /sys/devices/virtual/input/input* max 0660 root input
 /sys/devices/virtual/input/input* min 0660 root input
 /sys/devices/virtual/input/input* poll 0666 root input
-#Rocky@20110919 -
+
+#mxc622x
+/dev/mxc622x			  0777   system     system
+/dev/ecompass_ctrl		  0777   system     system
+
 #ChristianTroy
 /sys/devices/platform/sw-ehci.1/usb2/2-1/2-1.1/2-1.1:1.0/bluetooth/hci0/rfkill* state  0777 system system
+/sys/devices/platform/sw_hcd_host0/usb1/1-1/1-1:1.0/bluetooth/hci0/rfkill* state  0777 system system
 #ChristianTroy

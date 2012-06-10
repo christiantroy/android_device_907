@@ -1,9 +1,9 @@
 on early-init
     # Set init and its forked children's oom_adj.
     write /proc/1/oom_adj -16
-    
+
     start ueventd
-	
+
 # create mountpoints
     mkdir /mnt 0775 root system
 
@@ -17,6 +17,7 @@ loglevel 3
     export PATH /sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin
     export LD_LIBRARY_PATH /vendor/lib:/system/lib
     export ANDROID_BOOTLOGO 1
+    export ANDROID_CACHE /cache
     export ANDROID_ROOT /system
     export ANDROID_ASSETS /system/app
     export ANDROID_DATA /data
@@ -39,7 +40,7 @@ loglevel 3
 
     mkdir /system
     mkdir /data 0771 system system
-    mkdir /cache 0770 system cache
+    mkdir /cache 0771 system cache
     mkdir /config 0500 root root
 
     # Directory for putting things only root should see.
@@ -67,6 +68,7 @@ loglevel 3
     write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
     write /proc/sys/kernel/sched_compat_yield 1
     write /proc/sys/kernel/sched_child_runs_first 0
+    write /proc/sys/kernel/randomize_va_space 2
 
 # Create cgroup mount points for process groups
     mkdir /dev/cpuctl
@@ -105,7 +107,7 @@ on post-fs
 
     # We chown/chmod /cache again so because mount is run as root + defaults
     chown system cache /cache
-    chmod 0770 /cache
+    chmod 0771 /cache
 
     # This may have been created by the recovery system with odd permissions
     chown system cache /cache/recovery
@@ -153,34 +155,30 @@ on post-fs-data
     mkdir /data/misc/keychain 0771 system system
     mkdir /data/misc/vpn 0770 system vpn
     mkdir /data/misc/systemkeys 0700 system system
-
-    # give system access to wpa_supplicant.conf for backup and restore    
+    # give system access to wpa_supplicant.conf for backup and restore
     mkdir /data/misc/wifi 0770 wifi wifi
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
-    chmod 0666 /data/misc/wifi/wpa_supplicant.conf  	
+    chmod 0660 /data/misc/wifi/wpa_supplicant.conf
     mkdir /data/misc/dhcp 0770 dhcp dhcp
-    chown dhcp dhcp /data/misc/dhcp    
-
-    # radio related, such as imei.conf
+    chown dhcp dhcp /data/misc/dhcp
     mkdir /data/misc/radio 0777 system radio
-
-    # script for 3G dongle
-    chmod 0777 /system/etc/usb_modeswitch.sh
-    chmod 0777 /system/etc/ppp/call-pppd
-    chmod 0777 /system/etc/ppp/ip-up
-    chmod 0777 /system/etc/ppp/ip-down
-    chmod 0777 /system/etc/ppp/ip-up-vpn
-    
-    mkdir /data/local 0771 shell shell
+    mkdir /data/camera 0777 root root
+    mkdir /data/local 0751 root root
     mkdir /data/local/tmp 0771 shell shell
     mkdir /data/data 0771 system system
     mkdir /data/app-private 0771 system system
     mkdir /data/app 0771 system system
     mkdir /data/property 0700 root root
-    mkdir /data/camera 0777 root root 
+    mkdir /data/radio 0770 radio radio
 
-    # create dalvik-cache, so as to enforce our permissions
+    # create dalvik-cache and double-check the perms, so as to enforce our permissions
     mkdir /data/dalvik-cache 0771 system system
+    chown system system /data/dalvik-cache
+    chmod 0771 /data/dalvik-cache
+
+    mkdir /cache/dalvik-cache 0771 system system
+    chown system system /cache/dalvik-cache
+    chmod 0771 /cache/dalvik-cache
 
     # create resource-cache and double-check the perms
     mkdir /data/resource-cache 0771 system system
@@ -190,25 +188,27 @@ on post-fs-data
     # create the lost+found directories, so as to enforce our permissions
     mkdir /data/lost+found 0770 root root
 
-    # create directory for DRM plug-ins
-    mkdir /data/drm 0774 drm drm
+    # create directory for DRM plug-ins - give drm the read/write access to
+    # the following directory.
+    mkdir /data/drm 0770 drm drm
 
     # If there is no fs-post-data action in the init.<device>.rc file, you
     # must uncomment this line, otherwise encrypted filesystems
     # won't work.
     # Set indication (checked by vold) that we have finished this action
-    #setprop vold.post_fs_data_done 1
+    setprop vold.post_fs_data_done 1
 
     chown system system /sys/class/android_usb/android0/f_mass_storage/lun/file
     chmod 0660 /sys/class/android_usb/android0/f_mass_storage/lun/file
+    chown system system /sys/class/android_usb/android0/f_mass_storage/lun1/file
+    chmod 0660 /sys/class/android_usb/android0/f_mass_storage/lun1/file
     chown system system /sys/class/android_usb/android0/f_rndis/ethaddr
     chmod 0660 /sys/class/android_usb/android0/f_rndis/ethaddr
-    
-# Include extra init file
-    import /system/etc/init.local.rc 
- 
-on boot	
 
+# Include extra init file
+    import /system/etc/init.local.rc
+
+on boot
 # basic network init
     ifup lo
     hostname localhost
@@ -243,8 +243,6 @@ on boot
     chmod 0660 /sys/power/state
     chmod 0660 /sys/power/wake_lock
     chmod 0660 /sys/power/wake_unlock
-    #chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-    #chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     chown system system /sys/class/timed_output/vibrator/enable
     chown system system /sys/class/leds/keyboard-backlight/brightness
     chown system system /sys/class/leds/lcd-backlight/brightness
@@ -272,6 +270,14 @@ on boot
     chown system system /sys/kernel/ipv4/tcp_rmem_max
     chown root radio /proc/cmdline
 
+    # allow system to modify cpufreq control files
+    chown root system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+    chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+    chown root system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chown root system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+    chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+
 # Define TCP buffer sizes for various networks
 #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
     setprop net.tcp.buffersize.default 4096,87380,110208,4096,16384,110208
@@ -281,6 +287,16 @@ on boot
     setprop net.tcp.buffersize.hspa    4094,87380,262144,4096,16384,262144
     setprop net.tcp.buffersize.edge    4093,26280,35040,4096,16384,35040
     setprop net.tcp.buffersize.gprs    4092,8760,11680,4096,8760,11680
+
+# allow system to modify ksm control files
+    chown root system /sys/kernel/mm/ksm/pages_to_scan
+    chmod 0664 /sys/kernel/mm/ksm/pages_to_scan
+    chown root system /sys/kernel/mm/ksm/sleep_millisecs
+    chmod 0664 /sys/kernel/mm/ksm/sleep_millisecs
+    chown root system /sys/kernel/mm/ksm/run
+    chmod 0664 /sys/kernel/mm/ksm/run
+    write /sys/kernel/mm/ksm/sleep_millisecs 1500
+    write /sys/kernel/mm/ksm/pages_to_scan 256
 
 # Set this property so surfaceflinger is not started by system_init
     setprop system_init.startsurfaceflinger 0
@@ -328,30 +344,30 @@ on property:sys.usb.config=none
 # This should only be used during device bringup
 # and as a fallback if the USB manager fails to set a standard configuration
 on property:sys.usb.config=adb
-    write /sys/class/android_usb/android0/enable	0
-    write /sys/class/android_usb/android0/idVendor	18d1
-    write /sys/class/android_usb/android0/idProduct	0002
-    write /sys/class/android_usb/android0/functions	$sys.usb.config
-    write /sys/class/android_usb/android0/enable 	1
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 18d1
+    write /sys/class/android_usb/android0/idProduct D002
+    write /sys/class/android_usb/android0/functions $sys.usb.config
+    write /sys/class/android_usb/android0/enable 1
     start adbd
     setprop sys.usb.state $sys.usb.config
 
 # USB accessory configuration
 on property:sys.usb.config=accessory
-    write /sys/class/android_usb/android0/enable 	0
-    write /sys/class/android_usb/android0/idVendor	18d1
-    write /sys/class/android_usb/android0/idProduct	0004
-    write /sys/class/android_usb/android0/functions	$sys.usb.config
-    write /sys/class/android_usb/android0/enable	1
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 18d1
+    write /sys/class/android_usb/android0/idProduct 2d00
+    write /sys/class/android_usb/android0/functions $sys.usb.config
+    write /sys/class/android_usb/android0/enable 1
     setprop sys.usb.state $sys.usb.config
 
 # USB accessory configuration, with adb
 on property:sys.usb.config=accessory,adb
-    write /sys/class/android_usb/android0/enable	0
-    write /sys/class/android_usb/android0/idVendor	18d1
-    write /sys/class/android_usb/android0/idProduct	0005
-    write /sys/class/android_usb/android0/functions	$sys.usb.config
-    write /sys/class/android_usb/android0/enable	1
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 18d1
+    write /sys/class/android_usb/android0/idProduct 2d01
+    write /sys/class/android_usb/android0/functions $sys.usb.config
+    write /sys/class/android_usb/android0/enable 1
     start adbd
     setprop sys.usb.state $sys.usb.config
 
@@ -372,10 +388,6 @@ service console /system/bin/sh
     disabled
     user shell
     group log
-
-#service console /system/bin/sh /dev/ttyS0
-#    class core
-#    console
 
 on property:ro.debuggable=1
     start console
@@ -408,6 +420,8 @@ service servicemanager /system/bin/servicemanager
     critical
     onrestart restart zygote
     onrestart restart media
+    onrestart restart surfaceflinger
+    onrestart restart drm
 
 service vold /system/bin/vold
     class core
@@ -422,6 +436,13 @@ service netd /system/bin/netd
 service debuggerd /system/bin/debuggerd
     class main
 
+service ril-daemon /system/bin/rild -l liballwinner-ril.so -- -d /dev/ttyUSB2
+    class main
+    socket rild stream 660 root radio
+    socket rild-debug stream 660 radio system
+    user root
+    group radio cache inet misc audio sdcard_rw qcom_oncrpc diag
+
 service surfaceflinger /system/bin/surfaceflinger
     class main
     user system
@@ -430,7 +451,7 @@ service surfaceflinger /system/bin/surfaceflinger
 
 service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-system-server
     class main
-    socket zygote stream 666
+    socket zygote stream 660 root system
     onrestart write /sys/android_power/request_state wake
     onrestart write /sys/power/state on
     onrestart restart media
@@ -501,7 +522,6 @@ service dumpstate /system/bin/dumpstate -s
     disabled
     oneshot
 
-    
 # adb over network
 on property:service.adb.tcp.port=5555
     stop adbd
@@ -509,37 +529,4 @@ on property:service.adb.tcp.port=5555
 on property:service.adb.tcp.port=-1
     stop adbd
     start adbd
-    
-# dhcpcd daemon
-service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
-	class main
-    disabled
-    oneshot    
 
-service iprenew_wlan0 /system/bin/dhcpcd -n
-	class main
-	disabled
-	oneshot
-
-service dhcpcd_eth0 /system/bin/dhcpcd -ABKL
-	class main
-    disabled
-    oneshot    
-
-service iprenew_eth0 /system/bin/dhcpcd -n
-	class main
-	disabled
-	oneshot
-
-service u3gmonitor /system/bin/u3gmonitor
-	class main
-	user root
-	group root
- 	oneshot
-
-service ril-daemon /system/bin/rild -l liballwinner-ril.so -- -d /dev/ttyUSB2
-    class main
-    socket rild stream 660 root radio
-    socket rild-debug stream 660 radio system
-    user root
-    group radio cache inet misc audio sdcard_rw

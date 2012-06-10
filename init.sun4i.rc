@@ -15,38 +15,76 @@ on fs
     mount ext4 /dev/block/nandh /cache wait noatime nosuid nodev
 
 on boot	
-	insmod /system/vendor/modules/ft5x_ts.ko
-	insmod /system/vendor/modules/goodix_touch_3F.ko
-	insmod /system/vendor/modules/sun4i-ts.ko
-	insmod /system/vendor/modules/sun4i-keyboard.ko
-
-	insmod /system/vendor/modules/ump.ko
-	insmod /system/vendor/modules/mali.ko
-
-	insmod /system/vendor/modules/bma250.ko
-
-	insmod /system/vendor/modules/videobuf-core.ko
-	insmod /system/vendor/modules/videobuf-dma-contig.ko   
-	insmod /system/vendor/modules/gc0308.ko
-	insmod /system/vendor/modules/gt2005.ko
-	insmod /system/vendor/modules/sun4i_csi0.ko
-
-	insmod /system/vendor/modules/usbnet.ko
-	insmod /system/vendor/modules/asix.ko
-	insmod /system/vendor/modules/qf9700.ko
-	insmod /system/vendor/modules/mcs7830.ko
-	insmod /system/vendor/modules/rtl8150.ko
-	
+	# gpu drivers
+	insmod /system/lib/modules/ump.ko
+	insmod /system/lib/modules/mali.ko
+	# touchscreen drivers
+	insmod /system/lib/modules/ft5x_ts.ko
+	insmod /system/lib/modules/goodix_touch_3F.ko
+	insmod /system/lib/modules/goodix_touch.ko
+	insmod /system/lib/modules/gt801_2plus1.ko
+	insmod /system/lib/modules/ft5x_ts_5606.ko
+	# gsensor drivers
+	insmod /system/lib/modules/bma250.ko
+	insmod /system/lib/modules/mecs.ko
+	insmod /system/lib/modules/mxc622x.ko
+	insmod /system/lib/modules/mma7660.ko
+	insmod /system/lib/modules/kxte9.ko
+	# camera drivers
+	insmod /system/lib/modules/videobuf-core.ko
+	insmod /system/lib/modules/videobuf-dma-contig.ko   
+	insmod /system/lib/modules/gc0308.ko
+	insmod /system/lib/modules/gc0308b.ko
+	insmod /system/lib/modules/gt2005.ko
+	insmod /system/lib/modules/sun4i_csi1.ko
+	insmod /system/lib/modules/sun4i_csi0.ko
+	# usb ethernet drivers
+	insmod /system/lib/modules/usbnet.ko
+	insmod /system/lib/modules/asix.ko
+	insmod /system/lib/modules/qf9700.ko
+	insmod /system/lib/modules/mcs7830.ko
+	insmod /system/lib/modules/rtl8150.ko
+	# misc
+	chown system system /sys/class/timed_output/sun4i-vibrator/enable
 	chown system system /sys/class/rfkill/rfkill0/state
-	chmod 0660 /sys/class/rfkill/rfkill0/state
+	chmod 0777  /sys/class/rfkill/rfkill0/state
 	write /sys/class/rfkill/rfkill0/state 0
-	setprop rw.bluetooth.status "0"
 
-# wifi related service
-service wpa_supplicant /system/bin/wpa_supplicant -Dwext -iwlan0 \
-	-c/data/misc/wifi/wpa_supplicant.conf -e/data/misc/wifi/entropy.bin
+on post-fs-data
+	mkdir /data/misc/sensors 0777 system system
+
+service wpa_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf
+	socket wpa_wlan0 dgram 660 wifi wifi
+	group wifi inet
+	disabled
+	oneshot
+
+service u3gmonitor /system/bin/u3gmonitor
 	class main
-    socket wpa_wlan0 dgram 660 wifi wifi
-    group system wifi inet
+	user root
+	group root
+ 	oneshot
+
+service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
+	class main
     disabled
-    oneshot
+    oneshot    
+
+service iprenew_wlan0 /system/bin/dhcpcd -n
+	class main
+	disabled
+	oneshot
+
+service dhcpcd_eth0 /system/bin/dhcpcd -ABKL
+	class main
+    disabled
+    oneshot    
+
+service iprenew_eth0 /system/bin/dhcpcd -n
+	class main
+	disabled
+	oneshot
+
+service memsicd /system/bin/logwrapper /system/bin/memsicd
+   class main
+   oneshot
