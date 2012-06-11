@@ -86,5 +86,5 @@ service iprenew_eth0 /system/bin/dhcpcd -n
 	oneshot
 
 service memsicd /system/bin/logwrapper /system/bin/memsicd
-   class main
+   class troy
    oneshot

@@ -522,6 +522,9 @@ service dumpstate /system/bin/dumpstate -s
     disabled
     oneshot
 
+on property:sys.boot_completed=1
+    class_start troy
+
 # adb over network
 on property:service.adb.tcp.port=5555
     stop adbd
@@ -529,4 +532,3 @@ on property:service.adb.tcp.port=5555
 on property:service.adb.tcp.port=-1
     stop adbd
     start adbd
-
