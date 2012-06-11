@@ -21,9 +21,7 @@ PRODUCT_COPY_FILES += \
 	device/softwinner/907/prebuilt/bin/ntfs-3g.probe:system/bin/ntfs-3g.probe \
 	device/softwinner/907/prebuilt/bin/mkntfs:system/bin/mkntfs \
 	device/softwinner/907/prebuilt/bin/reboot-recovery.sh:system/bin/reboot-recovery.sh \
-	device/softwinner/907/prebuilt/bin/usb_modeswitch:system/bin/usb_modeswitch \
-	device/softwinner/907/prebuilt/bin/virtuous_oc:system/bin/virtuous_oc \
-	device/softwinner/907/prebuilt/bin/zipalign:system/bin/zipalign
+	device/softwinner/907/prebuilt/bin/usb_modeswitch:system/bin/usb_modeswitch
 
 # /system/etc
 PRODUCT_COPY_FILES += \
@@ -44,9 +42,6 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
 	$(call find-copy-subdir-files,*,device/softwinner/907/prebuilt/etc/usb_modeswitch.d,system/etc/usb_modeswitch.d)
-
-PRODUCT_COPY_FILES += \
-	$(call find-copy-subdir-files,*,device/softwinner/907/prebuilt/etc/virtuous_oc,system/etc/virtuous_oc)
 
 # /system/lib
 PRODUCT_COPY_FILES += \
