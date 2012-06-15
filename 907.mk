@@ -66,6 +66,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	view.minimum_fling_velocity=25 \
 	updateme.disableinstalledapps=1 \
 	updateme.disablescripts=1 \
+	ro.additionalmounts = /mnt/extsd \
 	ro.vold.switchablepair=/mnt/sdcard,/mnt/extsd \
 	persist.sys.vold.switchexternal=0
 
