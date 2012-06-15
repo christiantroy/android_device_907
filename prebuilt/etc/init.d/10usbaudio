@@ -1,0 +1,9 @@
+#!/system/bin/sh
+#
+
+insmod /system/lib/modules/snd-hwdep.ko
+insmod /system/lib/modules/snd-rawmidi.ko
+insmod /system/lib/modules/snd-usbmidi-lib.ko
+insmod /system/lib/modules/snd-usb-audio.ko
+
+echo "done USB Audio Modules Autoload"
