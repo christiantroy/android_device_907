@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#define LOG_TAG "A10_audio_HW"
+#define LOG_TAG "sun4i_audio_hardware"
 #define LOG_NDEBUG 0
 
 #include <errno.h>
@@ -141,8 +141,6 @@ D/tinyalsa(  602): mix id:15 name:ADC Input Mux
 /* ALSA cards for A10 */
 #define CARD_A10_ABE 0
 #define CARD_A10_HDMI 1
-#define CARD_A10_USB 2
-#define CARD_A10_FM 3
 #define CARD_DEFAULT CARD_A10_ABE
 
 /* ALSA ports for A10 */
@@ -157,16 +155,22 @@ D/tinyalsa(  602): mix id:15 name:ADC Input Mux
 #define PORT_HDMI 0
 #define PORT_USB 0
 
+/* EXTERNAL USB DAC */
+#define OUT_CARD_CID_PROPERTY  "usb.audio.out.device"
+/* First device after HDMI is default */
+#define OUT_CARD_CID  "pcmC2D0p"
+#define CAP_CARD_CID_PROPERTY  "usb.audio.cap.device"
+/* Internal MIC is default */
+#define CAP_CARD_CID  "pcmC0D0c"
+
 /* constraint imposed by ABE: all period sizes must be multiples of 24 */
 #define ABE_BASE_FRAME_COUNT 24
 /* number of base blocks in a short period (low latency) */
-//#define SHORT_PERIOD_MULTIPLIER 44  /* 22 ms */
-#define SHORT_PERIOD_MULTIPLIER 80  /* 40 ms */
+#define SHORT_PERIOD_MULTIPLIER 80  /* 40 ms */		//ex.44  /* 22 ms */
 /* number of frames per short period (low latency) */
 #define SHORT_PERIOD_SIZE (ABE_BASE_FRAME_COUNT * SHORT_PERIOD_MULTIPLIER)
 /* number of short periods in a long period (low power) */
-//#define LONG_PERIOD_MULTIPLIER 14  /* 308 ms */
-#define LONG_PERIOD_MULTIPLIER 6  /* 240 ms */
+#define LONG_PERIOD_MULTIPLIER 6  /* 240 ms */		//ex.14  /* 308 ms */
 /* number of frames per long period (low power) */
 #define LONG_PERIOD_SIZE (SHORT_PERIOD_SIZE * LONG_PERIOD_MULTIPLIER)
 /* number of periods for low power playback */
@@ -174,8 +178,7 @@ D/tinyalsa(  602): mix id:15 name:ADC Input Mux
 /* number of pseudo periods for low latency playback */
 #define PLAYBACK_SHORT_PERIOD_COUNT 4
 /* number of periods for capture */
-// #define CAPTURE_PERIOD_COUNT 2
-#define CAPTURE_PERIOD_COUNT 4
+#define CAPTURE_PERIOD_COUNT 4		//ex.2
 /* minimum sleep time in out_write() when write threshold is not reached */
 #define MIN_WRITE_SLEEP_US 5000
 
@@ -624,9 +627,27 @@ static int is_device_toro(void)
 /* Returns true for external DAC, false otherwise */
 static int is_device_usb_dac(void)
 {
-  struct stat info;
-  int ret = stat("/dev/snd/pcmC2D0p", &info);
-  return(ret == -1 ? 0 : 1);
+    char property[PROPERTY_VALUE_MAX];
+    property_get(OUT_CARD_CID_PROPERTY, property, OUT_CARD_CID);
+    struct stat info;
+    char path[18]="/dev/snd/";
+    strcat(path, property);
+    int ret = stat(path, &info);
+    LOGV("# property: %s, value: %s, ret: %d", OUT_CARD_CID_PROPERTY, property, ret);
+    return(ret == -1 ? 0 : 1);
+}
+
+/* Returns true for external DAC, false otherwise */
+static int is_device_usb_cap(void)
+{
+    char property[PROPERTY_VALUE_MAX];
+    property_get(CAP_CARD_CID_PROPERTY, property, CAP_CARD_CID);
+    struct stat info;
+    char path[18]="/dev/snd/";
+    strcat(path, property);
+    int ret = stat(path, &info);
+    LOGV("# property: %s, value: %s, ret: %d", CAP_CARD_CID_PROPERTY, property, ret);
+    return(ret == -1 ? 0 : 1);
 }
 
 /* The enable flag when 0 makes the assumption that enums are disabled by
@@ -1154,7 +1175,7 @@ static void select_input_device(struct sun4i_audio_device *adev)
 /* must be called with hw device and output stream mutexes locked */
 static int start_output_stream(struct sun4i_stream_out *out)
 {
-	F_LOG;
+    F_LOG;
     struct sun4i_audio_device *adev = out->dev;
     unsigned int card = CARD_DEFAULT;
     unsigned int port = PORT_MM;
@@ -1170,21 +1191,47 @@ static int start_output_stream(struct sun4i_stream_out *out)
     out->config.rate = MM_FULL_POWER_SAMPLING_RATE;
     if (adev->devices & AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET) {
         port = PORT_SPDIF;
-        LOGV("### SPDIF audio out selected! Sampling rate: %d Hz", MM_FULL_POWER_SAMPLING_RATE);
+        LOGV("### SPDIF audio out selected! Sampling rate: %d Hz", out->config.rate);
     }
     else if(adev->devices & AUDIO_DEVICE_OUT_AUX_DIGITAL) {
-        LOGV("### HDMI audio out selected! Sampling rate: %d Hz", MM_LOW_POWER_SAMPLING_RATE);
         card = CARD_A10_HDMI;
         port = PORT_HDMI;
         out->config.rate = MM_LOW_POWER_SAMPLING_RATE;
+        LOGV("### HDMI audio out selected! Sampling rate: %d Hz", out->config.rate);
     }
     /* HACK: USB DAC output */
     else if(is_device_usb_dac()) {
-        LOGV("### USB audio out selected! Sampling rate: %d Hz", MM_LOW_POWER_SAMPLING_RATE);
-    	card = CARD_A10_USB;
-    	port = PORT_USB;
+    	char property[PROPERTY_VALUE_MAX];
+        property_get(OUT_CARD_CID_PROPERTY, property, OUT_CARD_CID); 
+        // property value: pcmC[4]D[6]p
+        char *ptr;
+        ptr = property;
+    	card = property[4] - '0';
+    	port = property[6] - '0';
+        LOGV("# card: %u, port: %u, type: %s", card, port, &ptr[7]);
+        /* Define preferred rate */        
     	out->config.rate = MM_LOW_POWER_SAMPLING_RATE;
+        /* HW Info (failsafe check) */
+        struct pcm_config config;
+        struct pcm *pcm;
+    	pcm = pcm_hwinfo(card, port, PCM_OUT, &config);
+    	if (!pcm || !pcm_is_ready(pcm)) {
+      		LOGE("### Unable to get Hardware information for device %s (%s)\n",
+              property, pcm_get_error(pcm));
+      	goto exit;
+    	}
+        LOGV("# Supported Rates: (%uHz - %uHz)\n", config.rate_min, config.rate_max);
+        LOGV("# Supported Channels: (%uCh - %uCh)\n", config.channels_min, config.channels_max);
+        if (!(out->config.rate >= config.rate_min &&
+                  out->config.rate <= config.rate_max)) {
+            LOGV("# Requested %dHz using supported value %dHz\n",out->config.rate, config.rate_max);
+            out->config.rate = config.rate_max;
+    	}
+    	pcm_close(pcm);
+        /* END of HW Info */
+        LOGV("### USB audio out selected! Sampling rate: %dHz", out->config.rate);
     }
+exit:
     /* default to low power: will be corrected in out_write if necessary before first write to
      * tinyalsa.
      */
@@ -1621,10 +1668,11 @@ static int out_remove_audio_effect(const struct audio_stream *stream, effect_han
 /* must be called with hw device and input stream mutexes locked */
 static int start_input_stream(struct sun4i_stream_in *in)
 {
-	F_LOG;
+	F_LOG;	
     int ret = 0;
     struct sun4i_audio_device *adev = in->dev;
-
+    unsigned int card = CARD_DEFAULT;
+    unsigned int port = PORT_MM2_UL;
     adev->active_input = in;
 
     if (adev->mode != AUDIO_MODE_IN_CALL) {
@@ -1638,9 +1686,48 @@ static int start_input_stream(struct sun4i_stream_in *in)
                                         AUDIO_FORMAT_PCM_16_BIT,
                                         in->config.channels,
                                         in->requested_rate);
+    /* HACK: USB DAC input */
+    if(is_device_usb_cap()) {
+    	char property[PROPERTY_VALUE_MAX];
+        property_get(CAP_CARD_CID_PROPERTY, property, CAP_CARD_CID); 
+        // property value: pcmC[4]D[6]c
+        char *ptr = property;
+    	card = property[4] - '0';
+    	port = property[6] - '0';
+        LOGV("# card: %u, port: %u, type: %s", card, port, &ptr[7]);
+        /* Define preferred rate */        
+    	in->config.rate = MM_LOW_POWER_SAMPLING_RATE;
+        /* HW Info (failsafe check) */
+        struct pcm_config config;
+        struct pcm *pcm;
+    	pcm = pcm_hwinfo(card, port, PCM_IN, &config);
+    	if (!pcm || !pcm_is_ready(pcm)) {
+      		LOGE("### Unable to get Hardware information for device %s (%s)\n",
+              property, pcm_get_error(pcm));
+      	goto exit;
+    	}
+        LOGV("# Supported Rates: (%uHz - %uHz)\n", config.rate_min, config.rate_max);
+        LOGV("# Supported Channels: (%uCh - %uCh)\n", config.channels_min, config.channels_max);
+/*
+        if (!(in->requested_rate >= config.rate_min &&
+                  in->requested_rate <= config.rate_max)) {
+            LOGV("# Requested %dHz using supported value %dHz\n",in->requested_rate, config.rate_max);
+            in->config.rate = config.rate_max;
+    	}
+*/
+        if (!(in->config.channels >= config.channels_min &&
+                  in->config.channels <= config.channels_max)) {
+            LOGV("# Requested %dCh using supported value %dCh\n",in->config.channels, config.channels_max);
+            in->config.channels = config.channels_max;
+    	}
+    	pcm_close(pcm);
+        /* END of HW Info */
+        LOGV("### USB audio input selected! Channels: %dCh Req Rate: %dHz Rate: %dHz", in->config.channels, in->requested_rate, in->config.rate);
+    }
+exit:
 	
     /* this assumes routing is done previously */
-    in->pcm = pcm_open(0, PORT_MM2_UL, PCM_IN, &in->config);
+    in->pcm = pcm_open(card, port, PCM_IN, &in->config);
     if (!pcm_is_ready(in->pcm)) {
         LOGE("cannot open pcm_in driver: %s", pcm_get_error(in->pcm));
         pcm_close(in->pcm);
@@ -1650,12 +1737,12 @@ static int start_input_stream(struct sun4i_stream_in *in)
 
     /* if no supported sample rate is available, use the resampler */
     if (in->resampler) {
-		F_LOG;
+		// F_LOG;
 		LOGV("### in->resampler");
         in->resampler->reset(in->resampler);
         in->frames_in = 0;
     }
-	F_LOG;
+	// F_LOG;
     return 0;
 }
 

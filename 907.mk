@@ -68,7 +68,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	updateme.disablescripts=1 \
 	ro.additionalmounts = /mnt/extsd \
 	ro.vold.switchablepair=/mnt/sdcard,/mnt/extsd \
-	persist.sys.vold.switchexternal=0
+	persist.sys.vold.switchexternal=0 \
+	usb.audio.out.device=pcmC2D0p \
+	usb.audio.cap.device=pcmC0D0c
 
 DEVICE_PACKAGE_OVERLAYS := device/softwinner/907/overlay
 
