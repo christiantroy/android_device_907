@@ -37,6 +37,8 @@ on boot
 	insmod /system/lib/modules/gc0308.ko
 	insmod /system/lib/modules/gc0308b.ko
 	insmod /system/lib/modules/gt2005.ko
+	insmod /system/lib/modules/mt9m112.ko
+	insmod /system/lib/modules/ov5640.ko
 	insmod /system/lib/modules/sun4i_csi1.ko
 	insmod /system/lib/modules/sun4i_csi0.ko
 	# usb ethernet drivers
