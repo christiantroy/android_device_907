@@ -68,7 +68,7 @@
 
          Note: Disable SMS also disable voicemail waiting sms,
                cell broadcasting sms, and MMS. -->
-    <bool name="config_sms_capable">false</bool>
+    <bool name="config_sms_capable">true</bool>
 
     <!-- True will enable the electron beam screen-off animation. -->
     <bool name="config_screenOffAnimation">true</bool>
@@ -83,5 +83,5 @@
 	            16 - App switch
 	         For example, a device with Home, Back and Menu keys would set this
 	         config to 7. -->
-	    <integer name="config_deviceHardwareKeys">7</integer>
+	    <integer name="config_deviceHardwareKeys">2</integer>
 </resources>
