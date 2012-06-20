@@ -58,6 +58,7 @@ TARGET_RECOVERY_PRE_COMMAND := "echo -n boot-recovery | busybox dd of=/dev/block
 BOARD_USE_LEGACY_TOUCHSCREEN := true
 TARGET_HARDWARE_INCLUDE := $(TOP)/device/softwinner/907/libraries/include
 TARGET_PROVIDES_INIT_RC := true
+TARGET_BOOTANIMATION_PRELOAD := true
 
 # Wifi stuff
 BOARD_WIFI_VENDOR := realtek
