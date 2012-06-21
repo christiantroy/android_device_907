@@ -89,6 +89,9 @@ PRODUCT_COPY_FILES += \
 	frameworks/base/data/etc/com.tmobile.software.themes.xml:system/etc/permissions/com.tmobile.software.themes.xml \
 	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:/system/etc/permissions/android.software.live_wallpaper.xml
 
+PRODUCT_COPY_FILES += \
+	vendor/aokp/prebuilt/bootanimation/bootanimation_1024_768.zip:system/media/bootanimation.zip
+
 # Publish that we support the live wallpaper feature.
 PRODUCT_PACKAGES += \
 	LiveWallpapers \
