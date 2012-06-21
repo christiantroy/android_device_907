@@ -27,7 +27,7 @@ PRODUCT_CHARACTERISTICS := tablet
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 PRODUCT_PROPERTY_OVERRIDES += \
-	persist.sys.root_access=3 \
+	ro.wifi.country=EU \
 	ro.opengles.version = 131072 \
 	debug.egl.hw=1 \
 	ro.display.switch=1 \
@@ -65,9 +65,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	view.minimum_fling_velocity=25 \
 	updateme.disableinstalledapps=1 \
 	updateme.disablescripts=1 \
-	ro.additionalmounts = /mnt/extsd \
-	ro.vold.switchablepair=/mnt/sdcard,/mnt/extsd \
-	persist.sys.vold.switchexternal=0 \
 	usb.audio.out.device=pcmC2D0p \
 	usb.audio.cap.device=pcmC0D0c
 
@@ -123,21 +120,10 @@ PRODUCT_PACKAGES += \
 	chat \
 	u3gmonitor
 
-# CM9 apps
-PRODUCT_PACKAGES += \
-	Trebuchet \
-	FileManager \
-	com.android.future.usb.accessory
-
 # EXT4 Support
 PRODUCT_PACKAGES += \
 	make_ext4fs \
 	e2fsck
-
-$(call inherit-product, build/target/product/full_base.mk)
-
-# Should be after the full_base include, which loads languages_full
-PRODUCT_LOCALES += mdpi
 
 PRODUCT_NAME := full_907
 PRODUCT_DEVICE := 907

@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
+
 TARGET_BOARD_PLATFORM := exDroid
 TARGET_BOOTLOADER_BOARD_NAME := crane
 
@@ -54,6 +56,8 @@ BOARD_UMS_2ND_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun1/fi
 TARGET_RECOVERY_INITRC := device/softwinner/907/recovery_init.rc
 
 #Misc stuff
+TARGET_USE_CUSTOM_LUN_FILE_PATH = "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
+TARGET_USE_CUSTOM_SECOND_LUN_NUM := 1
 TARGET_RECOVERY_PRE_COMMAND := "echo -n boot-recovery | busybox dd of=/dev/block/nandf count=1 conv=sync; sync"
 BOARD_USE_LEGACY_TOUCHSCREEN := true
 TARGET_HARDWARE_INCLUDE := $(TOP)/device/softwinner/907/libraries/include

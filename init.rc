@@ -165,11 +165,13 @@ on post-fs-data
     mkdir /data/camera 0777 root root
     mkdir /data/local 0751 root root
     mkdir /data/local/tmp 0771 shell shell
+    mkdir /data/local/download 0771 system cache
     mkdir /data/data 0771 system system
     mkdir /data/app-private 0771 system system
     mkdir /data/app 0771 system system
     mkdir /data/property 0700 root root
     mkdir /data/radio 0770 radio radio
+    mkdir /cache/download 0771 system cache
 
     # create dalvik-cache and double-check the perms, so as to enforce our permissions
     mkdir /data/dalvik-cache 0771 system system
@@ -461,6 +463,12 @@ service drm /system/bin/drmserver
     class main
     user drm
     group system inet drmrpc
+
+service userinit /system/xbin/busybox run-parts /system/etc/init.d
+    oneshot
+    class late_start
+    user root
+    group root
 
 service media /system/bin/mediaserver
     class main
