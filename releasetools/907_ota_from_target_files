@@ -331,13 +331,6 @@ def SignOutput(temp_zip_name, output_zip_name):
   common.SignFile(temp_zip_name, output_zip_name, OPTIONS.package_key, pw,
                   whole_file=True)
 
-def AppendAssertions(script, input_zip):
-  if OPTIONS.override_device == "auto":
-    device = GetBuildProp("ro.product.device", input_zip)
-  else:
-    device = OPTIONS.override_device
-  script.AssertDevice(device)
-
 
 def AppendAssertions(script, input_zip):
   if OPTIONS.override_device == "auto":
@@ -415,9 +408,9 @@ def WriteFullOTAPackage(input_zip, output_zip):
   #  ts = GetBuildProp("ro.build.date.utc", input_zip)
   #  script.AssertOlderBuild(ts)
 
-  if not OPTIONS.no_assert:
-    AppendAssertions(script, input_zip)
-    device_specific.FullOTA_Assertions()
+  #if not OPTIONS.no_assert:
+  #  AppendAssertions(script, input_zip)
+  #  device_specific.FullOTA_Assertions()
   if OPTIONS.backuptool:
     script.RunBackup("backup")
 
@@ -438,10 +431,8 @@ def WriteFullOTAPackage(input_zip, output_zip):
   else:
     script.UndoRetouchBinaries(retouch_files)
 
-  prebuilt_path = os.path.join(DEV_OUT_DIR, "boot.img")
-
-  blob = common.File.FromLocalFile("boot.img", prebuilt_path)
-
+  boot_img = common.GetBootableImage("boot.img", "boot.img",
+                                     OPTIONS.input_tmp, "BOOT")
   #recovery_img = common.GetBootableImage("recovery.img", "recovery.img",
   #                                       OPTIONS.input_tmp, "RECOVERY")
   #MakeRecoveryPatch(output_zip, recovery_img, boot_img)
@@ -450,9 +441,10 @@ def WriteFullOTAPackage(input_zip, output_zip):
   Item.Get("system").SetPermissions(script)
   script.SetPermissionsRecursive("/system/etc/init.d", 0, 0, 0755, 0555)
   script.SetPermissions("/system/bin/pppd", 0, 2000, 06755)
-  script.SetPermissions("/system/etc/usb_modeswitch.sh", 0, 2000, 0755
+  script.SetPermissions("/system/etc/usb_modeswitch.sh", 0, 2000, 0755)
 
-  common.ZipWriteStr(output_zip, "boot.blob", blob.data)
+  common.CheckSize(boot_img.data, "boot.img", OPTIONS.info_dict)
+  common.ZipWriteStr(output_zip, "boot.img", boot_img.data)
   script.ShowProgress(0.2, 0)
 
   if OPTIONS.backuptool:
@@ -460,7 +452,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
     script.RunBackup("restore")
 
   script.ShowProgress(0.2, 10)
-  script.WriteRawImage("/staging", "boot.blob")
+  script.WriteRawImage("/boot", "boot.img")
 
   script.ShowProgress(0.1, 0)
   device_specific.FullOTA_InstallEnd()
