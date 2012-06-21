@@ -15,4 +15,3 @@
 #
 
 add_lunch_combo full_907-userdebug
-add_lunch_combo cm_907-userdebug
