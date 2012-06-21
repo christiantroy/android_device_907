@@ -63,6 +63,7 @@ BOARD_USE_LEGACY_TOUCHSCREEN := true
 TARGET_HARDWARE_INCLUDE := $(TOP)/device/softwinner/907/libraries/include
 TARGET_PROVIDES_INIT_RC := true
 TARGET_BOOTANIMATION_PRELOAD := true
+TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/softwinner/907/releasetools/907_ota_from_target_files
 
 # Wifi stuff
 BOARD_WIFI_VENDOR := realtek
