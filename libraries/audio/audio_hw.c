@@ -43,100 +43,46 @@
 //#define F_LOG LOGV("%s, line: %d", __FUNCTION__, __LINE__);
 #define F_LOG LOGV("########## %s ##########", __FUNCTION__);
 
-/* Mixer control names */
-#define MIXER_DL2_LEFT_EQUALIZER            "DL2 Left Equalizer"
-#define MIXER_DL2_RIGHT_EQUALIZER           "DL2 Right Equalizer"
-#define MIXER_DL1_MEDIA_PLAYBACK_VOLUME     "DL1 Media Playback Volume"
-#define MIXER_DL1_VOICE_PLAYBACK_VOLUME     "DL1 Voice Playback Volume"
-#define MIXER_DL2_MEDIA_PLAYBACK_VOLUME     "DL2 Media Playback Volume"
-#define MIXER_DL2_VOICE_PLAYBACK_VOLUME     "DL2 Voice Playback Volume"
-#define MIXER_SDT_DL_VOLUME                 "SDT DL Volume"
-#define MIXER_SDT_UL_VOLUME                 "SDT UL Volume"
-
-#define MIXER_HEADSET_PLAYBACK_VOLUME       "Headset Playback Volume"
-#define MIXER_HANDSFREE_PLAYBACK_VOLUME     "Handsfree Playback Volume"
-#define MIXER_EARPHONE_PLAYBACK_VOLUME      "Earphone Playback Volume"
-#define MIXER_BT_UL_VOLUME                  "BT UL Volume"
-
-#define MIXER_DL1_EQUALIZER                 "DL1 Equalizer"
-#define MIXER_DL1_MIXER_MULTIMEDIA          "DL1 Mixer Multimedia"
-#define MIXER_DL1_MIXER_VOICE               "DL1 Mixer Voice"
-#define MIXER_DL2_MIXER_MULTIMEDIA          "DL2 Mixer Multimedia"
-#define MIXER_DL2_MIXER_VOICE               "DL2 Mixer Voice"
-#define MIXER_SIDETONE_MIXER_PLAYBACK       "Sidetone Mixer Playback"
-#define MIXER_SIDETONE_MIXER_CAPTURE        "Sidetone Mixer Capture"
-#define MIXER_DL2_MONO_MIXER                "DL2 Mono Mixer"
-#define MIXER_DL1_PDM_SWITCH                "DL1 PDM Switch"
-#define MIXER_DL1_BT_VX_SWITCH              "DL1 BT_VX Switch"
-#define MIXER_VOICE_CAPTURE_MIXER_CAPTURE   "Voice Capture Mixer Capture"
-
-#define MIXER_HS_LEFT_PLAYBACK              "HS Left Playback"
-#define MIXER_HS_RIGHT_PLAYBACK             "HS Right Playback"
-#define MIXER_HF_LEFT_PLAYBACK              "HF Left Playback"
-#define MIXER_HF_RIGHT_PLAYBACK             "HF Right Playback"
-#define MIXER_EARPHONE_ENABLE_SWITCH        "Earphone Enable Switch"
-
-#define MIXER_ANALOG_LEFT_CAPTURE_ROUTE     "Analog Left Capture Route"
-#define MIXER_ANALOG_RIGHT_CAPTURE_ROUTE    "Analog Right Capture Route"
-#define MIXER_CAPTURE_PREAMPLIFIER_VOLUME   "Capture Preamplifier Volume"
-#define MIXER_CAPTURE_VOLUME                "Capture Volume"
-#define MIXER_AMIC_UL_VOLUME                "AMIC UL Volume"
-#define MIXER_AUDUL_VOICE_UL_VOLUME         "AUDUL Voice UL Volume"
-#define MIXER_MUX_VX0                       "MUX_VX0"
-#define MIXER_MUX_VX1                       "MUX_VX1"
-#define MIXER_MUX_UL10                      "MUX_UL10"
-#define MIXER_MUX_UL11                      "MUX_UL11"
-
-/*
-D/tinyalsa(  602): mix id:0 name:Master Playback Volume
-D/tinyalsa(  602): mix id:1 name:Playback Switch
-D/tinyalsa(  602): mix id:2 name:Capture Volume
-D/tinyalsa(  602): mix id:3 name:Fm Volume
-D/tinyalsa(  602): mix id:4 name:Line Volume
-D/tinyalsa(  602): mix id:5 name:MicL Volume
-D/tinyalsa(  602): mix id:6 name:MicR Volume
-D/tinyalsa(  602): mix id:7 name:FmL Switch
-D/tinyalsa(  602): mix id:8 name:FmR Switch
-D/tinyalsa(  602): mix id:9 name:LineL Switch
-D/tinyalsa(  602): mix id:10 name:LineR Switch
-D/tinyalsa(  602): mix id:11 name:Ldac Left Mixer
-D/tinyalsa(  602): mix id:12 name:Rdac Right Mixer
-D/tinyalsa(  602): mix id:13 name:Ldac Right Mixer
-D/tinyalsa(  602): mix id:14 name:Mic Input Mux
-D/tinyalsa(  602): mix id:15 name:ADC Input Mux
-D/tinyalsa(  602): mix id:0 name:Master Playback Volume
-D/tinyalsa(  602): mix id:1 name:Playback Switch
-D/tinyalsa(  602): mix id:2 name:Capture Volume
-D/tinyalsa(  602): mix id:3 name:Fm Volume
-D/tinyalsa(  602): mix id:4 name:Line Volume
-D/tinyalsa(  602): mix id:5 name:MicL Volume
-D/tinyalsa(  602): mix id:6 name:MicR Volume
-D/tinyalsa(  602): mix id:7 name:FmL Switch
-D/tinyalsa(  602): mix id:8 name:FmR Switch
-D/tinyalsa(  602): mix id:9 name:LineL Switch
-D/tinyalsa(  602): mix id:10 name:LineR Switch
-D/tinyalsa(  602): mix id:11 name:Ldac Left Mixer
-D/tinyalsa(  602): mix id:12 name:Rdac Right Mixer
-D/tinyalsa(  602): mix id:13 name:Ldac Right Mixer
-D/tinyalsa(  602): mix id:14 name:Mic Input Mux
-D/tinyalsa(  602): mix id:15 name:ADC Input Mux
+/* Sun4i Mixer Controls. TODO: implement Mic mute and Master Volume control
+ctl type    num name                                     value range
+0   INT     1   Master Playback Volume                   (0->63) 59
+1   BOOL    1   Playback Switch                          (0/1) off
+2   INT     1   Capture Volume                           (0->7) 3
+3   INT     1   Fm Volume                                (0->7) 3
+4   BOOL    1   Line Volume                              (0/1) on
+5   INT     1   MicL Volume                              (0->3) 2
+6   INT     1   MicR Volume                              (0->3) 2
+7   BOOL    1   FmL Switch                               (0/1) off
+8   BOOL    1   FmR Switch                               (0/1) off
+9   BOOL    1   LineL Switch                             (0/1) off
+10  BOOL    1   LineR Switch                             (0/1) off
+11  BOOL    1   Ldac Left Mixer                          (0/1) off
+12  BOOL    1   Rdac Right Mixer                         (0/1) off
+13  BOOL    1   Ldac Right Mixer                         (0/1) off
+14  INT     1   Mic Input Mux                            (0->15) 0
+15  INT     1   ADC Input Mux                            (0->15) 2
 */
 
-/* Mixer control gain and route values */
-#define MIXER_ABE_GAIN_0DB                  120
-#define MIXER_PLAYBACK_HS_DAC               "HS DAC"
-#define MIXER_PLAYBACK_HF_DAC               "HF DAC"
-#define MIXER_MAIN_MIC                      "Main Mic"
-#define MIXER_SUB_MIC                       "Sub Mic"
-#define MIXER_HS_MIC                        "Headset Mic"
-#define MIXER_AMIC0                         "AMic0"
-#define MIXER_AMIC1                         "AMic1"
-#define MIXER_BT_LEFT                       "BT Left"
-#define MIXER_BT_RIGHT                      "BT Right"
-#define MIXER_450HZ_HIGH_PASS               "450Hz High-pass"
-#define MIXER_FLAT_RESPONSE                 "Flat response"
-#define MIXER_4KHZ_LPF_0DB                  "4Khz LPF   0dB"
+/* Mixer control names for A10 */
+#define MIXER_MASTER_PLAYBACK_VOLUME       "Master Playback Volume"
+#define MIXER_PLAYBACK_SWITCH              "Playback Switch"
+#define MIXER_CAPTURE_VOLUME               "Capture Volume"
+#define MIXER_FM_VOLUME                    "Fm Volume"
+#define MIXER_LINE_VOLUME                  "Line Volume"
+#define MIXER_MICL_VOLUME                  "MicL Volume"
+#define MIXER_MICR_VOLUME                  "MicR Volume"
+#define MIXER_FML_SWITCH                   "FmL Switch"
+#define MIXER_FMR_SWITCH                   "FmR Switch"
+#define MIXER_LINEL_SWITCH                 "LineL Switch"
+#define MIXER_LINER_SWITCH                 "LineR Switch"
+#define MIXER_LDAC_LEFT_MIXER              "Ldac Left Mixer"
+#define MIXER_RDAC_RIGHT_MIXER             "Rdac Right Mixer"
+#define MIXER_LDAC_RIGHT_MIXER             "Ldac Right Mixer"
+#define MIXER_MIC_INPUT_MUX                "Mic Input Mux"
+#define MIXER_ADC_INPUT_MUX                "ADC Input Mux"
 
+/* Master Playback Volume 0dB */
+#define MASTER_VOLUME                      0
 
 /* ALSA cards for A10 */
 #define CARD_A10_ABE 0
@@ -145,22 +91,19 @@ D/tinyalsa(  602): mix id:15 name:ADC Input Mux
 
 /* ALSA ports for A10 */
 #define PORT_MM 0
-#define PORT_MM2_UL 0
-#define PORT_VX 2
-#define PORT_TONES 3
-#define PORT_VIBRA 4
+#define PORT_MM_UL 0
 #define PORT_MODEM 5
-#define PORT_MM_LP 6
 #define PORT_SPDIF 9
 #define PORT_HDMI 0
-#define PORT_USB 0
 
 /* EXTERNAL USB DAC */
 #define OUT_CARD_CID_PROPERTY  "usb.audio.out.device"
-/* First device after HDMI is default */
+#define OUT_CARD_FREQ_PROPERTY  "usb.audio.out.freq"
+/* Define first device after HDMI as default */
 #define OUT_CARD_CID  "pcmC2D0p"
 #define CAP_CARD_CID_PROPERTY  "usb.audio.cap.device"
-/* Internal MIC is default */
+#define CAP_CARD_FREQ_PROPERTY  "usb.audio.cap.freq"
+/* Define internal MIC as default input source */
 #define CAP_CARD_CID  "pcmC0D0c"
 
 /* constraint imposed by ABE: all period sizes must be multiples of 24 */
@@ -177,13 +120,13 @@ D/tinyalsa(  602): mix id:15 name:ADC Input Mux
 #define PLAYBACK_LONG_PERIOD_COUNT 2
 /* number of pseudo periods for low latency playback */
 #define PLAYBACK_SHORT_PERIOD_COUNT 4
-/* number of periods for capture */
-#define CAPTURE_PERIOD_COUNT 4		//ex.2
 /* minimum sleep time in out_write() when write threshold is not reached */
 #define MIN_WRITE_SLEEP_US 5000
 
 // add for capture
-#define CAPTURE_PERIOD_SIZE 4096	// can not less than 8192
+#define CAPTURE_PERIOD_SIZE 4096	// not less than 8192
+/* number of periods for capture */
+#define CAPTURE_PERIOD_COUNT 4		//ex.2
 
 #define RESAMPLER_BUFFER_FRAMES (SHORT_PERIOD_SIZE * 2)
 #define RESAMPLER_BUFFER_SIZE (4 * RESAMPLER_BUFFER_FRAMES)
@@ -191,14 +134,15 @@ D/tinyalsa(  602): mix id:15 name:ADC Input Mux
 #define DEFAULT_OUT_SAMPLING_RATE 44100
 
 /* sampling rate when using MM low power port */
-#define MM_LOW_POWER_SAMPLING_RATE 44100
+#define MM_44100_SAMPLING_RATE 44100
 /* sampling rate when using MM full power port */
-#define MM_FULL_POWER_SAMPLING_RATE 48000
+#define MM_48000_SAMPLING_RATE 48000
 /* sampling rate when using VX port for narrow band */
 #define VX_NB_SAMPLING_RATE 8000
 /* sampling rate when using VX port for wide band */
 #define VX_WB_SAMPLING_RATE 16000
 
+#define MIXER_ABE_GAIN_0DB 120
 /* conversions from dB to ABE and codec gains */
 #define DB_TO_ABE_GAIN(x) ((x) + MIXER_ABE_GAIN_0DB)
 #define DB_TO_CAPTURE_PREAMPLIFIER_VOLUME(x) (((x) + 6) / 6)
@@ -206,64 +150,37 @@ D/tinyalsa(  602): mix id:15 name:ADC Input Mux
 #define DB_TO_HEADSET_VOLUME(x) (((x) + 30) / 2)
 #define DB_TO_SPEAKER_VOLUME(x) (((x) + 52) / 2)
 #define DB_TO_EARPIECE_VOLUME(x) (((x) + 24) / 2)
-
 /* conversions from codec and ABE gains to dB */
 #define DB_FROM_SPEAKER_VOLUME(x) ((x) * 2 - 52)
 
 /* use-case specific mic volumes, all in dB */
-#define CAPTURE_MAIN_MIC_VOLUME 16
-#define CAPTURE_SUB_MIC_VOLUME 18
-#define CAPTURE_HEADSET_MIC_VOLUME 12
-
-#define VOICE_RECOGNITION_MAIN_MIC_VOLUME 5
-#define VOICE_RECOGNITION_SUB_MIC_VOLUME 18
-#define VOICE_RECOGNITION_HEADSET_MIC_VOLUME 14
-
-#define CAMCORDER_MAIN_MIC_VOLUME 13
-#define CAMCORDER_SUB_MIC_VOLUME 10
-#define CAMCORDER_HEADSET_MIC_VOLUME 12
-
-#define VOIP_MAIN_MIC_VOLUME 13
-#define VOIP_SUB_MIC_VOLUME 20
-#define VOIP_HEADSET_MIC_VOLUME 12
-
-#define VOICE_CALL_MAIN_MIC_VOLUME 0
-#define VOICE_CALL_SUB_MIC_VOLUME_MAGURO -4
-#define VOICE_CALL_SUB_MIC_VOLUME_TORO -2
-#define VOICE_CALL_HEADSET_MIC_VOLUME 8
+#define CAPTURE_MAIN_MIC_VOLUME 2
+#define VOICE_RECOGNITION_MAIN_MIC_VOLUME 3
+#define CAMCORDER_MAIN_MIC_VOLUME 2
+#define VOIP_MAIN_MIC_VOLUME 2
+#define VOICE_CALL_MAIN_MIC_VOLUME 2
 
 /* use-case specific output volumes */
-#define NORMAL_SPEAKER_VOLUME_TORO 4
-#define NORMAL_SPEAKER_VOLUME_MAGURO 2
-#define NORMAL_HEADSET_VOLUME_TORO -12
-#define NORMAL_HEADSET_VOLUME_MAGURO -12
-#define NORMAL_HEADPHONE_VOLUME_TORO -6 /* allow louder output for headphones */
-#define NORMAL_HEADPHONE_VOLUME_MAGURO -6
-#define NORMAL_EARPIECE_VOLUME_TORO -2
-#define NORMAL_EARPIECE_VOLUME_MAGURO -2
+#define NORMAL_SPEAKER_VOLUME 60
+#define NORMAL_HEADSET_VOLUME 50
+#define NORMAL_HEADPHONE_VOLUME 50
+#define NORMAL_EARPIECE_VOLUME 50
 
-#define VOICE_CALL_SPEAKER_VOLUME_TORO 9
-#define VOICE_CALL_SPEAKER_VOLUME_MAGURO 6
-#define VOICE_CALL_HEADSET_VOLUME_TORO -6
-#define VOICE_CALL_HEADSET_VOLUME_MAGURO 0
-#define VOICE_CALL_EARPIECE_VOLUME_TORO 2
-#define VOICE_CALL_EARPIECE_VOLUME_MAGURO 6
+#define VOICE_CALL_SPEAKER_VOLUME 60
+#define VOICE_CALL_HEADSET_VOLUME 50
+#define VOICE_CALL_EARPIECE_VOLUME 50
 
-#define VOIP_SPEAKER_VOLUME_TORO 9
-#define VOIP_SPEAKER_VOLUME_MAGURO 7
-#define VOIP_HEADSET_VOLUME_TORO -6
-#define VOIP_HEADSET_VOLUME_MAGURO -6
-#define VOIP_EARPIECE_VOLUME_TORO 6
-#define VOIP_EARPIECE_VOLUME_MAGURO 6
+#define VOIP_SPEAKER_VOLUME 60
+#define VOIP_HEADSET_VOLUME 50
+#define VOIP_EARPIECE_VOLUME 50
 
 #define HEADPHONE_VOLUME_TTY -2
 #define RINGTONE_HEADSET_VOLUME_OFFSET -14
 
 /* product-specific defines */
-#define PRODUCT_DEVICE_PROPERTY "ro.product.device"
+#define PRODUCT_DEVICE_PROPERTY "ro.product.board"
 #define PRODUCT_NAME_PROPERTY   "ro.product.name"
-#define PRODUCT_DEVICE_TORO     "toro"
-#define PRODUCT_NAME_YAKJU      "yakju"
+#define PRODUCT_DEVICE_A10      "crane"
 
 enum tty_modes {
     TTY_MODE_OFF,
@@ -274,9 +191,7 @@ enum tty_modes {
 
 struct pcm_config pcm_config_mm = {
     .channels = 2,
-    .rate = MM_FULL_POWER_SAMPLING_RATE,
-//    .period_size = LONG_PERIOD_SIZE,
-//    .period_count = PLAYBACK_LONG_PERIOD_COUNT,
+    .rate = MM_48000_SAMPLING_RATE,
     .period_size = SHORT_PERIOD_SIZE,
     .period_count = PLAYBACK_SHORT_PERIOD_COUNT,
     .format = PCM_FORMAT_S16_LE,
@@ -284,7 +199,7 @@ struct pcm_config pcm_config_mm = {
 
 struct pcm_config pcm_config_mm_ul = {
     .channels = 2,
-    .rate = MM_FULL_POWER_SAMPLING_RATE,
+    .rate = MM_48000_SAMPLING_RATE,
     .period_size = 1024,
     .period_count = CAPTURE_PERIOD_COUNT,
     .format = PCM_FORMAT_S16_LE,
@@ -307,225 +222,48 @@ struct route_setting
     char *strval;
 };
 
-/* These are values that never change */
+/* These are initial mixer values */
 struct route_setting defaults[] = {
-    /* general */
     {
-        .ctl_name = MIXER_DL2_LEFT_EQUALIZER,
-        .strval = MIXER_450HZ_HIGH_PASS,
+        .ctl_name = MIXER_MASTER_PLAYBACK_VOLUME,
+        .intval = MASTER_VOLUME,
     },
     {
-        .ctl_name = MIXER_DL2_RIGHT_EQUALIZER,
-        .strval = MIXER_450HZ_HIGH_PASS,
-    },
-    {
-        .ctl_name = MIXER_DL1_MEDIA_PLAYBACK_VOLUME,
-        .intval = MIXER_ABE_GAIN_0DB,
-    },
-    {
-        .ctl_name = MIXER_DL2_MEDIA_PLAYBACK_VOLUME,
-        .intval = MIXER_ABE_GAIN_0DB,
-    },
-    {
-        .ctl_name = MIXER_DL1_VOICE_PLAYBACK_VOLUME,
-        .intval = MIXER_ABE_GAIN_0DB,
-    },
-    {
-        .ctl_name = MIXER_DL2_VOICE_PLAYBACK_VOLUME,
-        .intval = MIXER_ABE_GAIN_0DB,
-    },
-    {
-        .ctl_name = MIXER_SDT_DL_VOLUME,
-        .intval = MIXER_ABE_GAIN_0DB,
-    },
-    {
-        .ctl_name = MIXER_AUDUL_VOICE_UL_VOLUME,
-        .intval = MIXER_ABE_GAIN_0DB,
-    },
-    {
-        .ctl_name = MIXER_CAPTURE_PREAMPLIFIER_VOLUME,
-        .intval = DB_TO_CAPTURE_PREAMPLIFIER_VOLUME(0),
+        .ctl_name = MIXER_LINE_VOLUME,
+        .intval = 0,
     },
     {
         .ctl_name = MIXER_CAPTURE_VOLUME,
-        .intval = DB_TO_CAPTURE_VOLUME(30),
-    },
-    {
-        .ctl_name = MIXER_SDT_UL_VOLUME,
-        .intval = MIXER_ABE_GAIN_0DB - 17,
-    },
-    {
-        .ctl_name = MIXER_SIDETONE_MIXER_CAPTURE,
         .intval = 0,
     },
-
-    /* headset */
     {
-        .ctl_name = MIXER_SIDETONE_MIXER_PLAYBACK,
-        .intval = 1,
+        .ctl_name = MIXER_FM_VOLUME,
+        .intval = 0,
     },
     {
-        .ctl_name = MIXER_DL1_PDM_SWITCH,
-        .intval = 1,
-    },
-
-    /* bt */
-    {
-        .ctl_name = MIXER_BT_UL_VOLUME,
-        .intval = MIXER_ABE_GAIN_0DB,
-    },
-    {
-        .ctl_name = NULL,
-    },
-};
-
-struct route_setting hf_output[] = {
-    {
-        .ctl_name = MIXER_HF_LEFT_PLAYBACK,
-        .strval = MIXER_PLAYBACK_HF_DAC,
-    },
-    {
-        .ctl_name = MIXER_HF_RIGHT_PLAYBACK,
-        .strval = MIXER_PLAYBACK_HF_DAC,
-    },
-    {
-        .ctl_name = NULL,
-    },
-};
-
-struct route_setting hs_output[] = {
-    {
-        .ctl_name = MIXER_HS_LEFT_PLAYBACK,
-        .strval = MIXER_PLAYBACK_HS_DAC,
-    },
-    {
-        .ctl_name = MIXER_HS_RIGHT_PLAYBACK,
-        .strval = MIXER_PLAYBACK_HS_DAC,
-    },
-    {
-        .ctl_name = NULL,
-    },
-};
-
-/* MM UL front-end paths */
-struct route_setting mm_ul2_bt[] = {
-    {
-        .ctl_name = MIXER_MUX_UL10,
-        .strval = MIXER_BT_LEFT,
-    },
-    {
-        .ctl_name = MIXER_MUX_UL11,
-        .strval = MIXER_BT_LEFT,
-    },
-    {
-        .ctl_name = NULL,
-    },
-};
-
-struct route_setting mm_ul2_amic_left[] = {
-    {
-        .ctl_name = MIXER_MUX_UL10,
-        .strval = MIXER_AMIC0,
-    },
-    {
-        .ctl_name = MIXER_MUX_UL11,
-        .strval = MIXER_AMIC0,
-    },
-    {
-        .ctl_name = NULL,
-    },
-};
-
-struct route_setting mm_ul2_amic_right[] = {
-    {
-        .ctl_name = MIXER_MUX_UL10,
-        .strval = MIXER_AMIC1,
-    },
-    {
-        .ctl_name = MIXER_MUX_UL11,
-        .strval = MIXER_AMIC1,
-    },
-    {
-        .ctl_name = NULL,
-    },
-};
-
-/* VX UL front-end paths */
-struct route_setting vx_ul_amic_left[] = {
-    {
-        .ctl_name = MIXER_MUX_VX0,
-        .strval = MIXER_AMIC0,
-    },
-    {
-        .ctl_name = MIXER_MUX_VX1,
-        .strval = MIXER_AMIC0,
-    },
-    {
-        .ctl_name = MIXER_VOICE_CAPTURE_MIXER_CAPTURE,
-        .intval = 1,
-    },
-    {
-        .ctl_name = NULL,
-    },
-};
-
-struct route_setting vx_ul_amic_right[] = {
-    {
-        .ctl_name = MIXER_MUX_VX0,
-        .strval = MIXER_AMIC1,
-    },
-    {
-        .ctl_name = MIXER_MUX_VX1,
-        .strval = MIXER_AMIC1,
-    },
-    {
-        .ctl_name = MIXER_VOICE_CAPTURE_MIXER_CAPTURE,
-        .intval = 1,
-    },
-    {
-        .ctl_name = NULL,
-    },
-};
-
-struct route_setting vx_ul_bt[] = {
-    {
-        .ctl_name = MIXER_MUX_VX0,
-        .strval = MIXER_BT_LEFT,
-    },
-    {
-        .ctl_name = MIXER_MUX_VX1,
-        .strval = MIXER_BT_LEFT,
-    },
-    {
-        .ctl_name = MIXER_VOICE_CAPTURE_MIXER_CAPTURE,
-        .intval = 1,
-    },
-    {
-        .ctl_name = NULL,
+        .ctl_name = MIXER_ADC_INPUT_MUX,
+        .intval = 2, /* ADC value must be 2 for internal mic input */
     },
 };
 
 struct mixer_ctls
 {
-    struct mixer_ctl *dl1_eq;
-    struct mixer_ctl *mm_dl2_volume;
-    struct mixer_ctl *vx_dl2_volume;
-    struct mixer_ctl *mm_dl1;
-    struct mixer_ctl *mm_dl2;
-    struct mixer_ctl *vx_dl1;
-    struct mixer_ctl *vx_dl2;
-    struct mixer_ctl *earpiece_enable;
-    struct mixer_ctl *dl2_mono;
-    struct mixer_ctl *dl1_headset;
-    struct mixer_ctl *dl1_bt;
-    struct mixer_ctl *left_capture;
-    struct mixer_ctl *right_capture;
-    struct mixer_ctl *amic_ul_volume;
-    struct mixer_ctl *voice_ul_volume;
-    struct mixer_ctl *sidetone_capture;
-    struct mixer_ctl *headset_volume;
-    struct mixer_ctl *speaker_volume;
-    struct mixer_ctl *earpiece_volume;
+    struct mixer_ctl *master_vol;
+    struct mixer_ctl *playback_sw;
+    struct mixer_ctl *capture_vol;
+    struct mixer_ctl *fm_vol;
+    struct mixer_ctl *line_vol;
+    struct mixer_ctl *micl_vol;
+    struct mixer_ctl *micr_vol;
+    struct mixer_ctl *fml_sw;
+    struct mixer_ctl *fmr_sw;
+    struct mixer_ctl *linel_sw;
+    struct mixer_ctl *liner_sw;
+    struct mixer_ctl *ldac_left;
+    struct mixer_ctl *rdac_right;
+    struct mixer_ctl *ldac_right;
+    struct mixer_ctl *mic_input_mux;
+    struct mixer_ctl *adc_input_mux;
 };
 
 struct sun4i_audio_device {
@@ -546,7 +284,7 @@ struct sun4i_audio_device {
     int tty_mode;
     struct echo_reference_itfe *echo_reference;
     bool bluetooth_nrec;
-    bool device_is_toro;
+    bool device_is_a10;
     int wb_amr;
     bool low_power;
 #ifdef __ENABLE_RIL
@@ -613,41 +351,63 @@ static int adev_set_voice_volume(struct audio_hw_device *dev, float volume);
 static int do_input_standby(struct sun4i_stream_in *in);
 static int do_output_standby(struct sun4i_stream_out *out);
 
-/* Returns true on devices that are toro, false otherwise */
-static int is_device_toro(void)
+/* Returns true on devices that are a10 (crane board), false otherwise */
+static int is_device_a10(void)
 {
     char property[PROPERTY_VALUE_MAX];
 
-    property_get(PRODUCT_DEVICE_PROPERTY, property, PRODUCT_DEVICE_TORO);
+    property_get(PRODUCT_DEVICE_PROPERTY, property, PRODUCT_DEVICE_A10);
 
     /* return true if the property matches the given value */
-    return strcmp(property, PRODUCT_DEVICE_TORO) == 0;
+    return strcmp(property, PRODUCT_DEVICE_A10) == 0;
 }
 
-/* Returns true for external DAC, false otherwise */
+/* Returns true for external DAC (if present), false otherwise */
 static int is_device_usb_dac(void)
 {
     char property[PROPERTY_VALUE_MAX];
     property_get(OUT_CARD_CID_PROPERTY, property, OUT_CARD_CID);
     struct stat info;
-    char path[18]="/dev/snd/";
-    strcat(path, property);
-    int ret = stat(path, &info);
-    LOGV("# property: %s, value: %s, ret: %d", OUT_CARD_CID_PROPERTY, property, ret);
-    return(ret == -1 ? 0 : 1);
+    if (strcmp(&property[7], "p") == 0) {
+        char path[18]="/dev/snd/";
+        strcat(path, property);
+        int ret = stat(path, &info);
+        /*if (ret == 0) {
+            LOGV("# property: %s, dev: %s, present", OUT_CARD_CID_PROPERTY, property);
+        } else {
+            LOGV("# property: %s, dev: %s, device not exist! use default output", OUT_CARD_CID_PROPERTY, property);
+        }*/
+        return(ret == -1 ? 0 : 1);
+    } /*else {
+        LOGV("# property: %s, dev: %s, not a playback device! use default output", OUT_CARD_CID_PROPERTY, property);
+    }*/
+    return(0);
 }
 
-/* Returns true for external DAC, false otherwise */
+/* Returns true for external ADC (if present), false otherwise */
 static int is_device_usb_cap(void)
 {
     char property[PROPERTY_VALUE_MAX];
     property_get(CAP_CARD_CID_PROPERTY, property, CAP_CARD_CID);
     struct stat info;
-    char path[18]="/dev/snd/";
-    strcat(path, property);
-    int ret = stat(path, &info);
-    LOGV("# property: %s, value: %s, ret: %d", CAP_CARD_CID_PROPERTY, property, ret);
-    return(ret == -1 ? 0 : 1);
+    /* property value: pcmC[4]D[6]c */    
+    /* Special case for internal MIC */
+    if (strcmp(property, "pcmC0D0c") == 0) {
+    	/*LOGV("# internal mic input selected");*/
+    } else if (strcmp(&property[7], "c") == 0) {
+    	char path[18]="/dev/snd/";
+        strcat(path, property);
+        int ret = stat(path, &info);
+        /*if (ret == 0) {
+            LOGV("# property: %s, dev: %s, present", CAP_CARD_CID_PROPERTY, property);
+        } else {
+            LOGV("# property: %s, dev: %s, device not exists! use default source (internal mic)", CAP_CARD_CID_PROPERTY, property);
+        }*/
+        return(ret == -1 ? 0 : 1);
+    } /*else {
+        LOGV("# property: %s, dev: %s, not a capture device! use default source (internal mic)", CAP_CARD_CID_PROPERTY, property);
+    }*/
+    return(0);
 }
 
 /* The enable flag when 0 makes the assumption that enums are disabled by
@@ -737,16 +497,7 @@ static void end_call(struct sun4i_audio_device *adev)
 
 static void set_eq_filter(struct sun4i_audio_device *adev)
 {
-    /* DL1_EQ can't be used for bt */
-    int dl1_eq_applicable = adev->devices & (AUDIO_DEVICE_OUT_WIRED_HEADSET |
-                    AUDIO_DEVICE_OUT_WIRED_HEADPHONE | AUDIO_DEVICE_OUT_EARPIECE);
-
-    /* 4Khz LPF is used only in NB-AMR voicecall */
-    if ((adev->mode == AUDIO_MODE_IN_CALL) && dl1_eq_applicable &&
-            (adev->tty_mode == TTY_MODE_OFF) && !adev->wb_amr)
-        mixer_ctl_set_enum_by_string(adev->mixer_ctls.dl1_eq, MIXER_4KHZ_LPF_0DB);
-    else
-        mixer_ctl_set_enum_by_string(adev->mixer_ctls.dl1_eq, MIXER_FLAT_RESPONSE);
+	return; /* not implemented */
 }
 
 void audio_set_wb_amr_callback(void *data, int enable)
@@ -807,40 +558,28 @@ static void set_input_volumes(struct sun4i_audio_device *adev, int main_mic_on,
                               int headset_mic_on, int sub_mic_on)
 {
     unsigned int channel;
-    int volume = MIXER_ABE_GAIN_0DB;
+    int volume = 0;
 
     if (adev->mode == AUDIO_MODE_IN_CALL) {
-        int sub_mic_volume = is_device_toro() ? VOICE_CALL_SUB_MIC_VOLUME_TORO :
-	                                        VOICE_CALL_SUB_MIC_VOLUME_MAGURO;
         /* special case: don't look at input source for IN_CALL state */
-        volume = DB_TO_ABE_GAIN(main_mic_on ? VOICE_CALL_MAIN_MIC_VOLUME :
-                (headset_mic_on ? VOICE_CALL_HEADSET_MIC_VOLUME :
-                (sub_mic_on ? sub_mic_volume : 0)));
+        volume = VOICE_CALL_MAIN_MIC_VOLUME;
     } else if (adev->active_input) {
         /* determine input volume by use case */
         switch (adev->active_input->source) {
         case AUDIO_SOURCE_MIC: /* general capture */
-            volume = DB_TO_ABE_GAIN(main_mic_on ? CAPTURE_MAIN_MIC_VOLUME :
-                    (headset_mic_on ? CAPTURE_HEADSET_MIC_VOLUME :
-                    (sub_mic_on ? CAPTURE_SUB_MIC_VOLUME : 0)));
+            volume = CAPTURE_MAIN_MIC_VOLUME;
             break;
 
         case AUDIO_SOURCE_CAMCORDER:
-            volume = DB_TO_ABE_GAIN(main_mic_on ? CAMCORDER_MAIN_MIC_VOLUME :
-                    (headset_mic_on ? CAMCORDER_HEADSET_MIC_VOLUME :
-                    (sub_mic_on ? CAMCORDER_SUB_MIC_VOLUME : 0)));
+            volume = CAMCORDER_MAIN_MIC_VOLUME;
             break;
 
         case AUDIO_SOURCE_VOICE_RECOGNITION:
-            volume = DB_TO_ABE_GAIN(main_mic_on ? VOICE_RECOGNITION_MAIN_MIC_VOLUME :
-                    (headset_mic_on ? VOICE_RECOGNITION_HEADSET_MIC_VOLUME :
-                    (sub_mic_on ? VOICE_RECOGNITION_SUB_MIC_VOLUME : 0)));
+            volume = VOICE_RECOGNITION_MAIN_MIC_VOLUME;
             break;
 
         case AUDIO_SOURCE_VOICE_COMMUNICATION: /* VoIP */
-            volume = DB_TO_ABE_GAIN(main_mic_on ? VOIP_MAIN_MIC_VOLUME :
-                    (headset_mic_on ? VOIP_HEADSET_MIC_VOLUME :
-                    (sub_mic_on ? VOIP_SUB_MIC_VOLUME : 0)));
+            volume = VOIP_MAIN_MIC_VOLUME;
             break;
 
         default:
@@ -848,9 +587,9 @@ static void set_input_volumes(struct sun4i_audio_device *adev, int main_mic_on,
             break;
         }
     }
-
-    for (channel = 0; channel < 2; channel++)
-        mixer_ctl_set_value(adev->mixer_ctls.amic_ul_volume, channel, volume);
+	/*LOGV("# set_input_volumes: volume: %u", volume);*/
+	mixer_ctl_set_value(adev->mixer_ctls.micl_vol, 0, volume);
+	mixer_ctl_set_value(adev->mixer_ctls.micr_vol, 0, volume);
 }
 
 static void set_output_volumes(struct sun4i_audio_device *adev, bool tty_volume)
@@ -859,69 +598,46 @@ static void set_output_volumes(struct sun4i_audio_device *adev, bool tty_volume)
     int speaker_volume;
     int headset_volume;
     int earpiece_volume;
-    bool toro = adev->device_is_toro;
+    bool a10 = adev->device_is_a10;
     int headphone_on = adev->devices & AUDIO_DEVICE_OUT_WIRED_HEADPHONE;
     int speaker_on = adev->devices & AUDIO_DEVICE_OUT_SPEAKER;
-    int speaker_volume_overrange = MIXER_ABE_GAIN_0DB;
-    int speaker_max_db =
-        DB_FROM_SPEAKER_VOLUME(mixer_ctl_get_range_max(adev->mixer_ctls.speaker_volume));
-    struct mixer_ctl *mixer_ctl_overrange = adev->mixer_ctls.mm_dl2_volume;
 
     if (adev->mode == AUDIO_MODE_IN_CALL) {
         /* Voice call */
-        speaker_volume = toro ? VOICE_CALL_SPEAKER_VOLUME_TORO :
-                                VOICE_CALL_SPEAKER_VOLUME_MAGURO;
-        headset_volume = toro ? VOICE_CALL_HEADSET_VOLUME_TORO :
-                                VOICE_CALL_HEADSET_VOLUME_MAGURO;
-        earpiece_volume = toro ? VOICE_CALL_EARPIECE_VOLUME_TORO :
-                                 VOICE_CALL_EARPIECE_VOLUME_MAGURO;
-        mixer_ctl_overrange = adev->mixer_ctls.vx_dl2_volume;
+        speaker_volume = VOICE_CALL_SPEAKER_VOLUME;
+        headset_volume = VOICE_CALL_HEADSET_VOLUME;
+        earpiece_volume = VOICE_CALL_EARPIECE_VOLUME;
     } else if (adev->mode == AUDIO_MODE_IN_COMMUNICATION) {
         /* VoIP */
-        speaker_volume = toro ? VOIP_SPEAKER_VOLUME_TORO :
-                                VOIP_SPEAKER_VOLUME_MAGURO;
-        headset_volume = toro ? VOIP_HEADSET_VOLUME_TORO :
-                                VOIP_HEADSET_VOLUME_MAGURO;
-        earpiece_volume = toro ? VOIP_EARPIECE_VOLUME_TORO :
-                                 VOIP_EARPIECE_VOLUME_MAGURO;
+        speaker_volume = VOIP_SPEAKER_VOLUME;
+        headset_volume = VOIP_HEADSET_VOLUME;
+        earpiece_volume = VOIP_EARPIECE_VOLUME;
     } else {
         /* Media */
-        speaker_volume = toro ? NORMAL_SPEAKER_VOLUME_TORO :
-                                NORMAL_SPEAKER_VOLUME_MAGURO;
+        speaker_volume = NORMAL_SPEAKER_VOLUME;
         if (headphone_on)
-            headset_volume = toro ? NORMAL_HEADPHONE_VOLUME_TORO :
-                                    NORMAL_HEADPHONE_VOLUME_MAGURO;
+            headset_volume = NORMAL_HEADPHONE_VOLUME;
         else
-            headset_volume = toro ? NORMAL_HEADSET_VOLUME_TORO :
-                                    NORMAL_HEADSET_VOLUME_MAGURO;
-        earpiece_volume = toro ? NORMAL_EARPIECE_VOLUME_TORO :
-                                 NORMAL_EARPIECE_VOLUME_MAGURO;
+            headset_volume = NORMAL_HEADSET_VOLUME;
+        earpiece_volume = NORMAL_EARPIECE_VOLUME;
     }
     if (tty_volume)
         headset_volume = HEADPHONE_VOLUME_TTY;
     else if (adev->mode == AUDIO_MODE_RINGTONE)
         headset_volume += RINGTONE_HEADSET_VOLUME_OFFSET;
 
-    /* If we have run out of range in the codec (analog) speaker volume,
-       we have to apply the remainder of the dB increase to the DL2
-       media/voice mixer volume, which is a digital gain */
-    if (speaker_volume > speaker_max_db) {
-        speaker_volume_overrange += (speaker_volume - speaker_max_db);
-        speaker_volume = speaker_max_db;
-    }
-
+/*
     for (channel = 0; channel < 2; channel++) {
         mixer_ctl_set_value(adev->mixer_ctls.speaker_volume, channel,
             DB_TO_SPEAKER_VOLUME(speaker_volume));
         mixer_ctl_set_value(adev->mixer_ctls.headset_volume, channel,
             DB_TO_HEADSET_VOLUME(headset_volume));
     }
-    if (speaker_on)
-        mixer_ctl_set_value(mixer_ctl_overrange, 0, speaker_volume_overrange);
-    else
-        mixer_ctl_set_value(mixer_ctl_overrange, 0, MIXER_ABE_GAIN_0DB);
     mixer_ctl_set_value(adev->mixer_ctls.earpiece_volume, 0,
         DB_TO_EARPIECE_VOLUME(earpiece_volume));
+*/
+    /*LOGV("# set_output_volumes: speaker volume: %u, headset_volume: %u, earpiece_volume: %u", speaker_volume, headset_volume, earpiece_volume);*/
+    mixer_ctl_set_value(adev->mixer_ctls.master_vol, 0, speaker_volume);
 }
 
 static void force_all_standby(struct sun4i_audio_device *adev)
@@ -993,20 +709,19 @@ static void select_output_device(struct sun4i_audio_device *adev)
     int speaker_on;
     int earpiece_on;
     int bt_on;
-    int dl1_on;
-    int sidetone_capture_on = 0;
     bool tty_volume = false;
     unsigned int channel;
 
     /* Mute VX_UL to avoid pop noises in the tx path
      * during call before switch changes.
      */
+/*
     if (adev->mode == AUDIO_MODE_IN_CALL) {
         for (channel = 0; channel < 2; channel++)
             mixer_ctl_set_value(adev->mixer_ctls.voice_ul_volume,
                                 channel, 0);
     }
-
+*/
     headset_on = adev->devices & AUDIO_DEVICE_OUT_WIRED_HEADSET;
     headphone_on = adev->devices & AUDIO_DEVICE_OUT_WIRED_HEADPHONE;
     speaker_on = adev->devices & AUDIO_DEVICE_OUT_SPEAKER;
@@ -1041,90 +756,47 @@ static void select_output_device(struct sun4i_audio_device *adev)
                 break;
         }
     }
-
-    dl1_on = headset_on | headphone_on | earpiece_on | bt_on;
-
-    /* Select front end */
-    mixer_ctl_set_value(adev->mixer_ctls.mm_dl2, 0, speaker_on);
-    mixer_ctl_set_value(adev->mixer_ctls.vx_dl2, 0,
-                        speaker_on && (adev->mode == AUDIO_MODE_IN_CALL));
-    mixer_ctl_set_value(adev->mixer_ctls.mm_dl1, 0, dl1_on);
-    mixer_ctl_set_value(adev->mixer_ctls.vx_dl1, 0,
-                        dl1_on && (adev->mode == AUDIO_MODE_IN_CALL));
-    /* Select back end */
-    mixer_ctl_set_value(adev->mixer_ctls.dl1_headset, 0,
-                        headset_on | headphone_on | earpiece_on);
-    mixer_ctl_set_value(adev->mixer_ctls.dl1_bt, 0, bt_on);
-    mixer_ctl_set_value(adev->mixer_ctls.dl2_mono, 0,
-                        (adev->mode != AUDIO_MODE_IN_CALL) && speaker_on);
-    mixer_ctl_set_value(adev->mixer_ctls.earpiece_enable, 0, earpiece_on);
-
-    /* select output stage */
-    set_route_by_array(adev->mixer, hs_output, headset_on | headphone_on);
-    set_route_by_array(adev->mixer, hf_output, speaker_on);
-
-    set_eq_filter(adev);
+	/*LOGV("# select_output_device: headset_on: %u, headphone_on: %u, speaker_on: %u, earpiece_on: %u, bt_on: %u, tty_volume: %u",
+	headset_on, headphone_on, speaker_on, earpiece_on, bt_on, tty_volume);*/
     set_output_volumes(adev, tty_volume);
 
     /* Special case: select input path if in a call, otherwise
        in_set_parameters is used to update the input route
        todo: use sub mic for handsfree case */
     if (adev->mode == AUDIO_MODE_IN_CALL) {
-        if (bt_on)
-            set_route_by_array(adev->mixer, vx_ul_bt, bt_on);
-        else {
-            /* force tx path according to TTY mode when in call */
-            switch(adev->tty_mode) {
-                case TTY_MODE_FULL:
-                case TTY_MODE_HCO:
-                    /* tx path from headset mic */
-                    headphone_on = 0;
-                    headset_on = 1;
-                    speaker_on = 0;
-                    earpiece_on = 0;
-                    break;
-                case TTY_MODE_VCO:
-                    /* tx path from device sub mic */
-                    headphone_on = 0;
-                    headset_on = 0;
-                    speaker_on = 1;
-                    earpiece_on = 0;
-                    break;
-                case TTY_MODE_OFF:
-                default:
-                    break;
-            }
+		/* force tx path according to TTY mode when in call */
+		switch(adev->tty_mode) {
+			case TTY_MODE_FULL:
+			case TTY_MODE_HCO:
+				/* tx path from headset mic */
+				headphone_on = 0;
+				headset_on = 1;
+				speaker_on = 0;
+				earpiece_on = 0;
+				break;
+			case TTY_MODE_VCO:
+				/* tx path from device sub mic */
+				headphone_on = 0;
+				headset_on = 0;
+				speaker_on = 1;
+				earpiece_on = 0;
+				break;
+			case TTY_MODE_OFF:
+			default:
+				break;
+		}
 
-            if (headset_on || headphone_on || earpiece_on)
-                set_route_by_array(adev->mixer, vx_ul_amic_left, 1);
-            else if (speaker_on)
-                set_route_by_array(adev->mixer, vx_ul_amic_right, 1);
-            else
-                set_route_by_array(adev->mixer, vx_ul_amic_left, 0);
-
-            mixer_ctl_set_enum_by_string(adev->mixer_ctls.left_capture,
-                                        (earpiece_on || headphone_on) ? MIXER_MAIN_MIC :
-                                        (headset_on ? MIXER_HS_MIC : "Off"));
-            mixer_ctl_set_enum_by_string(adev->mixer_ctls.right_capture,
-                                         speaker_on ? MIXER_SUB_MIC : "Off");
-
-            set_input_volumes(adev, earpiece_on || headphone_on,
-                              headset_on, speaker_on);
-
-            /* enable sidetone mixer capture if needed */
-            sidetone_capture_on = earpiece_on && adev->device_is_toro;
-        }
-
-        set_incall_device(adev);
-
-        /* Unmute VX_UL after the switch */
-        for (channel = 0; channel < 2; channel++) {
-            mixer_ctl_set_value(adev->mixer_ctls.voice_ul_volume,
-                                channel, MIXER_ABE_GAIN_0DB);
-        }
+		set_incall_device(adev);
+	
+		/* Unmute VX_UL after the switch */
+/*
+		for (channel = 0; channel < 2; channel++) {
+			mixer_ctl_set_value(adev->mixer_ctls.voice_ul_volume,
+								channel, MIXER_ABE_GAIN_0DB);
+		}
+*/
     }
-
-    mixer_ctl_set_value(adev->mixer_ctls.sidetone_capture, 0, sidetone_capture_on);
+//    mixer_ctl_set_value(adev->mixer_ctls.sidetone_capture, 0, sidetone_capture_on);
 }
 
 static void select_input_device(struct sun4i_audio_device *adev)
@@ -1150,32 +822,37 @@ static void select_input_device(struct sun4i_audio_device *adev)
    /* TODO: check how capture is possible during voice calls or if
     * both use cases are mutually exclusive.
     */
+/*
     if (bt_on)
         set_route_by_array(adev->mixer, mm_ul2_bt, 1);
     else {
+*/
         /* Select front end */
+/*
         if (main_mic_on || headset_on)
             set_route_by_array(adev->mixer, mm_ul2_amic_left, 1);
         else if (sub_mic_on)
             set_route_by_array(adev->mixer, mm_ul2_amic_right, 1);
         else
             set_route_by_array(adev->mixer, mm_ul2_amic_left, 0);
-
+*/
         /* Select back end */
+/*
         mixer_ctl_set_enum_by_string(adev->mixer_ctls.right_capture,
                                      sub_mic_on ? MIXER_SUB_MIC : "Off");
         mixer_ctl_set_enum_by_string(adev->mixer_ctls.left_capture,
                                      main_mic_on ? MIXER_MAIN_MIC :
                                      (headset_on ? MIXER_HS_MIC : "Off"));
     }
-
+*/
+	/*LOGV("# select_input_device: main_mic_on: %u, headset_on: %u, sub_mic_on: %u", main_mic_on, headset_on, sub_mic_on);*/
     set_input_volumes(adev, main_mic_on, headset_on, sub_mic_on);
 }
 
 /* must be called with hw device and output stream mutexes locked */
 static int start_output_stream(struct sun4i_stream_out *out)
 {
-    F_LOG;
+    // F_LOG;
     struct sun4i_audio_device *adev = out->dev;
     unsigned int card = CARD_DEFAULT;
     unsigned int port = PORT_MM;
@@ -1188,7 +865,7 @@ static int start_output_stream(struct sun4i_stream_out *out)
     }
     /* S/PDIF takes priority over HDMI audio. In the case of multiple
      * devices, this will cause use of S/PDIF or HDMI only */
-    out->config.rate = MM_FULL_POWER_SAMPLING_RATE;
+    out->config.rate = MM_48000_SAMPLING_RATE;
     if (adev->devices & AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET) {
         port = PORT_SPDIF;
         LOGV("### SPDIF audio out selected! Sampling rate: %d Hz", out->config.rate);
@@ -1196,21 +873,18 @@ static int start_output_stream(struct sun4i_stream_out *out)
     else if(adev->devices & AUDIO_DEVICE_OUT_AUX_DIGITAL) {
         card = CARD_A10_HDMI;
         port = PORT_HDMI;
-        out->config.rate = MM_LOW_POWER_SAMPLING_RATE;
+        out->config.rate = MM_44100_SAMPLING_RATE;
         LOGV("### HDMI audio out selected! Sampling rate: %d Hz", out->config.rate);
     }
     /* HACK: USB DAC output */
     else if(is_device_usb_dac()) {
     	char property[PROPERTY_VALUE_MAX];
         property_get(OUT_CARD_CID_PROPERTY, property, OUT_CARD_CID); 
-        // property value: pcmC[4]D[6]p
-        char *ptr;
-        ptr = property;
+        /* property value: pcmC[4]D[6]p */
     	card = property[4] - '0';
     	port = property[6] - '0';
-        LOGV("# card: %u, port: %u, type: %s", card, port, &ptr[7]);
-        /* Define preferred rate */        
-    	out->config.rate = MM_LOW_POWER_SAMPLING_RATE;
+    	/* init mixer controls, creative sb live doesn't work without it */
+    	adev->mixer = mixer_open(card);
         /* HW Info (failsafe check) */
         struct pcm_config config;
         struct pcm *pcm;
@@ -1222,6 +896,9 @@ static int start_output_stream(struct sun4i_stream_out *out)
     	}
         LOGV("# Supported Rates: (%uHz - %uHz)\n", config.rate_min, config.rate_max);
         LOGV("# Supported Channels: (%uCh - %uCh)\n", config.channels_min, config.channels_max);
+        /* Define preferred rate */                
+    	property_get(OUT_CARD_FREQ_PROPERTY, property, "44100"); 	
+    	out->config.rate = atoi(property);
         if (!(out->config.rate >= config.rate_min &&
                   out->config.rate <= config.rate_max)) {
             LOGV("# Requested %dHz using supported value %dHz\n",out->config.rate, config.rate_max);
@@ -1229,7 +906,7 @@ static int start_output_stream(struct sun4i_stream_out *out)
     	}
     	pcm_close(pcm);
         /* END of HW Info */
-        LOGV("### USB audio out selected! Sampling rate: %dHz", out->config.rate);
+        LOGV("### USB audio out selected! Channels: %dCh Sampling rate: %dHz", out->config.channels, out->config.rate);
     }
 exit:
     /* default to low power: will be corrected in out_write if necessary before first write to
@@ -1378,7 +1055,7 @@ static int get_playback_delay(struct sun4i_stream_out *out,
      * Add the duration of current frame as we want the render time of the last
      * sample being written. */
     buffer->delay_ns = (long)(((int64_t)(kernel_frames + frames)* 1000000000)/
-                            MM_FULL_POWER_SAMPLING_RATE);
+                            MM_48000_SAMPLING_RATE);
 
     return 0;
 }
@@ -1435,8 +1112,8 @@ static int do_output_standby(struct sun4i_stream_out *out)
         be done when the call is ended */
         if (adev->mode != AUDIO_MODE_IN_CALL) {
             /* FIXME: only works if only one output can be active at a time */
-            set_route_by_array(adev->mixer, hs_output, 0);
-            set_route_by_array(adev->mixer, hf_output, 0);
+//            set_route_by_array(adev->mixer, hs_output, 0);
+//            set_route_by_array(adev->mixer, hf_output, 0);
         }
 
         /* stop writing to echo reference */
@@ -1481,6 +1158,7 @@ static int out_set_parameters(struct audio_stream *stream, const char *kvpairs)
 
     parms = str_parms_create_str(kvpairs);
 
+	/* A10 HDMI output handling */
     ret = str_parms_get_str(parms, AUDIO_PARAMETER_STREAM_ROUTING, value, sizeof(value));
     if (ret >= 0) {
         val = atoi(value);
@@ -1585,7 +1263,8 @@ static ssize_t out_write(struct audio_stream_out *stream, const void* buffer,
     }
 
     /* only use resampler if required */
-    if (out->config.rate != DEFAULT_OUT_SAMPLING_RATE) {
+    if (out->config.rate != DEFAULT_OUT_SAMPLING_RATE/* && out->config.rate != 48000*/) {
+//    	LOGD("### out->resampler");
         out->resampler->resample_from_input(out->resampler,
                                             (int16_t *)buffer,
                                             &in_frames,
@@ -1616,7 +1295,7 @@ static ssize_t out_write(struct audio_stream_out *stream, const void* buffer,
         if (kernel_frames > out->write_threshold) {
             unsigned long time = (unsigned long)
                     (((int64_t)(kernel_frames - out->write_threshold) * 1000000) /
-                            MM_FULL_POWER_SAMPLING_RATE);
+                            MM_48000_SAMPLING_RATE);
             if (time < MIN_WRITE_SLEEP_US)
                 time = MIN_WRITE_SLEEP_US;
             usleep(time);
@@ -1668,11 +1347,11 @@ static int out_remove_audio_effect(const struct audio_stream *stream, effect_han
 /* must be called with hw device and input stream mutexes locked */
 static int start_input_stream(struct sun4i_stream_in *in)
 {
-	F_LOG;	
+	//F_LOG;	
     int ret = 0;
     struct sun4i_audio_device *adev = in->dev;
     unsigned int card = CARD_DEFAULT;
-    unsigned int port = PORT_MM2_UL;
+    unsigned int port = PORT_MM_UL;
     adev->active_input = in;
 
     if (adev->mode != AUDIO_MODE_IN_CALL) {
@@ -1690,13 +1369,12 @@ static int start_input_stream(struct sun4i_stream_in *in)
     if(is_device_usb_cap()) {
     	char property[PROPERTY_VALUE_MAX];
         property_get(CAP_CARD_CID_PROPERTY, property, CAP_CARD_CID); 
-        // property value: pcmC[4]D[6]c
-        char *ptr = property;
+        /* property value: pcmC[4]D[6]c */
     	card = property[4] - '0';
     	port = property[6] - '0';
-        LOGV("# card: %u, port: %u, type: %s", card, port, &ptr[7]);
-        /* Define preferred rate */        
-    	in->config.rate = MM_LOW_POWER_SAMPLING_RATE;
+    	/* init mixer controls, creative sb live doesn't work without it */
+    	adev->mixer = mixer_open(card);
+        LOGV("# card: %u, port: %u, type: capture", card, port);
         /* HW Info (failsafe check) */
         struct pcm_config config;
         struct pcm *pcm;
@@ -1708,24 +1386,24 @@ static int start_input_stream(struct sun4i_stream_in *in)
     	}
         LOGV("# Supported Rates: (%uHz - %uHz)\n", config.rate_min, config.rate_max);
         LOGV("# Supported Channels: (%uCh - %uCh)\n", config.channels_min, config.channels_max);
-/*
-        if (!(in->requested_rate >= config.rate_min &&
-                  in->requested_rate <= config.rate_max)) {
-            LOGV("# Requested %dHz using supported value %dHz\n",in->requested_rate, config.rate_max);
-            in->config.rate = config.rate_max;
+        /* Define preferred capture rate */
+    	property_get(CAP_CARD_FREQ_PROPERTY, property, "44100"); 	
+    	in->config.rate = atoi(property);
+        if (!(in->config.rate >= config.rate_min &&
+                  in->config.rate<= config.rate_max)) {
+            LOGV("# Requested %dHz, using supported value %dHz\n",in->config.rate, config.rate_min);
+            in->config.rate = config.rate_min;
     	}
-*/
         if (!(in->config.channels >= config.channels_min &&
                   in->config.channels <= config.channels_max)) {
-            LOGV("# Requested %dCh using supported value %dCh\n",in->config.channels, config.channels_max);
-            in->config.channels = config.channels_max;
+            LOGV("# Requested %dCh, using supported value %dCh\n",in->config.channels, config.channels_min);
+            in->config.channels = config.channels_min;
     	}
     	pcm_close(pcm);
         /* END of HW Info */
-        LOGV("### USB audio input selected! Channels: %dCh Req Rate: %dHz Rate: %dHz", in->config.channels, in->requested_rate, in->config.rate);
+        LOGV("### USB audio input selected! Channels: %dCh Req Rate: %dHz HW Rate: %dHz", in->config.channels, in->requested_rate, in->config.rate);
     }
-exit:
-	
+exit:	
     /* this assumes routing is done previously */
     in->pcm = pcm_open(card, port, PCM_IN, &in->config);
     if (!pcm_is_ready(in->pcm)) {
@@ -2050,8 +1728,8 @@ static int get_next_buffer(struct resampler_buffer_provider *buffer_provider,
         return -ENODEV;
     }
 
-	LOGV("get_next_buffer: in->config.period_size: %d, audio_stream_frame_size: %d", 
-		in->config.period_size, audio_stream_frame_size(&in->stream.common));
+//	LOGV("get_next_buffer: in->config.period_size: %d, audio_stream_frame_size: %d", 
+//		in->config.period_size, audio_stream_frame_size(&in->stream.common));
     if (in->frames_in == 0) {
         in->read_status = pcm_read(in->pcm,
                                    (void*)in->buffer,
@@ -2344,7 +2022,7 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
         return -ENOMEM;
 
     ret = create_resampler(DEFAULT_OUT_SAMPLING_RATE,
-                           MM_FULL_POWER_SAMPLING_RATE,
+                           MM_48000_SAMPLING_RATE,
                            2,
                            RESAMPLER_QUALITY_DEFAULT,
                            NULL,
@@ -2402,11 +2080,14 @@ static void adev_close_output_stream(struct audio_hw_device *dev,
     struct sun4i_stream_out *out = (struct sun4i_stream_out *)stream;
 
     out_standby(&stream->common);
+    
     if (out->buffer)
         free(out->buffer);
     if (out->resampler)
         release_resampler(out->resampler);
+    
     free(stream);
+    return;
 }
 
 static int adev_set_parameters(struct audio_hw_device *dev, const char *kvpairs)
@@ -2629,7 +2310,7 @@ static void adev_close_input_stream(struct audio_hw_device *dev,
     if (in->resampler) {
         release_resampler(in->resampler);
     }
-
+    
     free(stream);
     return;
 }
@@ -2707,85 +2388,74 @@ static int adev_open(const hw_module_t* module, const char* name,
     adev->hw_device.open_input_stream = adev_open_input_stream;
     adev->hw_device.close_input_stream = adev_close_input_stream;
     adev->hw_device.dump = adev_dump;
-	
-/*
-    adev->mixer = mixer_open(0);
+
+    /* init mixer controls for A10 */
+    adev->mixer = mixer_open(CARD_DEFAULT);
     if (!adev->mixer) {
         free(adev);
         LOGE("Unable to open the mixer, aborting.");
         return -EINVAL;
     }
+    adev->mixer_ctls.master_vol = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_MASTER_PLAYBACK_VOLUME);
+    adev->mixer_ctls.playback_sw = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_PLAYBACK_SWITCH);
+    adev->mixer_ctls.capture_vol = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_CAPTURE_VOLUME);
+    adev->mixer_ctls.fm_vol = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_FM_VOLUME);
+    adev->mixer_ctls.line_vol = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_LINE_VOLUME);
+    adev->mixer_ctls.micl_vol = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_MICL_VOLUME);
+    adev->mixer_ctls.micr_vol = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_MICR_VOLUME);
+    adev->mixer_ctls.fml_sw = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_FML_SWITCH);
+    adev->mixer_ctls.fmr_sw = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_FMR_SWITCH);
+    adev->mixer_ctls.linel_sw = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_LINEL_SWITCH);
+    adev->mixer_ctls.liner_sw = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_LINER_SWITCH);
+    adev->mixer_ctls.ldac_left = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_LDAC_LEFT_MIXER);
+    adev->mixer_ctls.rdac_right = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_RDAC_RIGHT_MIXER);
+    adev->mixer_ctls.ldac_right = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_LDAC_RIGHT_MIXER);
+    adev->mixer_ctls.mic_input_mux = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_MIC_INPUT_MUX);
+    adev->mixer_ctls.adc_input_mux = mixer_get_ctl_by_name(adev->mixer,
+                                           MIXER_ADC_INPUT_MUX);
 
-    adev->mixer_ctls.dl1_eq = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL1_EQUALIZER);
-    adev->mixer_ctls.mm_dl2_volume = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL2_MEDIA_PLAYBACK_VOLUME);
-    adev->mixer_ctls.vx_dl2_volume = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL2_VOICE_PLAYBACK_VOLUME);
-    adev->mixer_ctls.mm_dl1 = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL1_MIXER_MULTIMEDIA);
-    adev->mixer_ctls.vx_dl1 = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL1_MIXER_VOICE);
-    adev->mixer_ctls.mm_dl2 = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL2_MIXER_MULTIMEDIA);
-    adev->mixer_ctls.vx_dl2 = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL2_MIXER_VOICE);
-    adev->mixer_ctls.dl2_mono = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL2_MONO_MIXER);
-    adev->mixer_ctls.dl1_headset = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL1_PDM_SWITCH);
-    adev->mixer_ctls.dl1_bt = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_DL1_BT_VX_SWITCH);
-    adev->mixer_ctls.earpiece_enable = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_EARPHONE_ENABLE_SWITCH);
-    adev->mixer_ctls.left_capture = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_ANALOG_LEFT_CAPTURE_ROUTE);
-    adev->mixer_ctls.right_capture = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_ANALOG_RIGHT_CAPTURE_ROUTE);
-    adev->mixer_ctls.amic_ul_volume = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_AMIC_UL_VOLUME);
-    adev->mixer_ctls.voice_ul_volume = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_AUDUL_VOICE_UL_VOLUME);
-    adev->mixer_ctls.sidetone_capture = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_SIDETONE_MIXER_CAPTURE);
-    adev->mixer_ctls.headset_volume = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_HEADSET_PLAYBACK_VOLUME);
-    adev->mixer_ctls.speaker_volume = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_HANDSFREE_PLAYBACK_VOLUME);
-    adev->mixer_ctls.earpiece_volume = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_EARPHONE_PLAYBACK_VOLUME);
-
-    if (!adev->mixer_ctls.dl1_eq || !adev->mixer_ctls.vx_dl2_volume ||
-        !adev->mixer_ctls.mm_dl2_volume || !adev->mixer_ctls.mm_dl1 ||
-        !adev->mixer_ctls.vx_dl1 || !adev->mixer_ctls.mm_dl2 ||
-        !adev->mixer_ctls.vx_dl2 || !adev->mixer_ctls.dl2_mono ||
-        !adev->mixer_ctls.dl1_headset || !adev->mixer_ctls.dl1_bt ||
-        !adev->mixer_ctls.earpiece_enable || !adev->mixer_ctls.left_capture ||
-        !adev->mixer_ctls.right_capture || !adev->mixer_ctls.amic_ul_volume ||
-        !adev->mixer_ctls.voice_ul_volume || !adev->mixer_ctls.sidetone_capture ||
-        !adev->mixer_ctls.headset_volume || !adev->mixer_ctls.speaker_volume ||
-        !adev->mixer_ctls.earpiece_volume) {
+    if (!adev->mixer_ctls.master_vol || !adev->mixer_ctls.playback_sw ||
+        !adev->mixer_ctls.capture_vol || !adev->mixer_ctls.fm_vol ||
+        !adev->mixer_ctls.line_vol || !adev->mixer_ctls.micl_vol ||
+        !adev->mixer_ctls.micr_vol || !adev->mixer_ctls.fml_sw ||
+        !adev->mixer_ctls.fmr_sw || !adev->mixer_ctls.linel_sw ||
+        !adev->mixer_ctls.liner_sw || !adev->mixer_ctls.ldac_left ||
+        !adev->mixer_ctls.rdac_right || !adev->mixer_ctls.ldac_right ||
+        !adev->mixer_ctls.mic_input_mux || !adev->mixer_ctls.adc_input_mux) {
         mixer_close(adev->mixer);
         free(adev);
         LOGE("Unable to locate all mixer controls, aborting.");
-        LOGW("mixer value: %d %d\n %d %d\n %d %d\n %d %d\n %d %d\n %d %d\n %d %d\n %d %d\n %d %d\n %d\n",
-        !adev->mixer_ctls.dl1_eq, !adev->mixer_ctls.vx_dl2_volume,
-        !adev->mixer_ctls.mm_dl2_volume , !adev->mixer_ctls.mm_dl1 ,
-        !adev->mixer_ctls.vx_dl1 , !adev->mixer_ctls.mm_dl2 ,
-        !adev->mixer_ctls.vx_dl2 , !adev->mixer_ctls.dl2_mono ,
-        !adev->mixer_ctls.dl1_headset , !adev->mixer_ctls.dl1_bt ,
-        !adev->mixer_ctls.earpiece_enable , !adev->mixer_ctls.left_capture ,
-        !adev->mixer_ctls.right_capture , !adev->mixer_ctls.amic_ul_volume ,
-        !adev->mixer_ctls.voice_ul_volume , !adev->mixer_ctls.sidetone_capture ,
-        !adev->mixer_ctls.headset_volume , !adev->mixer_ctls.speaker_volume ,
-        !adev->mixer_ctls.earpiece_volume);
+        LOGW("mixer value: %d %d\n %d %d\n %d %d\n %d %d\n %d %d\n %d %d\n %d %d\n %d %d\n",
+        !adev->mixer_ctls.master_vol , !adev->mixer_ctls.playback_sw ,
+        !adev->mixer_ctls.capture_vol , !adev->mixer_ctls.fm_vol ,
+        !adev->mixer_ctls.line_vol , !adev->mixer_ctls.micl_vol ,
+        !adev->mixer_ctls.micr_vol , !adev->mixer_ctls.fml_sw ,
+        !adev->mixer_ctls.fmr_sw , !adev->mixer_ctls.linel_sw ,
+        !adev->mixer_ctls.liner_sw , !adev->mixer_ctls.ldac_left ,
+        !adev->mixer_ctls.rdac_right , !adev->mixer_ctls.ldac_right ,
+        !adev->mixer_ctls.mic_input_mux , !adev->mixer_ctls.adc_input_mux);
         
         return -EINVAL;
     }
-*/
 
     /* Set the default route before the PCM stream is opened */
     pthread_mutex_lock(&adev->lock);
+    /* Set initial mixer controls for A10 mixer */
     set_route_by_array(adev->mixer, defaults, 1);
     adev->mode = AUDIO_MODE_NORMAL;
     adev->devices = AUDIO_DEVICE_OUT_SPEAKER | AUDIO_DEVICE_IN_BUILTIN_MIC;
@@ -2795,7 +2465,7 @@ static int adev_open(const hw_module_t* module, const char* name,
     adev->pcm_modem_ul = NULL;
     adev->voice_volume = 1.0f;
     adev->tty_mode = TTY_MODE_OFF;
-    adev->device_is_toro = is_device_toro();
+    adev->device_is_a10 = is_device_a10();
     adev->bluetooth_nrec = true;
     adev->wb_amr = 0;
 
