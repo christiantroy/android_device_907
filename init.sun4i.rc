@@ -66,6 +66,7 @@ service u3gmonitor /system/bin/u3gmonitor
 	class main
 	user root
 	group root
+	disabled
  	oneshot
 
 service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
