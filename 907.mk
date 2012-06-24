@@ -118,8 +118,7 @@ PRODUCT_PACKAGES += \
 	Camera \
 	libjni_mosaic \
 	chat \
-	u3gmonitor \
-	devlistener
+	u3gmonitor
 
 # EXT4 Support
 PRODUCT_PACKAGES += \
