@@ -121,7 +121,8 @@ PRODUCT_PACKAGES += \
 	Camera \
 	libjni_mosaic \
 	chat \
-	u3gmonitor
+	u3gmonitor \
+	devlistener
 
 # CM9 apps
 PRODUCT_PACKAGES += \

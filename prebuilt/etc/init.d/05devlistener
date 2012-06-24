@@ -1,0 +1,6 @@
+#!/system/bin/sh
+#
+
+/system/bin/devlistener
+
+echo "done devlistener started"
