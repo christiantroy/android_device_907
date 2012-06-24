@@ -61,6 +61,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.media.enc.hprof.vid.bps=800000 \
 	persist.sys.use_dithering=0 \
 	persist.sys.purgeable_assets=0 \
+	windowsmgr.max_events_per_sec=240 \
 	view.touch_slop=2 \
 	view.minimum_fling_velocity=25 \
 	updateme.disableinstalledapps=1 \
