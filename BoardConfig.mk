@@ -48,6 +48,7 @@ BOARD_FLASH_BLOCK_SIZE := 4096
 BOARD_EGL_CFG := device/softwinner/907/egl.cfg
 USE_OPENGL_RENDERER := true
 BOARD_USE_SKIA_LCDTEXT := true
+ENABLE_WEBGL := true
 
 #Recovery Stuff
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/softwinner/907/recovery_keys.c
