@@ -1,0 +1,6 @@
+# hardware info
+ro.device.cpu=1.0 GHz AllWinner A10
+ro.device.gpu=ARM Mali 400
+ro.device.rear_cam=2 MP
+ro.device.front_cam=0.3 MP
+ro.device.screen_res=1024x768
