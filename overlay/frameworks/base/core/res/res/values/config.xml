@@ -35,10 +35,10 @@
     <bool name="config_enableLockScreenRotation">true</bool>
 
     <!-- Component name of the service providing network location support. -->
-    <string name="config_networkLocationProvider">com.google.android.location.NetworkLocationProvider</string>
+    <!-- string name="config_networkLocationProvider">com.google.android.location.NetworkLocationProvider</string -->
 
     <!-- Component name of the service providing geocoder API support. -->
-    <string name="config_geocodeProvider">com.google.android.location.GeocodeProvider</string>
+    <!-- string name="config_geocodeProvider">com.google.android.location.GeocodeProvider</string -->
 
     <!-- Flag indicating whether we should enable the automatic brightness in Settings.
          config_hardware_automatic_brightness_available is not set, so we will use software implementation -->
@@ -68,7 +68,7 @@
     <bool name="config_sms_capable">true</bool>
 
     <!-- True will enable the electron beam screen-off animation. -->
-    <bool name="config_screenOffAnimation">true</bool>
+    <!-- bool name="config_screenOffAnimation">true</bool -->
 
 <!-- Hardware 'face' keys present on the device, stored as a bit field.
 	         This integer should equal the sum of the corresponding value for each
@@ -80,5 +80,5 @@
 	            16 - App switch
 	         For example, a device with Home, Back and Menu keys would set this
 	         config to 7. -->
-	    <integer name="config_deviceHardwareKeys">2</integer>
+	    <!-- integer name="config_deviceHardwareKeys">2</integer -->
 </resources>

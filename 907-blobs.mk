@@ -54,6 +54,7 @@ PRODUCT_COPY_FILES += \
 	device/softwinner/907/prebuilt/lib/egl/libGLESv1_CM_mali.so:system/lib/egl/libGLESv1_CM_mali.so \
 	device/softwinner/907/prebuilt/lib/egl/libGLESv2_mali.so:system/lib/egl/libGLESv2_mali.so \
 	device/softwinner/907/prebuilt/lib/hw/camera.exDroid.so:system/lib/hw/camera.exDroid.so \
+	device/softwinner/907/prebuilt/lib/hw/gralloc.sun4i.so:system/lib/hw/gralloc.sun4i.so \
 	device/softwinner/907/prebuilt/lib/hw/sensors.exDroid.so:system/lib/hw/sensors.exDroid.so \
 	device/softwinner/907/prebuilt/lib/liballwinner-ril.so:system/lib/liballwinner-ril.so \
 	device/softwinner/907/prebuilt/lib/libMali.so:system/lib/libMali.so \
@@ -68,6 +69,14 @@ PRODUCT_COPY_FILES += \
 	device/softwinner/907/prebuilt/usr/idc/Goodix-TS-board-3.idc:system/usr/idc/Goodix-TS-board-3.idc \
 	device/softwinner/907/prebuilt/usr/keylayout/axp20-supplyer.kl:system/usr/keylayout/axp20-supplyer.kl \
 	device/softwinner/907/prebuilt/usr/keylayout/sun4i-keyboard.kl:system/usr/keylayout/sun4i-keyboard.kl
+
+# temporary prebuilt wpa_supplicant
+PRODUCT_COPY_FILES += \
+	device/softwinner/907/prebuilt/bin/hostapd:system/bin/hostapd \
+	device/softwinner/907/prebuilt/bin/hostapd_cli:system/bin/hostapd_cli \
+	device/softwinner/907/prebuilt/bin/wpa_supplicant:system/bin/wpa_supplicant \
+	device/softwinner/907/prebuilt/bin/wpa_cli:system/bin/wpa_cli \
+	device/softwinner/907/prebuilt/lib/libwpa_client.so:system/lib/libwpa_client.so
 
 # prebuilt kernel modules
 #PRODUCT_COPY_FILES += \

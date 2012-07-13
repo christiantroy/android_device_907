@@ -65,15 +65,13 @@ TARGET_BOOTANIMATION_PRELOAD := true
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/softwinner/907/releasetools/907_ota_from_target_files
 
 # Wifi stuff
-BOARD_WIFI_VENDOR := realtek
-ifeq ($(BOARD_WIFI_VENDOR), realtek)
-WPA_SUPPLICANT_VERSION := VER_0_8_X
-BOARD_WPA_SUPPLICANT_DRIVER := NL80211
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_rtl
-BOARD_HOSTAPD_DRIVER        := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB   := lib_driver_cmd_rtl
+#WPA_SUPPLICANT_VERSION := VER_0_8_X
+#BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+#BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_rtl
+#BOARD_HOSTAPD_DRIVER        := NL80211
+#BOARD_HOSTAPD_PRIVATE_LIB   := lib_driver_cmd_rtl
 
-BOARD_WLAN_DEVICE := rtl8192cu
+#BOARD_WLAN_DEVICE := rtl8192cu
 
 WIFI_DRIVER_MODULE_NAME   := 8192cu
 WIFI_DRIVER_MODULE_PATH   := "/system/lib/modules/8192cu.ko"
@@ -86,7 +84,6 @@ WIFI_DRIVER_FW_PATH_P2P   := ""
 WIFI_DRIVER_FW_PATH_PARAM := ""
 
 TARGET_CUSTOM_WIFI := ../../hardware/realtek/wlan/libhardware_legacy/wifi/wifi_realtek.c
-endif
 
 # Beware: set only prebuilt OR source+config
 TARGET_PREBUILT_KERNEL := device/softwinner/907/kernel
