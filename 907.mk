@@ -105,6 +105,7 @@ PRODUCT_PACKAGES += \
 
 # Hardware libs
 PRODUCT_PACKAGES += \
+	gralloc.sun4i \
 	display.sun4i \
 	hwcomposer.exDroid \
 	lights.sun4i \
@@ -112,11 +113,6 @@ PRODUCT_PACKAGES += \
 	audio.primary.exDroid \
 	audio.a2dp.default \
 	libaudioutils \
-	libcedarxbase \
-	libcedarxosal \
-	libcedarxsftdemux \
-	libcedarv \
-	libswdrm \
 	Camera \
 	libjni_mosaic \
 	chat \

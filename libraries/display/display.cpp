@@ -668,7 +668,7 @@ static int display_copyfb(struct display_device_t *dev,int srcfb_id,int srcfb_bu
     	ctx->mFD_fb[srcfb_id]			= open(node_src,O_RDWR,0);
     	if(ctx->mFD_fb[srcfb_id] <= 0)
     	{
-    		LOGE("open fb%d fail!\n",srcfb_id);
+    		ALOGE("open fb%d fail!\n",srcfb_id);
     		
     		ctx->mFD_fb[srcfb_id]		= 0;
     		
@@ -683,7 +683,7 @@ static int display_copyfb(struct display_device_t *dev,int srcfb_id,int srcfb_bu
     	ctx->mFD_fb[dstfb_id]			= open(node_dst,O_RDWR,0);
     	if(ctx->mFD_fb[dstfb_id] <= 0)
     	{
-    		LOGE("open fb%d fail!\n",dstfb_id);
+    		ALOGE("open fb%d fail!\n",dstfb_id);
     		
     		ctx->mFD_fb[dstfb_id]		= 0;
     		
@@ -696,7 +696,7 @@ static int display_copyfb(struct display_device_t *dev,int srcfb_id,int srcfb_bu
         ctx->mFD_mp                     = open("/dev/g2d", O_RDWR, 0);
         if(ctx->mFD_mp < 0)
         {
-            LOGE("open g2d driver fail!\n");
+            ALOGE("open g2d driver fail!\n");
     		
     		ctx->mFD_mp		= 0;
 
@@ -714,18 +714,18 @@ static int display_copyfb(struct display_device_t *dev,int srcfb_id,int srcfb_bu
     dst_width   = var_dst.xres;
     dst_height  = var_dst.yres;
     
-    //LOGD("src_width = %d\n",src_width);
-    //LOGD("src_height = %d\n",src_height);
-    //LOGD("dst_width = %d\n",dst_width);
-    //LOGD("dst_height = %d\n",dst_height);
+    //ALOGD("src_width = %d\n",src_width);
+    //ALOGD("src_height = %d\n",src_height);
+    //ALOGD("dst_width = %d\n",dst_width);
+    //ALOGD("dst_height = %d\n",dst_height);
     
 	addr_src = fix_src.smem_start + ((var_src.xres * (srcfb_bufno * var_src.yres) * var_src.bits_per_pixel) >> 3);
 	addr_dst = fix_dst.smem_start + ((var_dst.xres * (dstfb_bufno * var_dst.yres) * var_dst.bits_per_pixel) >> 3);
 	size = (var_src.xres * var_src.yres * var_src.bits_per_pixel) >> 3;//in byte unit
 	
-	//LOGD("addr_src = %x\n",addr_src);
-    //LOGD("addr_dst = %x\n",addr_dst);
-    //LOGD("size = %d\n",size);
+	//ALOGD("addr_src = %x\n",addr_src);
+    //ALOGD("addr_dst = %x\n",addr_dst);
+    //ALOGD("size = %d\n",size);
 	switch (var_src.bits_per_pixel) 
 	{			
     	case 16:
@@ -741,7 +741,7 @@ static int display_copyfb(struct display_device_t *dev,int srcfb_id,int srcfb_bu
     		break;
     		
     	default:
-    	    LOGE("invalid bits_per_pixel :%d\n", var_src.bits_per_pixel);
+    	    ALOGE("invalid bits_per_pixel :%d\n", var_src.bits_per_pixel);
     		return -1;
 	}
 
@@ -779,7 +779,7 @@ static int display_copyfb(struct display_device_t *dev,int srcfb_id,int srcfb_bu
     err = ioctl(ctx->mFD_mp , G2D_CMD_STRETCHBLT ,(unsigned long)&blit_para);				
     if(err < 0)		
     {    
-        LOGE("copy fb failed!\n");
+        ALOGE("copy fb failed!\n");
         
         return  -1;      
     }
@@ -833,7 +833,7 @@ static int display_copyfbsoft(struct display_device_t *dev,int srcfb_id,int srcf
     	ctx->mFD_fb[srcfb_id]			= open(node_src,O_RDWR,0);
     	if(ctx->mFD_fb[srcfb_id] <= 0)
     	{
-    		LOGE("open fb%d fail!\n",srcfb_id);
+    		ALOGE("open fb%d fail!\n",srcfb_id);
     		
     		ctx->mFD_fb[srcfb_id]		= 0;
     		
@@ -848,7 +848,7 @@ static int display_copyfbsoft(struct display_device_t *dev,int srcfb_id,int srcf
     	ctx->mFD_fb[dstfb_id]			= open(node_dst,O_RDWR,0);
     	if(ctx->mFD_fb[dstfb_id] <= 0)
     	{
-    		LOGE("open fb%d fail!\n",dstfb_id);
+    		ALOGE("open fb%d fail!\n",dstfb_id);
     		
     		ctx->mFD_fb[dstfb_id]		= 0;
     		
@@ -866,18 +866,18 @@ static int display_copyfbsoft(struct display_device_t *dev,int srcfb_id,int srcf
     dst_width   = var_dst.xres;
     dst_height  = var_dst.yres;
     
-    //LOGD("src_width = %d\n",src_width);
-    //LOGD("src_height = %d\n",src_height);
-    //LOGD("dst_width = %d\n",dst_width);
-    //LOGD("dst_height = %d\n",dst_height);
+    //ALOGD("src_width = %d\n",src_width);
+    //ALOGD("src_height = %d\n",src_height);
+    //ALOGD("dst_width = %d\n",dst_width);
+    //ALOGD("dst_height = %d\n",dst_height);
     
 	addr_src = fix_src.smem_start + ((var_src.xres * (srcfb_bufno * var_src.yres) * var_src.bits_per_pixel) >> 3);
 	addr_dst = fix_dst.smem_start + ((var_dst.xres * (dstfb_bufno * var_dst.yres) * var_dst.bits_per_pixel) >> 3);
 	size = (var_src.xres * var_src.yres * var_src.bits_per_pixel) >> 3;//in byte unit
 	
-	//LOGD("addr_src = %x\n",addr_src);
-    //LOGD("addr_dst = %x\n",addr_dst);
-    //LOGD("size = %d\n",size);
+	//ALOGD("addr_src = %x\n",addr_src);
+    //ALOGD("addr_dst = %x\n",addr_dst);
+    //ALOGD("size = %d\n",size);
 	switch (var_src.bits_per_pixel) 
 	{			
     	case 16:
@@ -893,7 +893,7 @@ static int display_copyfbsoft(struct display_device_t *dev,int srcfb_id,int srcf
     		break;
     		
     	default:
-    	    LOGE("invalid bits_per_pixel :%d\n", var_src.bits_per_pixel);
+    	    ALOGE("invalid bits_per_pixel :%d\n", var_src.bits_per_pixel);
     		return -1;
 	}
 
@@ -930,7 +930,7 @@ static int display_copyfbsoft(struct display_device_t *dev,int srcfb_id,int srcf
     err = ioctl(ctx->mFD_mp , G2D_CMD_STRETCHBLT ,(unsigned long)&blit_para);			
     if(err < 0)		
     {    
-        LOGE("copy fb failed!\n");
+        ALOGE("copy fb failed!\n");
         
         return  -1;      
     }
@@ -969,7 +969,7 @@ static int display_pandisplay(struct display_device_t *dev,int fb_id,int bufno)
     	ctx->mFD_fb[fb_id]			= open(node,O_RDWR,0);
     	if(ctx->mFD_fb[fb_id] <= 0)
     	{
-    		LOGE("open fb%d fail!\n",fb_id);
+    		ALOGE("open fb%d fail!\n",fb_id);
     		
     		ctx->mFD_fb[fb_id]		= 0;
     		
@@ -979,7 +979,7 @@ static int display_pandisplay(struct display_device_t *dev,int fb_id,int bufno)
 		
 	ioctl(ctx->mFD_fb[fb_id],FBIOGET_VSCREENINFO,&var);
 	var.yoffset = bufno * var.yres;
-	//LOGD("fb_id = %d,var.yoffset = %d\n",fb_id,var.yoffset);
+	//ALOGD("fb_id = %d,var.yoffset = %d\n",fb_id,var.yoffset);
 	ioctl(ctx->mFD_fb[fb_id],FBIOPAN_DISPLAY,&var);
 
     return 0;
@@ -1460,7 +1460,7 @@ static int  display_releasefb(struct display_context_t* ctx,int fb_id)
     	ctx->mFD_fb[fb_id]			= open(node,O_RDWR,0);
     	if(ctx->mFD_fb[fb_id] <= 0)
     	{
-    		LOGE("open fb%d fail!\n",fb_id);
+    		ALOGE("open fb%d fail!\n",fb_id);
     		
     		ctx->mFD_fb[fb_id]		= 0;
     		
@@ -1521,7 +1521,7 @@ static int  display_requestfb(struct display_context_t* ctx,int fb_id,struct dis
     	ctx->mFD_fb[fb_id]			= open(node,O_RDWR,0);
     	if(ctx->mFD_fb[fb_id] <= 0)
     	{
-    		LOGE("open fb%d fail!\n",fb_id);
+    		ALOGE("open fb%d fail!\n",fb_id);
     		
     		ctx->mFD_fb[fb_id]		= 0;
     		
@@ -1529,7 +1529,7 @@ static int  display_requestfb(struct display_context_t* ctx,int fb_id,struct dis
     	}
 	}
 	
-	LOGD("ctx->mFD_fb[fb_id] = %x\n",ctx->mFD_fb[fb_id]);
+	ALOGD("ctx->mFD_fb[fb_id] = %x\n",ctx->mFD_fb[fb_id]);
 
 	if(displaypara->format == HAL_PIXEL_FORMAT_RGBX_8888)
 	{
@@ -1601,22 +1601,22 @@ static int  display_requestfb(struct display_context_t* ctx,int fb_id,struct dis
     ret = ioctl(ctx->mFD_disp,DISP_CMD_FB_REQUEST,(unsigned long)arg);
     if(ret != 0)
     {
-        LOGD("request fb fail\n");
+        ALOGD("request fb fail\n");
         
         return -1;
     }
     
-    //LOGD("request framebuffer success!\n");
-	//LOGD("displaypara->width = %x\n",displaypara->width);
-	//LOGD("displaypara->height = %x\n",displaypara->height);
-	//LOGD("red_size = %x\n",red_size);
-	//LOGD("green_size = %x\n",green_size);
-	//LOGD("blue_size = %x\n",blue_size);
-	//LOGD("red_offset = %x\n",red_offset);
-	//LOGD("green_offset = %x\n",green_offset);
-	//LOGD("blue_offset = %x\n",blue_offset);
-	//LOGD("rdisplaypara->format = %x\n",displaypara->format);
-	//LOGD("green_size = %x\n",green_size);
+    //ALOGD("request framebuffer success!\n");
+	//ALOGD("displaypara->width = %x\n",displaypara->width);
+	//ALOGD("displaypara->height = %x\n",displaypara->height);
+	//ALOGD("red_size = %x\n",red_size);
+	//ALOGD("green_size = %x\n",green_size);
+	//ALOGD("blue_size = %x\n",blue_size);
+	//ALOGD("red_offset = %x\n",red_offset);
+	//ALOGD("green_offset = %x\n",green_offset);
+	//ALOGD("blue_offset = %x\n",blue_offset);
+	//ALOGD("rdisplaypara->format = %x\n",displaypara->format);
+	//ALOGD("green_size = %x\n",green_size);
     ioctl(ctx->mFD_fb[fb_id],FBIOGET_FSCREENINFO,&fix);
     ioctl(ctx->mFD_fb[fb_id],FBIOGET_VSCREENINFO,&var);
     var.xoffset				= 0;
@@ -1656,7 +1656,7 @@ static int  display_requestfb(struct display_context_t* ctx,int fb_id,struct dis
 		scn_rect.width		= displaypara->valid_width;
 		scn_rect.height		= displaypara->valid_height;
 		
-		LOGD("scn_rect.width = %d,scn_rect.height = %d,screen = %d,fb_layer_hdl = %d,fb_id = %d\n",scn_rect.width,scn_rect.height,screen,fb_layer_hdl,fb_id);
+		ALOGD("scn_rect.width = %d,scn_rect.height = %d,screen = %d,fb_layer_hdl = %d,fb_id = %d\n",scn_rect.width,scn_rect.height,screen,fb_layer_hdl,fb_id);
 		
 		arg[0] 				= screen;
 	    arg[1] 				= fb_layer_hdl;
@@ -1741,7 +1741,7 @@ static int  display_setfbrect(struct display_context_t* ctx,int displayno,int fb
     	ctx->mFD_fb[fb_id]			= open(node,O_RDWR,0);
     	if(ctx->mFD_fb[fb_id] <= 0)
     	{
-    		LOGE("open fb%d fail!\n",fb_id);
+    		ALOGE("open fb%d fail!\n",fb_id);
     		
     		ctx->mFD_fb[fb_id]		= 0;
     		
@@ -1749,7 +1749,7 @@ static int  display_setfbrect(struct display_context_t* ctx,int displayno,int fb
     	}
 	}
 	
-	LOGD("ctx->mFD_fb[fb_id] = %x\n",ctx->mFD_fb[fb_id]);
+	ALOGD("ctx->mFD_fb[fb_id] = %x\n",ctx->mFD_fb[fb_id]);
     
     if(displayno == 1)
     {
@@ -1765,7 +1765,7 @@ static int  display_setfbrect(struct display_context_t* ctx,int displayno,int fb
 	scn_rect.width			= width;
 	scn_rect.height			= height;
 	
-	LOGD("scn_rect.width = %d,scn_rect.height = %d,screen = %d,fb_layer_hdl = %d,fb_id = %d\n",scn_rect.width,scn_rect.height,displayno,fb_layer_hdl,fb_id);
+	ALOGD("scn_rect.width = %d,scn_rect.height = %d,screen = %d,fb_layer_hdl = %d,fb_id = %d\n",scn_rect.width,scn_rect.height,displayno,fb_layer_hdl,fb_id);
 	
 	arg[0] 					= displayno;
     arg[1] 					= fb_layer_hdl;
@@ -1970,7 +1970,7 @@ static int display_getdisplaybufid(struct display_device_t *dev, int displayno)
     	ctx->mFD_fb[fbid]			= open(node_src,O_RDWR,0);
     	if(ctx->mFD_fb[fbid] <= 0)
     	{
-    		LOGE("open fb%d fail!\n",fbid);
+    		ALOGE("open fb%d fail!\n",fbid);
     		
     		ctx->mFD_fb[fbid]		= 0;
 
@@ -2072,13 +2072,13 @@ static int display_singlechangemode(struct display_device_t *dev,int displayno,i
         tvformat = get_tvformat(value1);
     	if(tvformat == -1)
     	{
-    		LOGE("Invalid TV Format!\n");
+    		ALOGE("Invalid TV Format!\n");
     		
     		return  -1;
     	}
     }
 
-	LOGD("value0 = %d,g_display[displayno].type = %d\n",value0,g_display[displayno].type);
+	ALOGD("value0 = %d,g_display[displayno].type = %d\n",value0,g_display[displayno].type);
     
     if((value0 != (int)g_display[displayno].type)
       ||((value0 == (int)g_display[displayno].type) && (value1 != (int)g_display[displayno].tvformat)))
@@ -2112,8 +2112,8 @@ static int display_singlechangemode(struct display_device_t *dev,int displayno,i
         
         display_requestfb(ctx,g_display[displayno].fb_id,&para);
         
-        LOGD("para.width = %d\n",para.width);
-        LOGD("para.height = %d\n",para.height);
+        ALOGD("para.width = %d\n",para.width);
+        ALOGD("para.height = %d\n",para.height);
 
         g_display[displayno].tvformat       = value1;
         g_display[displayno].width          = para.width;
@@ -2189,7 +2189,7 @@ static int display_dualdiffchangemode(struct display_device_t *dev,int displayno
         tvformat = get_tvformat(value1);
     	if(tvformat == -1)
     	{
-    		LOGE("Invalid TV Format!\n");
+    		ALOGE("Invalid TV Format!\n");
     		
     		return  -1;
     	}
@@ -2282,7 +2282,7 @@ static int display_dualsamechangemode(struct display_device_t *dev,int displayno
             tvformat = get_tvformat(value1);
         	if(tvformat == -1)
         	{
-        		LOGE("Invalid TV Format!\n");
+        		ALOGE("Invalid TV Format!\n");
 
         		return  -1;
         	}
@@ -2344,7 +2344,7 @@ static int display_dualsamechangemode(struct display_device_t *dev,int displayno
             tvformat = get_tvformat(value1);
         	if(tvformat == -1)
         	{
-        		LOGE("Invalid TV Format!\n");
+        		ALOGE("Invalid TV Format!\n");
                 
         		return  -1;
         	}
@@ -2448,7 +2448,7 @@ static int display_changemode(struct display_device_t *dev,int displayno,int val
     {
     	if(ctx->mFD_disp == 0)
     	{
-    		LOGE("Couldn't find display fb!\n");
+    		ALOGE("Couldn't find display fb!\n");
     		
     		return  -1;
     	}
@@ -2472,7 +2472,7 @@ static int display_changemode(struct display_device_t *dev,int displayno,int val
          
          if(g_display[displayno].type == DISPLAY_DEVICE_NONE || value0 == DISPLAY_DEVICE_NONE)
          {
-            LOGE("change output mode from DISPLAY_DEVICE_NONE or to DISPLAY_DEVICE_NONE not support!\n");
+            ALOGE("change output mode from DISPLAY_DEVICE_NONE or to DISPLAY_DEVICE_NONE not support!\n");
 
             pthread_mutex_unlock(&mode_lock);
             return  -1;
@@ -2536,7 +2536,7 @@ static int display_setparameter(struct display_device_t *dev, int displayno, int
     {
         if(value0 == DISPLAY_DEVICE_NONE)
         {
-            LOGE("input type error!\n");
+            ALOGE("input type error!\n");
             
             return -1;
         }
@@ -2546,7 +2546,7 @@ static int display_setparameter(struct display_device_t *dev, int displayno, int
             tvformat = get_tvformat(value1);
     		if(tvformat == -1)
     		{
-    			LOGE("Invalid TV Format!\n");
+    			ALOGE("Invalid TV Format!\n");
 
     			return  -1;
     		}
@@ -2608,7 +2608,7 @@ static int display_getparameter(struct display_device_t *dev, int displayno, int
     
 	if(displayno < 0 || displayno > MAX_DISPLAY_NUM)
 	{
-        LOGE("Invalid Display No!\n");
+        ALOGE("Invalid Display No!\n");
 
         return  -1;
     }
@@ -2625,7 +2625,7 @@ static int display_getparameter(struct display_device_t *dev, int displayno, int
         case   DISPLAY_OUTPUT_ISOPEN:           return  g_display[displayno].isopen;
         case   DISPLAY_OUTPUT_HOTPLUG:          return  g_display[displayno].hotplug;
         default:
-            LOGE("Invalid Display Parameter!\n");
+            ALOGE("Invalid Display Parameter!\n");
 
             return  -1;
     }
@@ -2655,13 +2655,13 @@ static int display_releasemode(struct display_device_t *dev,int mode)
     int                         outputtype0;
     int                         outputtype1;
 
-	//LOGD("g_displaymode = %d\n",g_displaymode);
+	//ALOGD("g_displaymode = %d\n",g_displaymode);
     /*先释放该模式拥有的资源*/
     if(g_displaymode == DISPLAY_MODE_SINGLE)
     {
         outputtype0 = display_getoutputtype(dev,g_masterdisplay);
         
-        //LOGD("outputtype0 = %d,g_masterdisplay = %d,g_display[g_masterdisplay].fb_id = %d\n",outputtype0,g_masterdisplay,g_display[g_masterdisplay].fb_id);
+        //ALOGD("outputtype0 = %d,g_masterdisplay = %d,g_display[g_masterdisplay].fb_id = %d\n",outputtype0,g_masterdisplay,g_display[g_masterdisplay].fb_id);
             
         display_off(ctx,g_masterdisplay,outputtype0);
             
@@ -2737,7 +2737,7 @@ static int display_requestsingle(struct display_device_t *dev)
         tvformat = get_tvformat(g_display[g_masterdisplay].tvformat);
         if(tvformat == -1)
         {
-            LOGE("Invalid TV Format!\n");
+            ALOGE("Invalid TV Format!\n");
 
             return  -1;
         } 
@@ -2881,7 +2881,7 @@ static int display_requestdualdiff(struct display_device_t *dev)
             tvformat = get_tvformat(g_display[i].tvformat);
             if(tvformat == -1)
             {
-                LOGE("Invalid TV Format!\n");
+                ALOGE("Invalid TV Format!\n");
 
                 return  -1;
             }
@@ -2980,7 +2980,7 @@ static int display_requestdualsame(struct display_device_t *dev)
             tvformat = get_tvformat(g_display[i].tvformat);
             if(tvformat == -1)
             {
-                LOGE("Invalid TV Format!\n");
+                ALOGE("Invalid TV Format!\n");
 
                 return  -1;
             }
@@ -3121,7 +3121,7 @@ static int display_singleswitchtosame(struct display_device_t *dev,int mode,bool
     
     if(masterchange == false)
     {
-    	LOGD("g_display[1 - g_masterdisplay].type = %d\n",g_display[1 - g_masterdisplay].type);
+    	ALOGD("g_display[1 - g_masterdisplay].type = %d\n",g_display[1 - g_masterdisplay].type);
     	if(g_display[1 - g_masterdisplay].type == DISPLAY_DEVICE_LCD)
 	    {
 	        if(g_masterdisplay == 0)
@@ -3158,12 +3158,12 @@ static int display_singleswitchtosame(struct display_device_t *dev,int mode,bool
 	        tvformat = get_tvformat(g_display[1 - g_masterdisplay].tvformat);
 	        if(tvformat == -1)
 	        {
-	            LOGE("Invalid TV Format!\n");
+	            ALOGE("Invalid TV Format!\n");
 	
 	            return  -1;
 	        }
 	        
-	        LOGD("tvformat = %d\n",tvformat);
+	        ALOGD("tvformat = %d\n",tvformat);
 	
 	        if(g_masterdisplay == 0)
 	        {
@@ -3189,13 +3189,13 @@ static int display_singleswitchtosame(struct display_device_t *dev,int mode,bool
 	        //para.width       		= 1280;
             para.layer_mode     	= DISP_LAYER_WORK_MODE_SCALER;
 
-			LOGD("para.fb_mode = %d\n",para.fb_mode);
-			LOGD("para.format = %d\n",para.format);
-			LOGD("para.output_height = %d\n",para.output_height);
-			LOGD("para.output_width = %d\n",para.output_width);
-			LOGD("para.width = %d\n",para.width);
-			LOGD("para.height = %d\n",para.height);
-			LOGD("tvformat = %d\n",tvformat);
+			ALOGD("para.fb_mode = %d\n",para.fb_mode);
+			ALOGD("para.format = %d\n",para.format);
+			ALOGD("para.output_height = %d\n",para.output_height);
+			ALOGD("para.output_width = %d\n",para.output_width);
+			ALOGD("para.width = %d\n",para.width);
+			ALOGD("para.height = %d\n",para.height);
+			ALOGD("tvformat = %d\n",tvformat);
             display_requestfb(ctx,1,&para);
 	        g_display[1 - g_masterdisplay].fb_id	      = 1;
 	        g_display[1 - g_masterdisplay].isopen         = DISPLAY_TRUE;
@@ -3203,9 +3203,9 @@ static int display_singleswitchtosame(struct display_device_t *dev,int mode,bool
 	        g_display[1 - g_masterdisplay].fb_width       = para.width;
 	        g_display[1 - g_masterdisplay].hotplug        = display_gethotplug(dev,1 - g_masterdisplay);
 	        bufid = display_getdisplaybufid(dev,g_masterdisplay);
-	    	LOGD("bufid = %d\n",bufid);
-			LOGD("g_display[g_masterdisplay].fb_id = %d\n",g_display[g_masterdisplay].fb_id);
-			LOGD("g_display[1 - g_masterdisplay].fb_id = %d\n",g_display[1 - g_masterdisplay].fb_id);
+	    	ALOGD("bufid = %d\n",bufid);
+			ALOGD("g_display[g_masterdisplay].fb_id = %d\n",g_display[g_masterdisplay].fb_id);
+			ALOGD("g_display[1 - g_masterdisplay].fb_id = %d\n",g_display[1 - g_masterdisplay].fb_id);
 	        display_output(ctx,1 - g_masterdisplay,g_display[1 - g_masterdisplay].type,tvformat);
 	        display_copyfb(dev,g_display[g_masterdisplay].fb_id,bufid,g_display[1 - g_masterdisplay].fb_id,0);
 	    	display_pandisplay(dev,g_display[1 - g_masterdisplay].fb_id,0);
@@ -3215,16 +3215,16 @@ static int display_singleswitchtosame(struct display_device_t *dev,int mode,bool
     }
     else
     {
-    	LOGD("display_releasemode1!\n");
+    	ALOGD("display_releasemode1!\n");
         /*先为释放原有模式的资源*/
         display_releasemode(dev,mode);
         
-        LOGD("display_releasemode2!\n");
+        ALOGD("display_releasemode2!\n");
 
         /*再为新设置的模式申请资源*/
         display_requestmode(dev,mode);
         
-        LOGD("display_requestmode!\n");
+        ALOGD("display_requestmode!\n");
     }
     
     return  0;
@@ -3248,16 +3248,16 @@ static int display_sameswitchtosingle(struct display_device_t *dev,int mode,bool
     }
     else
     {
-    	LOGD("display_releasemode1!\n");
+    	ALOGD("display_releasemode1!\n");
         /*先为释放原有模式的资源*/
         display_releasemode(dev,mode);
         
-        LOGD("display_releasemode2!\n");
+        ALOGD("display_releasemode2!\n");
 
         /*再为新设置的模式申请资源*/
         display_requestmode(dev,mode);
         
-        LOGD("display_requestmode!\n");
+        ALOGD("display_requestmode!\n");
     }
     
     return  0;	
@@ -3294,21 +3294,21 @@ static int display_setmode(struct display_device_t *dev,int mode,struct display_
     {
     	if(para->d0type == DISPLAY_DEVICE_NONE || para->d1type == DISPLAY_DEVICE_NONE)
         {
-            LOGE("input type error!\n");
+            ALOGE("input type error!\n");
             
             pthread_mutex_unlock(&mode_lock);
              
             return -1;
         }
 
-        LOGD("para->d0format = %d,para->d0type = %d\n",para->d0format,para->d0type);
+        ALOGD("para->d0format = %d,para->d0type = %d\n",para->d0format,para->d0type);
 
         if(para->d0type != DISPLAY_DEVICE_LCD)
         {
             tvformat = get_tvformat(para->d0format);
     		if(tvformat == -1)
     		{
-    			LOGE("Invalid TV Format!\n");
+    			ALOGE("Invalid TV Format!\n");
 
 				pthread_mutex_unlock(&mode_lock);
 				
@@ -3338,7 +3338,7 @@ static int display_setmode(struct display_device_t *dev,int mode,struct display_
             tvformat = get_tvformat(para->d1format);
     		if(tvformat == -1)
     		{
-    			LOGE("Invalid TV Format!\n");
+    			ALOGE("Invalid TV Format!\n");
 
 				pthread_mutex_unlock(&mode_lock);
 				
@@ -3371,7 +3371,7 @@ static int display_setmode(struct display_device_t *dev,int mode,struct display_
     		masterchange = true;
     	}
     	
-    	//LOGD("g_displaymode1 = %d,mode = %d\n",g_displaymode,mode);
+    	//ALOGD("g_displaymode1 = %d,mode = %d\n",g_displaymode,mode);
     	
     	if((g_displaymode == DISPLAY_MODE_SINGLE) && (mode == DISPLAY_MODE_DUALSAME))
     	{
@@ -3386,16 +3386,16 @@ static int display_setmode(struct display_device_t *dev,int mode,struct display_
     	else
     	{
             g_displaymode = mode;
-	    	//LOGD("display_releasemode1!\n");
+	    	//ALOGD("display_releasemode1!\n");
 	        /*先为释放原有模式的资源*/
 	        display_releasemode(dev,mode);
 	        
-	        //LOGD("display_releasemode2!\n");
+	        //ALOGD("display_releasemode2!\n");
 	
 	        /*再为新设置的模式申请资源*/
 	        display_requestmode(dev,mode);
 	        
-	        //LOGD("display_requestmode!\n");
+	        //ALOGD("display_requestmode!\n");
     	}
         
         pthread_mutex_unlock(&mode_lock);
@@ -3441,7 +3441,7 @@ static int display_singlesetmaster(struct display_device_t *dev,int master)
 
         if(g_display[g_masterdisplay].type == DISPLAY_DEVICE_NONE || value0 == DISPLAY_DEVICE_NONE)
         {
-            LOGE("change output mode from DISPLAY_DEVICE_NONE or to DISPLAY_DEVICE_NONE not support!\n");
+            ALOGE("change output mode from DISPLAY_DEVICE_NONE or to DISPLAY_DEVICE_NONE not support!\n");
 
             return  -1;
         }
@@ -3482,7 +3482,7 @@ static int display_singlesetmaster(struct display_device_t *dev,int master)
             tvformat = get_tvformat(value1);
 			if(tvformat == -1)
 			{
-				LOGE("Invalid TV Format!\n");
+				ALOGE("Invalid TV Format!\n");
 				
 				return  -1;
 			}
@@ -3592,7 +3592,7 @@ static int display_dualsamesetmaster(struct display_device_t *dev,int master)
 
         if(g_display[g_masterdisplay].type == DISPLAY_DEVICE_NONE || value0 == DISPLAY_DEVICE_NONE)
         {
-            LOGE("change output mode from DISPLAY_DEVICE_NONE or to DISPLAY_DEVICE_NONE not support!\n");
+            ALOGE("change output mode from DISPLAY_DEVICE_NONE or to DISPLAY_DEVICE_NONE not support!\n");
 
             return  -1;
         }
@@ -3633,7 +3633,7 @@ static int display_dualsamesetmaster(struct display_device_t *dev,int master)
             tvformat = get_tvformat(value1);
 			if(tvformat == -1)
 			{
-				LOGE("Invalid TV Format!\n");
+				ALOGE("Invalid TV Format!\n");
 				
 				return  -1;
 			}
@@ -3681,7 +3681,7 @@ static int display_dualsamesetmaster(struct display_device_t *dev,int master)
             tvformat = get_tvformat(value1);
 			if(tvformat == -1)
 			{
-				LOGE("Invalid TV Format!\n");
+				ALOGE("Invalid TV Format!\n");
 				
 				return  -1;
 			}
@@ -3989,13 +3989,13 @@ static int open_display(const struct hw_module_t* module, const char* name,
     ctx->device.getdisplaymode		= display_getdisplaymode;
     ctx->device.gethdmimaxmode		= display_gethdmimaxmode;
 
-    //LOGD("start open_display!\n");
+    //ALOGD("start open_display!\n");
     ctx->mFD_disp = open("/dev/disp", O_RDWR, 0);
-    LOGD("start open_display!ctx->mFD_disp = %x\n",ctx->mFD_disp);
+    ALOGD("start open_display!ctx->mFD_disp = %x\n",ctx->mFD_disp);
     if (ctx->mFD_disp < 0) 
     {
         status = errno;
-        LOGE("Error opening frame buffer errno=%d (%s)",
+        ALOGE("Error opening frame buffer errno=%d (%s)",
              status, strerror(status));
         status = -status;
     } 

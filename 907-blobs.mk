@@ -12,11 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Update Me
-PRODUCT_COPY_FILES += \
-	device/softwinner/907/prebuilt/app/UpdateMe.apk:system/app/UpdateMe.apk \
-	device/softwinner/907/prebuilt/update_me.xml:system/update_me.xml
-
 # /system/bin
 PRODUCT_COPY_FILES += \
 	device/softwinner/907/prebuilt/bin/fsck.exfat:system/bin/fsck.exfat \
@@ -59,7 +54,6 @@ PRODUCT_COPY_FILES += \
 	device/softwinner/907/prebuilt/lib/liballwinner-ril.so:system/lib/liballwinner-ril.so \
 	device/softwinner/907/prebuilt/lib/libMali.so:system/lib/libMali.so \
 	device/softwinner/907/prebuilt/lib/libUMP.so:system/lib/libUMP.so \
-	external/cedarx/CedarAndroidLib/LIB_ICS_F23/libstagefright_soft_cedar_h264dec.so:system/lib/libstagefright_soft_cedar_h264dec.so \
 	device/softwinner/907/prebuilt/lib/libMali.so:obj/lib/libMali.so \
 	device/softwinner/907/prebuilt/lib/libUMP.so:obj/lib/libUMP.so
 
@@ -76,6 +70,7 @@ PRODUCT_COPY_FILES += \
 	device/softwinner/907/prebuilt/bin/hostapd_cli:system/bin/hostapd_cli \
 	device/softwinner/907/prebuilt/bin/wpa_supplicant:system/bin/wpa_supplicant \
 	device/softwinner/907/prebuilt/bin/wpa_cli:system/bin/wpa_cli \
+	device/softwinner/907/prebuilt/etc/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
 	device/softwinner/907/prebuilt/lib/libwpa_client.so:system/lib/libwpa_client.so
 
 # prebuilt kernel modules

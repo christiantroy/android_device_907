@@ -172,7 +172,7 @@ static int open_lights(const struct hw_module_t* module, char const* name,
     int (*set_light)(struct light_device_t* dev,
             struct light_state_t const* state);
 
-    LOGD("open_lights!name = %s\n",name);
+    ALOGD("open_lights!name = %s\n",name);
     if (0 == strcmp(LIGHT_ID_BACKLIGHT, name)) {
         set_light = set_light_backlight;
     }
@@ -200,14 +200,14 @@ static int open_lights(const struct hw_module_t* module, char const* name,
     struct light_context_t *dev = (struct light_context_t *)malloc(sizeof(struct light_context_t));
     memset(dev, 0, sizeof(struct light_context_t));
 	
-    LOGD("light set back linghts!name = %s\n",name);
+    ALOGD("light set back linghts!name = %s\n",name);
     
 	if(0 == strcmp(LIGHT_ID_BACKLIGHT, name))
     {
         dev->fd = open("/dev/disp", O_RDONLY);
         if (dev->fd < 0)
         {
-            LOGE("Failed to open display device dev->fd = %x\n",dev->fd);
+            ALOGE("Failed to open display device dev->fd = %x\n",dev->fd);
         }       
     }
     
