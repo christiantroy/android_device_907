@@ -17,6 +17,8 @@
 PRODUCT_COPY_FILES := \
 	device/softwinner/907/kernel:kernel \
 	device/softwinner/907/init.rc:root/init.rc \
+	device/softwinner/907/init.trace.rc:root/init.trace.rc \
+	device/softwinner/907/init.usb.rc:root/init.usb.rc \
 	device/softwinner/907/initlogo.rle:root/initlogo.rle \
 	device/softwinner/907/init.sun4i.rc:root/init.sun4i.rc \
 	device/softwinner/907/init.sun4i.usb.rc:root/init.sun4i.usb.rc \
@@ -121,8 +123,6 @@ PRODUCT_PACKAGES += \
 
 # CM9 apps
 PRODUCT_PACKAGES += \
-	Trebuchet \
-	FileManager \
 	com.android.future.usb.accessory
 
 # EXT4 Support
