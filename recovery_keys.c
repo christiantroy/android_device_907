@@ -17,6 +17,7 @@ int device_handle_key(int key_code, int visible) {
 	    case 114:
                 return HIGHLIGHT_DOWN;
 
+	    case 28:
             case 115:
 	    case 139:
                 return HIGHLIGHT_UP;
