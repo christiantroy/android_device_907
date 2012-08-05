@@ -39,7 +39,7 @@
 
 #include "ril_interface.h"
 
-#define F_LOG ALOGV("%s, line: %d", __FUNCTION__, __LINE__);
+#define F_ALOG ALOGV("%s, line: %d", __FUNCTION__, __LINE__);
 
 /* Mixer control names */
 #define MIXER_DL2_LEFT_EQUALIZER            "DL2 Left Equalizer"
@@ -1141,7 +1141,7 @@ static void select_input_device(struct tuna_audio_device *adev)
 /* must be called with hw device and output stream mutexes locked */
 static int start_output_stream(struct tuna_stream_out *out)
 {
-	F_LOG;
+	F_ALOG;
     struct tuna_audio_device *adev = out->dev;
     unsigned int card = CARD_TUNA_DEFAULT;
     unsigned int port = PORT_MM;
@@ -1598,7 +1598,7 @@ static int out_remove_audio_effect(const struct audio_stream *stream, effect_han
 /* must be called with hw device and input stream mutexes locked */
 static int start_input_stream(struct tuna_stream_in *in)
 {
-	F_LOG;
+	F_ALOG;
     int ret = 0;
     struct tuna_audio_device *adev = in->dev;
 
@@ -1627,11 +1627,11 @@ static int start_input_stream(struct tuna_stream_in *in)
 
     /* if no supported sample rate is available, use the resampler */
     if (in->resampler) {
-		F_LOG;
+		F_ALOG;
         in->resampler->reset(in->resampler);
         in->frames_in = 0;
     }
-	F_LOG;
+	F_ALOG;
     return 0;
 }
 
@@ -1982,7 +1982,7 @@ static void release_buffer(struct resampler_buffer_provider *buffer_provider,
  * if necessary and output the number of frames requested to the buffer specified */
 static ssize_t read_frames(struct tuna_stream_in *in, void *buffer, ssize_t frames)
 {
-	// F_LOG;
+	// F_ALOG;
     ssize_t frames_wr = 0;
 
     while (frames_wr < frames) {
@@ -2022,7 +2022,7 @@ static ssize_t read_frames(struct tuna_stream_in *in, void *buffer, ssize_t fram
  * to the buffer specified */
 static ssize_t process_frames(struct tuna_stream_in *in, void* buffer, ssize_t frames)
 {
-	F_LOG;
+	F_ALOG;
     ssize_t frames_wr = 0;
     audio_buffer_t in_buf;
     audio_buffer_t out_buf;
@@ -2089,7 +2089,7 @@ static ssize_t process_frames(struct tuna_stream_in *in, void* buffer, ssize_t f
 static ssize_t in_read(struct audio_stream_in *stream, void* buffer,
                        size_t bytes)
 {
-	// F_LOG;
+	// F_ALOG;
     int ret = 0;
     struct tuna_stream_in *in = (struct tuna_stream_in *)stream;
     struct tuna_audio_device *adev = in->dev;
@@ -2220,13 +2220,17 @@ exit:
 
 
 static int adev_open_output_stream(struct audio_hw_device *dev,
-                                   uint32_t devices, int *format,
-                                   uint32_t *channels, uint32_t *sample_rate,
+                                   audio_io_handle_t handle,
+                                   audio_devices_t devices,
+                                   audio_output_flags_t flags,
+                                   struct audio_config *config,
                                    struct audio_stream_out **stream_out)
 {
     struct tuna_audio_device *ladev = (struct tuna_audio_device *)dev;
     struct tuna_stream_out *out;
     int ret;
+
+    *stream_out = NULL;
 
     out = (struct tuna_stream_out *)calloc(1, sizeof(struct tuna_stream_out));
     if (!out)
@@ -2272,16 +2276,15 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
      * This is because out_set_parameters() with a route is not
      * guaranteed to be called after an output stream is opened. */
 
-    *format = out_get_format(&out->stream.common);
-    *channels = out_get_channels(&out->stream.common);
-    *sample_rate = out_get_sample_rate(&out->stream.common);
+    config->format = out_get_format(&out->stream.common);
+    config->channel_mask = out_get_channels(&out->stream.common);
+    config->sample_rate = out_get_sample_rate(&out->stream.common);
 
     *stream_out = &out->stream;
     return 0;
 
 err_open:
     free(out);
-    *stream_out = NULL;
     return ret;
 }
 
@@ -2412,29 +2415,30 @@ static int adev_get_mic_mute(const struct audio_hw_device *dev, bool *state)
 }
 
 static size_t adev_get_input_buffer_size(const struct audio_hw_device *dev,
-                                         uint32_t sample_rate, int format,
-                                         int channel_count)
+                                         const struct audio_config *config)
 {
     size_t size;
-
-    if (check_input_parameters(sample_rate, format, channel_count) != 0)
+    int channel_count = popcount(config->channel_mask);
+    if (check_input_parameters(config->sample_rate, config->format, channel_count) != 0)
         return 0;
 
-    return get_input_buffer_size(sample_rate, format, channel_count);
+    return get_input_buffer_size(config->sample_rate, config->format, channel_count);
 }
 
-static int adev_open_input_stream(struct audio_hw_device *dev, uint32_t devices,
-                                  int *format, uint32_t *channel_mask,
-                                  uint32_t *sample_rate,
-                                  audio_in_acoustics_t acoustics,
+static int adev_open_input_stream(struct audio_hw_device *dev,
+                                  audio_io_handle_t handle,
+                                  audio_devices_t devices,
+                                  struct audio_config *config,
                                   struct audio_stream_in **stream_in)
 {
     struct tuna_audio_device *ladev = (struct tuna_audio_device *)dev;
     struct tuna_stream_in *in;
     int ret;
-    int channel_count = popcount(*channel_mask);
+    int channel_count = popcount(config->channel_mask);
 
-    if (check_input_parameters(*sample_rate, *format, channel_count) != 0)
+    *stream_in = NULL;
+
+    if (check_input_parameters(config->sample_rate, config->format, channel_count) != 0)
         return -EINVAL;
 
     in = (struct tuna_stream_in *)calloc(1, sizeof(struct tuna_stream_in));
@@ -2457,7 +2461,7 @@ static int adev_open_input_stream(struct audio_hw_device *dev, uint32_t devices,
     in->stream.read = in_read;
     in->stream.get_input_frames_lost = in_get_input_frames_lost;
 
-    in->requested_rate = *sample_rate;
+    in->requested_rate = config->sample_rate;
 
     memcpy(&in->config, &pcm_config_mm_ul, sizeof(pcm_config_mm_ul));
     in->config.channels = channel_count;
@@ -2500,7 +2504,6 @@ err:
         release_resampler(in->resampler);
 
     free(in);
-    *stream_in = NULL;
     return ret;
 }
 
@@ -2577,7 +2580,7 @@ static int adev_open(const hw_module_t* module, const char* name,
         return -ENOMEM;
 
     adev->hw_device.common.tag = HARDWARE_DEVICE_TAG;
-    adev->hw_device.common.version = 0;
+    adev->hw_device.common.version = AUDIO_DEVICE_API_VERSION_1_0;
     adev->hw_device.common.module = (struct hw_module_t *) module;
     adev->hw_device.common.close = adev_close;
 
@@ -2628,9 +2631,9 @@ static int adev_open(const hw_module_t* module, const char* name,
     adev->mixer_ctls.earpiece_enable = mixer_get_ctl_by_name(adev->mixer,
                                            MIXER_EARPHONE_ENABLE_SWITCH);
     adev->mixer_ctls.left_capture = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_ANALOG_LEFT_CAPTURE_ROUTE);
+                                           MIXER_ANAALOG_LEFT_CAPTURE_ROUTE);
     adev->mixer_ctls.right_capture = mixer_get_ctl_by_name(adev->mixer,
-                                           MIXER_ANALOG_RIGHT_CAPTURE_ROUTE);
+                                           MIXER_ANAALOG_RIGHT_CAPTURE_ROUTE);
     adev->mixer_ctls.amic_ul_volume = mixer_get_ctl_by_name(adev->mixer,
                                            MIXER_AMIC_UL_VOLUME);
     adev->mixer_ctls.voice_ul_volume = mixer_get_ctl_by_name(adev->mixer,
@@ -2711,8 +2714,8 @@ static struct hw_module_methods_t hal_module_methods = {
 struct audio_module HAL_MODULE_INFO_SYM = {
     .common = {
         .tag = HARDWARE_MODULE_TAG,
-        .version_major = 1,
-        .version_minor = 0,
+        .module_api_version = AUDIO_MODULE_API_VERSION_0_1,
+        .hal_api_version = HARDWARE_HAL_API_VERSION,
         .id = AUDIO_HARDWARE_MODULE_ID,
         .name = "Sunxi audio HW HAL",
         .author = "The Android Open Source Project",

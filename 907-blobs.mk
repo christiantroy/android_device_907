@@ -44,13 +44,9 @@ PRODUCT_COPY_FILES += \
 	$(call find-copy-subdir-files,*,device/softwinner/907/prebuilt/etc/usb_modeswitch.d,system/etc/usb_modeswitch.d)
 
 # /system/lib
-PRODUCT_COPY_FILES += \
-	device/softwinner/907/prebuilt/lib/egl/libEGL_mali.so:system/lib/egl/libEGL_mali.so \
+PRODUCT_COPY_FILES += \device/softwinner/907/prebuilt/lib/egl/libEGL_mali.so:system/lib/egl/libEGL_mali.so \
 	device/softwinner/907/prebuilt/lib/egl/libGLESv1_CM_mali.so:system/lib/egl/libGLESv1_CM_mali.so \
 	device/softwinner/907/prebuilt/lib/egl/libGLESv2_mali.so:system/lib/egl/libGLESv2_mali.so \
-	device/softwinner/907/prebuilt/lib/hw/camera.exDroid.so:system/lib/hw/camera.exDroid.so \
-	device/softwinner/907/prebuilt/lib/hw/gralloc.sun4i.so:system/lib/hw/gralloc.sun4i.so \
-	device/softwinner/907/prebuilt/lib/hw/sensors.exDroid.so:system/lib/hw/sensors.exDroid.so \
 	device/softwinner/907/prebuilt/lib/liballwinner-ril.so:system/lib/liballwinner-ril.so \
 	device/softwinner/907/prebuilt/lib/libMali.so:system/lib/libMali.so \
 	device/softwinner/907/prebuilt/lib/libUMP.so:system/lib/libUMP.so \
@@ -66,12 +62,7 @@ PRODUCT_COPY_FILES += \
 
 # temporary prebuilt wpa_supplicant
 PRODUCT_COPY_FILES += \
-	device/softwinner/907/prebuilt/bin/hostapd:system/bin/hostapd \
-	device/softwinner/907/prebuilt/bin/hostapd_cli:system/bin/hostapd_cli \
-	device/softwinner/907/prebuilt/bin/wpa_supplicant:system/bin/wpa_supplicant \
-	device/softwinner/907/prebuilt/bin/wpa_cli:system/bin/wpa_cli \
-	device/softwinner/907/prebuilt/etc/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
-	device/softwinner/907/prebuilt/lib/libwpa_client.so:system/lib/libwpa_client.so
+	device/softwinner/907/prebuilt/etc/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf
 
 # prebuilt kernel modules
 #PRODUCT_COPY_FILES += \
@@ -80,4 +71,16 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	$(call find-copy-subdir-files,*,device/softwinner/907/prebuilt/lib/modules,system/lib/modules)
 
-PRODUCT_BUILD_PROP_OVERRIDES := PRODUCT_NAME=GT-I9100 PRODUCT_BRAND=samsung BUILD_ID=IML74K BUILD_FINGERPRINT=samsung/GT-I9100/GT-I9100:4.0.3/IML74K/BGLP8:user/release-keys PRIVATE_BUILD_DESC="GT-I9100-user 4.0.3 IML74K BGLP8 release-keys" BUILD_NUMBER=BGLP8
+# HACK by turl: Create some intermediate files to link with libMali/libUMP
+$(shell mkdir -p out/target/product/907/obj/SHARED_LIBRARIES/libMali_intermediates)
+$(shell mkdir -p out/target/product/907/obj/SHARED_LIBRARIES/libUMP_intermediates)
+$(shell touch out/target/product/907/obj/SHARED_LIBRARIES/libMali_intermediates/export_includes)
+$(shell touch out/target/product/907/obj/SHARED_LIBRARIES/libUMP_intermediates/export_includes)
+
+# OMX codec support
+PRODUCT_COPY_FILES += device/softwinner/907/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml
+
+# Audio policy
+PRODUCT_COPY_FILES += device/softwinner/907/libraries/audio/audio_policy.conf:system/etc/audio_policy.conf
+
+#PRODUCT_BUILD_PROP_OVERRIDES := PRODUCT_NAME=GT-I9100 PRODUCT_BRAND=samsung BUILD_ID=IML74K BUILD_FINGERPRINT=samsung/GT-I9100/GT-I9100:4.0.3/IML74K/BGLP8:user/release-keys PRIVATE_BUILD_DESC="GT-I9100-user 4.0.3 IML74K BGLP8 release-keys" BUILD_NUMBER=BGLP8

@@ -1,13 +1,14 @@
 import init.sun4i.usb.rc
 
 on early-init
-	export EXTERNAL_STORAGE /mnt/sdcard
-	mkdir /mnt/sdcard 0000 system system
-	# for backwards compatibility
-	symlink /mnt/sdcard /sdcard
-	
-	mkdir /mnt/extsd 0000 system system
-	mkdir /mnt/usbhost1 0000 system system
+	export EXTERNAL_STORAGE /storage/sdcard0
+	export SECONDARY_STORAGE /storage/sdcard1
+	mkdir /storage 0050 system sdcard_r
+	mkdir /storage/sdcard0 0000 system system
+	mkdir /storage/sdcard1 0000 system system
+	mkdir /storage/sdcard2 0000 system system
+	symlink /storage/sdcard0 /sdcard
+	symlink /storage/sdcard0 /mnt/sdcard
 
 on fs
     mount ext4 /dev/block/nandd /system wait ro
@@ -15,6 +16,26 @@ on fs
     mount ext4 /dev/block/nandh /cache wait noatime nosuid nodev
 
 on boot	
+        # Enable interactive governor
+        write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+
+        # Lower maximum frequency when screen is off
+        write /sys/devices/system/cpu/cpu0/cpufreq/screen_off_max_freq 700000
+
+        # cpufreq interactive governor: timer 20ms, min sample 20ms, hispeed 700MHz
+        write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
+        write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 20000
+        write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 700000
+
+        # chown adequately for power HAL
+        chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+        chown system system /sys/devices/system/cpu/cpufreq/interactive/boostpulse
+        chown system system /sys/devices/system/cpu/cpufreq/interactive/timer_rate
+        chown system system /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
+        chown system system /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
+        chown system system /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
+        chown system system /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
+
 	# gpu drivers
 	insmod /system/lib/modules/ump.ko
 	insmod /system/lib/modules/mali.ko
@@ -57,37 +78,53 @@ on post-fs-data
 	mkdir /data/misc/sensors 0777 system system
 	setprop vold.post_fs_data_done 1
 
-service wpa_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf
-	socket wpa_wlan0 dgram 660 wifi wifi
-	group wifi inet
-	disabled
-	oneshot
+# wifi related service
+service wpa_supplicant /system/bin/wpa_supplicant -D wext -i wlan0 \
+	-c /data/misc/wifi/wpa_supplicant.conf -e /data/misc/wifi/entropy.bin
+    class main
+    socket wpa_wlan0 dgram 0660 wifi wifi
+    group system wifi inet
+    disabled
+    oneshot
 
-service u3gmonitor /system/bin/u3gmonitor
-	class main
-	user root
-	group root
- 	oneshot
+service p2p_supplicant /system/bin/wpa_supplicant -D wext -i wlan0 \
+        -c /data/misc/wifi/wpa_supplicant.conf -e /data/misc/wifi/entropy.bin
+    class main
+    socket wpa_wlan0 dgram 0660 wifi wifi
+    group system wifi inet
+    disabled
+    oneshot
 
-service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
-	class main
+# dhcpcd daemons
+service dhcpcd_wlan0 /system/bin/dhcpcd -aABKL
+    class main
     disabled
     oneshot    
 
 service iprenew_wlan0 /system/bin/dhcpcd -n
-	class main
-	disabled
-	oneshot
+    class main
+    disabled
+    oneshot
+
+service dhcpcd_p2p /system/bin/dhcpcd -aABKL
+    class main
+    disabled
+    oneshot
+
+service iprenew_p2p /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
 
 service dhcpcd_eth0 /system/bin/dhcpcd -ABKL
-	class main
+    class main
     disabled
     oneshot    
 
 service iprenew_eth0 /system/bin/dhcpcd -n
-	class main
-	disabled
-	oneshot
+    class main
+    disabled
+    oneshot
 
 service memsicd /system/bin/logwrapper /system/bin/memsicd
    class troy

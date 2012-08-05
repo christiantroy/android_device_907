@@ -244,4 +244,3 @@ private_module_t::private_module_t()
  * implemented above
  */ 
 struct private_module_t HAL_MODULE_INFO_SYM;
-

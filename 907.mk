@@ -17,8 +17,6 @@
 PRODUCT_COPY_FILES := \
 	device/softwinner/907/kernel:kernel \
 	device/softwinner/907/init.rc:root/init.rc \
-	device/softwinner/907/init.trace.rc:root/init.trace.rc \
-	device/softwinner/907/init.usb.rc:root/init.usb.rc \
 	device/softwinner/907/initlogo.rle:root/initlogo.rle \
 	device/softwinner/907/init.sun4i.rc:root/init.sun4i.rc \
 	device/softwinner/907/init.sun4i.usb.rc:root/init.sun4i.usb.rc \
@@ -29,7 +27,6 @@ PRODUCT_CHARACTERISTICS := tablet
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 PRODUCT_PROPERTY_OVERRIDES += \
-	persist.sys.root_access=3 \
 	ro.opengles.version = 131072 \
 	debug.egl.hw=1 \
 	ro.display.switch=1 \
@@ -68,11 +65,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	view.minimum_fling_velocity=25 \
 	updateme.disableinstalledapps=1 \
 	updateme.disablescripts=1 \
-	ro.additionalmounts = /mnt/extsd \
-	ro.vold.switchablepair=/mnt/sdcard,/mnt/extsd \
-	persist.sys.vold.switchexternal=0 \
-	usb.audio.out.device=pcmC2D0p \
-	usb.audio.cap.device=pcmC0D0c
+	ro.additionalmounts=/storage/sdcard1 \
+	ro.vold.switchablepair=/storage/sdcard0,/storage/sdcard1 \
+	persist.sys.vold.switchexternal=0
 
 DEVICE_PACKAGE_OVERLAYS := device/softwinner/907/overlay
 
@@ -84,14 +79,12 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
 	frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
 	frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-	frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
 	frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
 	frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
 	frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
 	frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
 	frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
 	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-	frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
 	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:/system/etc/permissions/android.software.live_wallpaper.xml
 
 # Publish that we support the live wallpaper feature.
@@ -109,13 +102,14 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	gralloc.sun4i \
 	hwcomposer.exDroid \
+	sensors.exDroid \
+	power.sun4i \
 	lights.sun4i \
-	gps.sun4i \
+	display.sun4i \
 	audio.primary.exDroid \
 	audio.a2dp.default \
+	audio.usb.default \
 	libaudioutils \
-	Camera \
-	libjni_mosaic \
 	chat \
 	u3gmonitor \
 	devlistener

@@ -102,7 +102,8 @@ static int fb_post(struct framebuffer_device_t* dev, buffer_handle_t buffer)
 #ifdef MALI_VSYNC_EVENT_REPORT_ENABLE
 		gralloc_mali_vsync_report(MALI_VSYNC_EVENT_BEGIN_WAIT);
 #endif
-                if(ioctl(m->framebuffer->fd, FBIO_WAITFORVSYNC, 0) < 0) 
+		int crtc = 0;
+                if(ioctl(m->framebuffer->fd, FBIO_WAITFORVSYNC, &crtc) < 0)
 		{
                     ALOGE("FBIO_WAITFORVSYNC failed");
 #ifdef MALI_VSYNC_EVENT_REPORT_ENABLE
@@ -264,12 +265,20 @@ int init_frame_buffer_locked(struct private_module_t* module)
 		return -errno;
 	}
 
-	int refreshRate = 1000000000000000LLU /
-	(
-		uint64_t( info.upper_margin + info.lower_margin + info.yres )
-		* ( info.left_margin  + info.right_margin + info.xres )
-		* info.pixclock
-	);
+	int refreshRate = 0;
+	if ( info.pixclock > 0 )
+	{
+		refreshRate = 1000000000000000LLU /
+		(
+			uint64_t( info.upper_margin + info.lower_margin + info.yres )
+			* ( info.left_margin  + info.right_margin + info.xres )
+			* info.pixclock
+		);
+	}
+	else
+	{
+		ALOGW("fbdev pixclock is zero");
+	}
 
 	if (refreshRate == 0)
 	{
@@ -377,12 +386,9 @@ static int fb_close(struct hw_device_t *device)
 
 int compositionComplete(struct framebuffer_device_t* dev)
 {
-	unsigned char pixels[4];
-	/* By doing a readpixel here we force the GL driver to start rendering
-	   all the drawcalls up to this point, and to wait for the rendering to be complete.
-	   Readpixel() also reads a dummy pixel, but this is not used. We only use this
-	   function here to flush the render pipeline. */
-	glReadPixels(0, 0, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+	/* By doing a finish here we force the GL driver to start rendering
+	   all the drawcalls up to this point, and to wait for the rendering to be complete.*/
+	glFinish();
 	/* The rendering of the backbuffer is now completed.
 	   When SurfaceFlinger later does a call to eglSwapBuffer(), the swap will be done
 	   synchronously in the same thread, and not asynchronoulsy in a background thread later.
@@ -417,7 +423,7 @@ int framebuffer_device_open(hw_module_t const* module, const char* name, hw_devi
 	}
 
 	/* initialize our state here */
-	framebuffer_device_t *dev = new framebuffer_device_t;
+	framebuffer_device_t *dev = new framebuffer_device_t();
 	memset(dev, 0, sizeof(*dev));
 
 	/* initialize the procs */
