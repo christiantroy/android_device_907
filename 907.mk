@@ -102,17 +102,26 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	gralloc.sun4i \
 	hwcomposer.exDroid \
-	sensors.exDroid \
 	power.sun4i \
 	lights.sun4i \
 	display.sun4i \
+        libcedarxbase \
+        libcedarxosal \
+        libcedarxsftdemux \
+        libcedarv \
+	libCedarA \
+	libCedarX \
+	libstagefright_soft_cedar_h264dec \
+        libswdrm \
 	audio.primary.exDroid \
 	audio.a2dp.default \
 	audio.usb.default \
 	libaudioutils \
 	chat \
 	u3gmonitor \
-	devlistener
+	devlistener \
+	Camera \
+	libjni_mosaic
 
 # CM9 apps
 PRODUCT_PACKAGES += \
