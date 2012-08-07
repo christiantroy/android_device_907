@@ -48,16 +48,11 @@ PRODUCT_COPY_FILES += \device/softwinner/907/prebuilt/lib/egl/libEGL_mali.so:sys
 	device/softwinner/907/prebuilt/lib/egl/libGLESv1_CM_mali.so:system/lib/egl/libGLESv1_CM_mali.so \
 	device/softwinner/907/prebuilt/lib/egl/libGLESv2_mali.so:system/lib/egl/libGLESv2_mali.so \
 	device/softwinner/907/prebuilt/lib/liballwinner-ril.so:system/lib/liballwinner-ril.so \
-	device/softwinner/907/prebuilt/lib/hw/camera.exDroid.so:system/lib/hw/camera.exDroid.so \
 	device/softwinner/907/prebuilt/lib/hw/sensors.exDroid.so:system/lib/hw/sensors.exDroid.so \
 	device/softwinner/907/prebuilt/lib/libMali.so:system/lib/libMali.so \
 	device/softwinner/907/prebuilt/lib/libUMP.so:system/lib/libUMP.so \
 	device/softwinner/907/prebuilt/lib/libMali.so:obj/lib/libMali.so \
-	device/softwinner/907/prebuilt/lib/libUMP.so:obj/lib/libUMP.so \
-	device/softwinner/907/prebuilt/lib/libicui18n_ics.so:system/lib/libicui18n_ics.so \
-	device/softwinner/907/prebuilt/lib/libicui18n_ics.so:obj/lib/libicui18n_ics.so \
-	device/softwinner/907/prebuilt/lib/libicuuc_ics.so:system/lib/libicuuc_ics.so \
-	device/softwinner/907/prebuilt/lib/libicuuc_ics.so:obj/lib/libicuuc_ics.so
+	device/softwinner/907/prebuilt/lib/libUMP.so:obj/lib/libUMP.so
 
 # /system/usr
 PRODUCT_COPY_FILES += \
@@ -83,10 +78,6 @@ $(shell mkdir -p out/target/product/907/obj/SHARED_LIBRARIES/libMali_intermediat
 $(shell mkdir -p out/target/product/907/obj/SHARED_LIBRARIES/libUMP_intermediates)
 $(shell touch out/target/product/907/obj/SHARED_LIBRARIES/libMali_intermediates/export_includes)
 $(shell touch out/target/product/907/obj/SHARED_LIBRARIES/libUMP_intermediates/export_includes)
-$(shell mkdir -p out/target/product/907/obj/SHARED_LIBRARIES/libicuuc_ics_intermediates)
-$(shell mkdir -p out/target/product/907/obj/SHARED_LIBRARIES/libicui18n_ics_intermediates)
-$(shell touch out/target/product/907/obj/SHARED_LIBRARIES/libicuuc_ics_intermediates/export_includes)
-$(shell touch out/target/product/907/obj/SHARED_LIBRARIES/libicui18n_ics_intermediates/export_includes)
 
 # OMX codec support
 PRODUCT_COPY_FILES += device/softwinner/907/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml
