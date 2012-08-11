@@ -67,7 +67,7 @@ static void sun4i_power_init(struct power_module *module)
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/min_sample_time",
                 "60000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/hispeed_freq",
-                "700000");
+                "696000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load",
                 "50");
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay",
@@ -104,7 +104,7 @@ static void sun4i_power_set_interactive(struct power_module *module, int on)
      */
 
     sysfs_write("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq",
-                on ? "1008000" : "700000");
+                on ? "1008000" : "696000");
 }
 
 static void sun4i_power_hint(struct power_module *module, power_hint_t hint,

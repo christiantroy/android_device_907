@@ -25,8 +25,8 @@
   <item name="bluetooth.on">100</item>
   <item name="screen.full">350</item>
   <item name="wifi.on">29</item>
-  <item name="wifi.active">140</item>
-  <item name="wifi.scan">180</item>
+  <item name="wifi.active">40</item>
+  <item name="wifi.scan">50</item>
   <item name="dsp.audio">88</item>
   <item name="dsp.video">88</item>
   <item name="radio.active">0</item>
@@ -62,5 +62,5 @@
       <value>200</value>
   </array>
   <!-- This is the battery capacity in mAh -->
-  <item name="battery.capacity">3900</item>
+  <item name="battery.capacity">7800</item>
 </device>
