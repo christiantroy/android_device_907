@@ -120,8 +120,7 @@ PRODUCT_PACKAGES += \
 	chat \
 	u3gmonitor \
 	devlistener \
-	LegacyCamera \
-	libjni_legacymosaic
+	LegacyCamera
 
 # CM9 apps
 PRODUCT_PACKAGES += \
@@ -135,7 +134,8 @@ PRODUCT_PACKAGES += \
 $(call inherit-product, build/target/product/full_base.mk)
 
 # Should be after the full_base include, which loads languages_full
-PRODUCT_LOCALES += mdpi
+PRODUCT_AAPT_CONFIG := large mdpi
+PRODUCT_AAPT_PREF_CONFIG := mdpi
 
 PRODUCT_NAME := full_907
 PRODUCT_DEVICE := 907

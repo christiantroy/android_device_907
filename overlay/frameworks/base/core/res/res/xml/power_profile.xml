@@ -21,22 +21,22 @@
   <!-- All values are in mAh except as noted -->
   <item name="none">0</item>
   <item name="screen.on">75</item>
-  <item name="bluetooth.active">200</item>
-  <item name="bluetooth.on">100</item>
+  <item name="bluetooth.active">30</item>
+  <item name="bluetooth.on">30</item>
   <item name="screen.full">350</item>
   <item name="wifi.on">29</item>
   <item name="wifi.active">40</item>
   <item name="wifi.scan">50</item>
   <item name="dsp.audio">88</item>
   <item name="dsp.video">88</item>
-  <item name="radio.active">0</item>
+  <item name="radio.active">1</item>
   <!-- The current consumed by the radio when it is scanning for a signal -->
-  <item name="radio.scanning">185</item>
+  <item name="radio.scanning">1</item>
   <item name="gps.on">140</item>
   <!-- Current consumed by the radio at different signal strengths, when paging -->
   <array name="radio.on"> <!-- Strength 0 to BINS-1 -->
-        <value>3.4</value>
-        <value>3.4</value>
+        <value>1</value>
+        <value>1</value>
   </array>
   <!-- Different CPU speeds as reported in
        /sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state -->
