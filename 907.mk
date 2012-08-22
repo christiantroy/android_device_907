@@ -44,20 +44,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	persist.sys.language=en \
 	persist.sys.country=US \
 	ro.com.google.locationfeatures=1 \
-	ro.media.dec.jpeg.memcap=20000000 \
 	dalvik.vm.lockprof.threshold=500 \
 	ro.kernel.android.checkjni=0 \
 	dalvik.vm.checkjni=false \
 	dalvik.vm.dexopt-data-only=1 \
 	ro.vold.umsdirtyratio=20 \
-	net.dns1=8.8.8.8 \
-	net.dns2=8.8.4.4 \
-	ro.media.enc.jpeg.quality=100 \
-	debug.sf.hw=1 \
-	video.accelerate.hw=1 \
-	debug.performance.tuning=1 \
-	ro.media.dec.jpeg.memcap=8000000 \
-	ro.media.enc.hprof.vid.bps=800000 \
 	persist.sys.use_dithering=0 \
 	persist.sys.purgeable_assets=0 \
 	windowsmgr.max_events_per_sec=240 \
@@ -144,3 +135,5 @@ PRODUCT_AAPT_PREF_CONFIG := mdpi
 
 PRODUCT_NAME := full_907
 PRODUCT_DEVICE := 907
+
+TARGET_BOOTANIMATION_NAME := horizontal-1024x768
