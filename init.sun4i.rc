@@ -7,6 +7,7 @@ on early-init
 	mkdir /storage/sdcard2 0000 system system
 	symlink /storage/sdcard0 /sdcard
 	symlink /storage/sdcard0 /mnt/sdcard
+	symlink /storage/sdcard1 /mnt/extsd
 
 on fs
     mount ext4 /dev/block/nandd /system wait ro
