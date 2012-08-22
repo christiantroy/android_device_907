@@ -100,4 +100,6 @@
     <integer name="config_lowBatteryCloseWarningLevel">15</integer>
     
     <integer name="config_lowBatteryWarningLevel">10</integer>
+    
+    <string name="config_datause_iface">wlan0</string>
 </resources>
