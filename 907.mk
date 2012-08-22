@@ -102,17 +102,22 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	gralloc.sun4i \
 	hwcomposer.exDroid \
-	power.sun4i \
 	lights.sun4i \
 	display.sun4i \
         libcedarxbase \
         libcedarxosal \
-        libcedarxsftdemux \
-        libcedarv \
+	libcedarv \
+	libcedarv_adapter \
+        libcedarv_base \
 	libCedarA \
 	libCedarX \
 	libstagefright_soft_cedar_h264dec \
         libswdrm \
+	libaw_audio \
+	libaw_audioa \
+	libfacedetection \
+	librtmp \
+	libve \
 	audio.primary.exDroid \
 	audio.a2dp.default \
 	audio.usb.default \
@@ -134,7 +139,7 @@ PRODUCT_PACKAGES += \
 $(call inherit-product, build/target/product/full_base.mk)
 
 # Should be after the full_base include, which loads languages_full
-PRODUCT_AAPT_CONFIG := large mdpi
+PRODUCT_AAPT_CONFIG := large xlarge mdpi
 PRODUCT_AAPT_PREF_CONFIG := mdpi
 
 PRODUCT_NAME := full_907
