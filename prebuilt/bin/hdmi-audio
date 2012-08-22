@@ -1,0 +1,21 @@
+#!/system/xbin/bash
+
+case "$1" in
+    enable)
+	echo "Enable HDMI audio"
+	mount -o remount,rw /system /system
+	sed -i 's/devices AUDIO_DEVICE_OUT_SPEAKER/devices AUDIO_DEVICE_OUT_SPEAKER|AUDIO_DEVICE_OUT_AUX_DIGITAL/g' /system/etc/audio_policy.conf
+	mount -o remount,rw /system /system
+	echo "Done... Now reboot to apply changes"
+	;;
+    disable)
+	echo "Disable HDMI audio"
+	mount -o remount,rw /system /system
+	sed -i 's/devices AUDIO_DEVICE_OUT_SPEAKER|AUDIO_DEVICE_OUT_AUX_DIGITAL/devices AUDIO_DEVICE_OUT_SPEAKER/g' /system/etc/audio_policy.conf
+	mount -o remount,rw /system /system
+	echo "Done... Now reboot to apply changes"
+	;;
+    *)
+	echo "Usage: hdmi-audio enable|disable"
+	;;
+esac
