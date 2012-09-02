@@ -128,3 +128,6 @@ service iprenew_eth0 /system/bin/dhcpcd -n
 service memsicd /system/bin/logwrapper /system/bin/memsicd
    class troy
    oneshot
+
+on property:dev.bootcomplete=1
+    write /sys/module/lowmemorykiller/parameters/minfree "2048,4096,51200,56320,61440,70400"
