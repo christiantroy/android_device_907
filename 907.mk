@@ -115,8 +115,7 @@ PRODUCT_PACKAGES += \
 	libaudioutils \
 	chat \
 	u3gmonitor \
-	devlistener \
-	LegacyCamera
+	devlistener
 
 # CM9 apps
 PRODUCT_PACKAGES += \
@@ -136,4 +135,5 @@ PRODUCT_AAPT_PREF_CONFIG := mdpi
 PRODUCT_NAME := full_907
 PRODUCT_DEVICE := 907
 
-TARGET_BOOTANIMATION_NAME := horizontal-1024x768
+TARGET_SCREEN_HEIGHT := 768
+TARGET_SCREEN_WIDTH := 1024
