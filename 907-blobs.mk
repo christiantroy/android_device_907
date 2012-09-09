@@ -27,9 +27,7 @@ PRODUCT_COPY_FILES += \
 	device/softwinner/907/prebuilt/bin/mkntfs:system/bin/mkntfs \
 	device/softwinner/907/prebuilt/bin/reboot-recovery.sh:system/bin/reboot-recovery.sh \
 	device/softwinner/907/prebuilt/bin/usb_modeswitch:system/bin/usb_modeswitch \
-	device/softwinner/907/prebuilt/bin/rild:system/bin/rild \
-	device/softwinner/907/prebuilt/bin/hdmi-audio:system/bin/hdmi-audio \
-	device/softwinner/907/prebuilt/bin/mass-storage:system/bin/mass-storage
+	device/softwinner/907/prebuilt/bin/rild:system/bin/rild
 
 # /system/etc
 PRODUCT_COPY_FILES += \
