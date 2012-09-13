@@ -22,8 +22,9 @@ $(call inherit-product, device/softwinner/907/907-blobs.mk)
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_NAME := cm_907
-PRODUCT_BRAND := Allwinner
+PRODUCT_BRAND := Google
 PRODUCT_DEVICE := 907
-PRODUCT_MODEL := MP907C
-PRODUCT_MANUFACTURER := Allwinner
+PRODUCT_MODEL := Nexus 7
+PRODUCT_MANUFACTURER := Asus
 PRODUCT_RELEASE_NAME := 907
+PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=nakasi TARGET_DEVICE=grouper BUILD_FINGERPRINT="google/nakasi/grouper:4.1.1/JRO03D/402395:user/release-keys" PRIVATE_BUILD_DESC="nakasi-user 4.1.1 JRO03D 402395 release-keys"

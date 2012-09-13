@@ -59,7 +59,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.additionalmounts=/storage/sdcard1 \
 	ro.vold.switchablepair=/storage/sdcard0,/storage/sdcard1 \
 	persist.sys.vold.switchexternal=0 \
-	ro.disable_phablet_ui=0
+	ro.disable_phablet_ui=1
 
 DEVICE_PACKAGE_OVERLAYS := device/softwinner/907/overlay
 
